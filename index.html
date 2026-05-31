@@ -1,0 +1,3271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campo de Glória — RPG v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --gold: #D4AF37;
+    --gold-light: #F0D060;
+    --red: #C0392B;
+    --red-dark: #7B241C;
+    --dark: #0A0A0A;
+    --dark2: #141414;
+    --dark3: #1E1E1E;
+    --dark4: #2A2A2A;
+    --mid: #3A3A3A;
+    --light: #E8E0D0;
+    --muted: #A09880;
+    --green: #2ECC71;
+    --blue: #2980B9;
+    --purple: #8E44AD;
+    --orange: #E67E22;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 60px 0 50px;
+    border-bottom: 3px solid var(--gold);
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,175,55,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 110px;
+    line-height: 0.85;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-shadow: 0 0 60px rgba(212,175,55,0.3), 4px 4px 0 rgba(0,0,0,0.8);
+    margin-bottom: 8px;
+  }
+  .cover h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+  .cover-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--light);
+    margin-bottom: 32px;
+  }
+  .cover-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .version-badge {
+    display: inline-block;
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  /* CHANGELOG */
+  .changelog {
+    background: var(--dark3);
+    border: 1px solid var(--gold);
+    border-left: 5px solid var(--gold);
+    padding: 24px 28px;
+    margin-bottom: 60px;
+  }
+  .changelog h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+  }
+  .change-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .change-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 1px;
+  }
+  .tag-fix { background: var(--red-dark); color: #FF9999; }
+  .tag-new { background: #1A4A2A; color: var(--green); }
+  .tag-buff { background: #1A2E4A; color: #6ABFFF; }
+
+  /* CHAPTER */
+  .chapter {
+    margin-bottom: 56px;
+  }
+  .chapter-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 2px solid var(--dark4);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+  }
+  .chapter-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .chapter-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 36px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .chapter-title.new-chapter::after {
+    content: ' NOVO';
+    font-size: 14px;
+    color: var(--green);
+    letter-spacing: 2px;
+  }
+
+  h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin: 28px 0 10px;
+  }
+  h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 20px 0 8px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  /* CHANGED/NEW MARKERS */
+  .changed-block {
+    border-left: 3px solid var(--red);
+    padding-left: 16px;
+    margin: 16px 0;
+  }
+  .changed-block .marker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #FF9999;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .new-block {
+    border-left: 3px solid var(--green);
+    padding-left: 16px;
+    margin: 16px 0;
+  }
+  .new-block .marker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  thead tr {
+    background: var(--dark4);
+  }
+  th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--mid);
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--dark4);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  tr:last-child td { border-bottom: none; }
+  td strong { color: var(--gold-light); }
+  td em { color: var(--muted); font-style: italic; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    background: var(--dark3);
+    border: 1px solid var(--dark4);
+    padding: 18px 22px;
+    margin: 20px 0;
+  }
+  .callout.gold { border-left: 4px solid var(--gold); }
+  .callout.red { border-left: 4px solid var(--red); }
+  .callout.green { border-left: 4px solid var(--green); }
+  .callout.blue { border-left: 4px solid var(--blue); }
+  .callout.purple { border-left: 4px solid var(--purple); }
+  .callout .callout-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .callout.gold .callout-title { color: var(--gold); }
+  .callout.red .callout-title { color: #FF7777; }
+  .callout.green .callout-title { color: var(--green); }
+  .callout.blue .callout-title { color: #6ABFFF; }
+  .callout.purple .callout-title { color: #C88FFF; }
+
+  /* TECHNIQUE CARD */
+  .tech-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 16px 20px;
+    margin: 14px 0;
+    position: relative;
+  }
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+  }
+  .tech-card.red-card::before { background: var(--red); }
+  .tech-card.green-card::before { background: var(--green); }
+  .tech-card.blue-card::before { background: var(--blue); }
+  .tech-card.purple-card::before { background: var(--purple); }
+  .tech-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .tech-card.red-card .tech-name { color: #FF9999; }
+  .tech-card.green-card .tech-name { color: var(--green); }
+  .tech-card.blue-card .tech-name { color: #6ABFFF; }
+  .tech-card.purple-card .tech-name { color: #C88FFF; }
+  .tech-meta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .tech-meta span { color: var(--light); }
+  .tech-effect { font-size: 14px; margin-bottom: 6px; }
+  .tech-crit { font-size: 13px; color: var(--gold-light); font-style: italic; }
+  .tech-crit::before { content: '◆ CRÍTICO: '; font-style: normal; font-weight: bold; color: var(--gold); }
+
+  /* STYLE CARDS */
+  .style-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  @media (max-width: 600px) { .style-grid { grid-template-columns: 1fr; } }
+  .style-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 16px 18px;
+  }
+  .style-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .style-bonus { color: #90EE90; font-size: 13px; margin-bottom: 3px; }
+  .style-bonus::before { content: '▲ '; }
+  .style-weakness { color: #FF9999; font-size: 13px; margin-bottom: 3px; }
+  .style-weakness::before { content: '▼ '; }
+  .style-momentum { color: var(--gold); font-size: 13px; font-style: italic; }
+  .style-momentum::before { content: '◆ '; }
+
+  /* WEATHER CARDS */
+  .weather-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+  @media (max-width: 600px) { .weather-grid { grid-template-columns: 1fr; } }
+  .weather-card {
+    background: var(--dark3);
+    border: 1px solid var(--dark4);
+    padding: 14px 16px;
+    border-top: 2px solid var(--blue);
+  }
+  .weather-icon { font-size: 28px; margin-bottom: 6px; }
+  .weather-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #6ABFFF;
+    margin-bottom: 6px;
+  }
+  .weather-effect { font-size: 13px; color: var(--light); }
+
+  /* RIVALRY */
+  .rivalry-track {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .rivalry-stage {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--dark4);
+  }
+  .rivalry-stage:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .rivalry-count {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--gold);
+    width: 40px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .rivalry-count.broken { color: var(--red); }
+  .rivalry-count.evolved { color: var(--green); }
+  .rivalry-detail h4 { margin: 0 0 4px; font-size: 14px; }
+  .rivalry-detail p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* SEPARATOR */
+  .sep {
+    border: none;
+    border-top: 1px solid var(--dark4);
+    margin: 40px 0;
+  }
+  .sep.gold-sep { border-top-color: var(--gold); opacity: 0.3; }
+
+  /* DIALOGUE */
+  .narration-block {
+    background: var(--dark2);
+    border: 1px solid var(--dark4);
+    padding: 20px 24px;
+    font-family: 'Barlow', sans-serif;
+    font-style: italic;
+    font-size: 14px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .narration-speaker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* SECTION DIVIDER */
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin: 40px 0 24px;
+    position: relative;
+  }
+  .section-title::before, .section-title::after {
+    content: '——';
+    margin: 0 12px;
+    opacity: 0.4;
+  }
+
+  ul {
+    list-style: none;
+    margin: 10px 0 16px 0;
+  }
+  ul li {
+    padding: 3px 0 3px 18px;
+    position: relative;
+    font-size: 14px;
+  }
+  ul li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    font-size: 8px;
+    color: var(--gold);
+    top: 7px;
+  }
+
+  /* PLAYER CARD */
+  .player-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .player-card .player-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 2px;
+  }
+  .player-card .player-role {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .attrs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin-bottom: 12px;
+  }
+  .attr-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--dark4);
+  }
+  .attr-name { text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .attr-val { color: var(--gold-light); font-weight: 700; }
+  .attr-pips { letter-spacing: 2px; }
+
+  /* Print hint */
+  .print-hint {
+    background: var(--dark3);
+    border: 1px dashed var(--muted);
+    padding: 12px 18px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  /* ── MOMENTUM SECTION ─────────────────────────────────────────── */
+  .momentum-section {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    border-top: 3px solid var(--gold);
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 2px;
+  }
+  .momentum-track-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .momentum-track {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+  }
+  .momentum-pip {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dark4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: var(--muted);
+    user-select: none;
+  }
+  .momentum-pip:hover { transform: scale(1.15); border-color: var(--gold); }
+  .momentum-pip.pip-pos { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.3); color: #90EE90; }
+  .momentum-pip.pip-neg { background: rgba(192,57,43,0.12); border-color: rgba(192,57,43,0.3); color: #FF9999; }
+  .momentum-pip.pip-zero { background: rgba(255,255,255,0.05); border-color: var(--mid); color: var(--muted); }
+  .momentum-pip.active-pos { background: #2ECC71; border-color: #27AE60; color: #000; transform: scale(1.25); box-shadow: 0 0 14px rgba(46,204,113,0.5); }
+  .momentum-pip.active-neg { background: var(--red); border-color: var(--red-dark); color: #fff; transform: scale(1.25); box-shadow: 0 0 14px rgba(192,57,43,0.5); }
+  .momentum-pip.active-zero { background: var(--gold); border-color: var(--gold); color: #000; transform: scale(1.25); box-shadow: 0 0 14px rgba(212,175,55,0.5); }
+  .momentum-display {
+    text-align: center;
+    margin: 14px 0 10px;
+  }
+  .momentum-value {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 52px;
+    line-height: 1;
+    color: var(--gold);
+    letter-spacing: 4px;
+    transition: color 0.3s;
+  }
+  .momentum-value.val-pos { color: #2ECC71; }
+  .momentum-value.val-neg { color: var(--red); }
+  .momentum-status {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .momentum-effect-box {
+    background: var(--dark2);
+    border: 1px solid var(--dark4);
+    padding: 12px 16px;
+    margin: 12px 0;
+    text-align: center;
+    min-height: 44px;
+    transition: all 0.2s;
+  }
+  .momentum-effect-text {
+    font-size: 14px;
+    color: var(--light);
+    font-style: italic;
+  }
+  .momentum-btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .momentum-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 22px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-radius: 1px;
+  }
+  .momentum-btn:hover { transform: translateY(-1px); filter: brightness(1.2); }
+  .momentum-btn-pos { background: rgba(46,204,113,0.2); color: #2ECC71; border: 1px solid rgba(46,204,113,0.4); }
+  .momentum-btn-neg { background: rgba(192,57,43,0.2); color: #FF7777; border: 1px solid rgba(192,57,43,0.4); }
+  .momentum-btn-reset { background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); }
+
+  /* Gain/Loss events */
+  .momentum-gain-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #2ECC71;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(46,204,113,0.2);
+  }
+  .momentum-loss-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #FF7777;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(192,57,43,0.2);
+  }
+  .momentum-event-list { display: flex; flex-direction: column; gap: 8px; }
+  .momentum-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--dark3);
+    padding: 10px 12px;
+    border: 1px solid var(--dark4);
+    font-size: 13px;
+  }
+  .momentum-event.gain { border-left: 3px solid rgba(46,204,113,0.5); }
+  .momentum-event.loss { border-left: 3px solid rgba(192,57,43,0.5); }
+  .momentum-event-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .momentum-event strong { display: block; color: var(--light); margin-bottom: 2px; }
+  .momentum-event-val {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 18px;
+    float: right;
+    margin-left: 8px;
+  }
+  .gain-val { color: #2ECC71; }
+  .loss-val { color: #FF7777; }
+  .momentum-event-desc { color: var(--muted); font-size: 12px; line-height: 1.4; }
+
+  /* Bands */
+  .momentum-bands { display: flex; flex-direction: column; gap: 8px; margin: 20px 0; }
+  .momentum-band {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--dark4);
+    border-left-width: 4px;
+  }
+  .band-max-pos  { border-left-color: #27AE60; background: rgba(46,204,113,0.06); }
+  .band-high-pos { border-left-color: #52BE80; background: rgba(46,204,113,0.04); }
+  .band-low-pos  { border-left-color: #A9DFBF; background: rgba(46,204,113,0.02); }
+  .band-zero     { border-left-color: var(--gold); background: rgba(212,175,55,0.04); }
+  .band-low-neg  { border-left-color: #F1948A; background: rgba(192,57,43,0.02); }
+  .band-high-neg { border-left-color: #EC7063; background: rgba(192,57,43,0.04); }
+  .band-max-neg  { border-left-color: #C0392B; background: rgba(192,57,43,0.08); }
+  .band-value {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 26px;
+    letter-spacing: 2px;
+    min-width: 52px;
+    text-align: center;
+    line-height: 1.1;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .band-max-pos .band-value,
+  .band-high-pos .band-value,
+  .band-low-pos .band-value  { color: #2ECC71; }
+  .band-zero .band-value     { color: var(--gold); }
+  .band-low-neg .band-value,
+  .band-high-neg .band-value,
+  .band-max-neg .band-value  { color: #FF7777; }
+  .band-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .band-effect { font-size: 14px; color: var(--light); margin-bottom: 4px; }
+  .band-narration { font-size: 12px; color: var(--muted); font-style: italic; line-height: 1.5; }
+
+  .callout.orange { border-left: 4px solid var(--orange); }
+  .callout.teal   { border-left: 4px solid #1ABC9C; }
+  .callout.orange .callout-title { color: #FFB347; }
+  .callout.teal .callout-title { color: #1ABC9C; }
+
+  /* ── SUPPLEMENT STYLES ───────────────────────────────────────────── */
+  .supl-chapter-banner {
+    background: var(--dark3);
+    border-left: 5px solid var(--gold);
+    padding: 20px 28px;
+    margin: 56px 0 32px;
+  }
+  .supl-chapter-banner.blue-chapter  { border-left-color: var(--blue); }
+  .supl-chapter-banner.green-chapter { border-left-color: #1ABC9C; }
+  .supl-chapter-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .supl-chapter-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 42px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .supl-chapter-banner.blue-chapter  .supl-chapter-title { color: var(--blue); }
+  .supl-chapter-banner.green-chapter .supl-chapter-title { color: #1ABC9C; }
+  .supl-chapter-desc { font-size: 14px; color: var(--muted); font-style: italic; }
+
+  .supl-sec { margin: 36px 0 20px; padding-bottom: 8px; border-bottom: 1px solid var(--dark4); }
+  .supl-sec h3 { font-family: 'Bebas Neue', cursive; font-size: 24px; letter-spacing: 3px; color: var(--light); }
+  .supl-sec h3 span { color: var(--gold); }
+  .supl-sec h3.blue span { color: var(--blue); }
+  .supl-sec h3.teal span { color: #1ABC9C; }
+
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+  @media (max-width: 620px) { .result-grid { grid-template-columns: 1fr; } }
+  .result-card {
+    background: var(--dark3); border: 1px solid var(--mid); padding: 16px 18px;
+    position: relative; overflow: hidden;
+  }
+  .result-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .result-card.rc-gold::before   { background: var(--gold); }
+  .result-card.rc-green::before  { background: var(--green); }
+  .result-card.rc-orange::before { background: var(--orange); }
+  .result-card.rc-red::before    { background: var(--red); }
+  .result-label { font-family: 'Bebas Neue', cursive; font-size: 18px; letter-spacing: 3px; margin-bottom: 2px; }
+  .result-card.rc-gold   .result-label { color: var(--gold); }
+  .result-card.rc-green  .result-label { color: var(--green); }
+  .result-card.rc-orange .result-label { color: var(--orange); }
+  .result-card.rc-red    .result-label { color: var(--red); }
+  .result-condition { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .result-effect { font-size: 13px; line-height: 1.55; }
+
+  .field-map { background: var(--dark2); border: 1px solid var(--mid); padding: 24px; margin: 20px 0; font-family: 'Barlow Condensed', sans-serif; }
+  .field-map-title { font-family: 'Bebas Neue', cursive; font-size: 18px; letter-spacing: 4px; color: #1ABC9C; margin-bottom: 16px; text-align: center; }
+  .field-visual { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 4px; margin-bottom: 14px; }
+  .fzone { background: var(--dark3); border: 1px solid var(--dark4); padding: 12px 6px; text-align: center; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); line-height: 1.3; }
+  .fzone.fz-gol  { background: rgba(46,204,113,0.08); border-color: rgba(46,204,113,0.3); color: var(--green); }
+  .fzone.fz-def  { background: rgba(52,152,219,0.06); border-color: rgba(52,152,219,0.2); color: var(--blue); }
+  .fzone.fz-meio { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.2); color: var(--gold); }
+  .fzone.fz-atk  { background: rgba(231,76,60,0.06);  border-color: rgba(231,76,60,0.2);  color: #FF9999; }
+  .fzone.fz-area { background: rgba(231,76,60,0.12);  border-color: rgba(231,76,60,0.35); color: var(--red); font-weight: 700; }
+  .fzone-name { font-size: 12px; font-weight: 700; }
+  .fzone-num  { font-size: 18px; font-family: 'Bebas Neue', cursive; }
+  .field-legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .fl-item { display: flex; align-items: center; gap: 6px; }
+  .fl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .token-demo { display: flex; gap: 20px; flex-wrap: wrap; margin: 16px 0; align-items: flex-start; }
+  .token-item { display: flex; flex-direction: column; align-items: center; gap: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+  .token-circle { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', cursive; font-size: 14px; letter-spacing: 1px; border: 2px solid; }
+  .token-ball { width: 28px; height: 28px; border-radius: 50%; border: 2px dashed var(--gold); background: rgba(212,175,55,0.15); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+  .step-list { margin: 16px 0; }
+  .step-item { display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start; }
+  .step-num { font-family: 'Bebas Neue', cursive; font-size: 28px; line-height: 1; color: #1ABC9C; width: 36px; flex-shrink: 0; text-align: center; }
+  .step-num.gold-num { color: var(--gold); }
+  .step-body h4 { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--light); margin-bottom: 3px; }
+  .step-body p { font-size: 13px; color: var(--muted); line-height: 1.5; margin:0; }
+
+  .lore-block { background: var(--dark2); border: 1px solid var(--dark4); padding: 18px 22px; font-style: italic; font-size: 14px; color: var(--muted); margin: 16px 0; line-height: 1.7; }
+  .lore-block strong { color: var(--light); font-style: normal; }
+
+  table.blue-table th  { color: var(--blue); border-bottom-color: var(--blue); }
+  table.teal-table th  { color: #1ABC9C; border-bottom-color: #1ABC9C; }
+  table.blue-table td strong { color: #6ABFFF; }
+  table.teal-table td strong { color: #1ABC9C; }
+
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">Sistema Original de RPG · D6 Pool System</div>
+  <h1>CAMPO<br>DE GLÓRIA</h1>
+  <h2>Sistema de RPG de Futebol Cinematográfico</h2>
+  <div class="version-badge">Versão 6.0 — Edição Completa com Suplemento</div>
+  <div class="cover-tagline">Poder. Ego. Evolução. O campo é seu palco.</div>
+  <div class="cover-meta">
+    <span>D6 Pool System</span>
+    <span>2 a 8 Jogadores</span>
+    <span>2025</span>
+  </div>
+</div>
+
+<!-- FICHA LINK -->
+<a href="ficha_criacao_campo_de_gloria.html" style="display:block; text-decoration:none;">
+  <div style="
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: var(--dark3);
+    border: 1px solid var(--gold);
+    border-left: 5px solid var(--gold);
+    padding: 18px 28px;
+    margin-bottom: 32px;
+    transition: background 0.2s;
+    cursor: pointer;
+  " onmouseover="this.style.background='rgba(212,175,55,0.08)'" onmouseout="this.style.background='var(--dark3)'">
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Ferramenta do Jogador</div>
+      <div style="font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:4px;color:var(--gold);line-height:1;">Ficha de Criação de Personagem</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--muted);margin-top:3px;">Crie seu atleta — atributos, técnicas, Flow, Despertar e Rivalidade</div>
+    </div>
+    <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:3px;color:var(--gold);flex-shrink:0;opacity:0.7;">→</div>
+  </div>
+</a>
+
+<!-- CHANGELOG -->
+<div class="changelog">
+  <h3>◆ Log de Alterações — v6.0</h3>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Suplemento integrado — Passes, Domínio de Bola e Modo Tabletop</strong>: três blocos de expansão agora fazem parte do sistema base.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Regra de Passe Dif. 1</strong>: o teste de Passe Curto (Dif. 1) só é obrigatório para jogadores com Passe = 1. Demais jogadores fazem passes curtos automaticamente.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Reinterpretação de Atributos</strong>: atributos podem ser usados fora de sua função âncora com valor pela metade (arredondado pra cima). Bashira rola Domínio com 3d6; Nagi rola Drible "normal" com 3d6.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Capítulo XI — Fluxo de uma Partida</strong>: estrutura de Cenas de Campo com cinco Zonas (Construção, Transição, Pressão, Perigo, Caos) e regras de Posse de Bola.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Técnicas Cooperativas</strong> (Cap. XV expandido): mecânica de ativação conjunta com exemplos — Parede Perfeita, Cobertura Total, Lançamento Certeiro.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Regras de Torneio</strong> (Cap. XV expandido): Escala de Adversários em 5 níveis e sistema de Moral de Time para campanhas com torneios.</span></div>
+  <div class="change-item"><span class="change-tag tag-fix">Correção</span> <span><strong>Mão de Cristal</strong> agora cancela o bônus da técnica adversária, não a técnica inteira — o confronto normal ainda ocorre.</span></div>
+  <div class="change-item"><span class="change-tag tag-fix">Correção</span> <span><strong>Flow</strong> agora aciona Pressão do Público: todos os adversários em campo ganham +1 Ego imediatamente ao ver o ativador entrar em Flow.</span></div>
+  <div class="change-item"><span class="change-tag tag-fix">Correção</span> <span>Adicionada regra de <strong>Fadiga Geral</strong>: a partir do 4º confronto físico consecutivo, -1d6 cumulativo até descansar 1 cena.</span></div>
+  <div class="change-item"><span class="change-tag tag-buff">Melhoria</span> <span>Adicionadas <strong>Técnicas Defensivas</strong> cinematográficas, Contra-Dribles e Interceptações de destaque — e um novo Flow Defensivo.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Capítulo XVII — Estilos de Time</strong>: cinco estilos oficiais com bônus, fraqueza e efeito no Momentum.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Capítulo XVIII — Condições Climáticas</strong>: quatro condições (chuva, neblina, gramado ruim, estádio hostil) com efeitos mecânicos.</span></div>
+  <div class="change-item"><span class="change-tag tag-new">Novo</span> <span><strong>Capítulo XIX — Rivalidade Dinâmica</strong>: mecânica evolutiva — rival vencido 3x entra em Colapso Mental ou desencadeia Evolução Forçada.</span></div>
+</div>
+
+<div class="print-hint">🖨 Para imprimir: Ctrl+P → Salvar como PDF. Recomendado: fundo escuro ativado.</div>
+
+<!-- CAP I -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo I</span>
+    <h2 class="chapter-title">A Filosofia do Jogo</h2>
+  </div>
+  <p>Futebol não é um jogo de turnos. É caos organizado. É instinto. É o momento em que um jogador desconhecido olha nos olhos do melhor do mundo e decide: <em>eu sou melhor que você.</em></p>
+  <p><strong>Campo de Glória</strong> é um sistema de RPG de mesa focado em partidas de futebol com poderes especiais, técnicas absurdas, rivalidade intensa e momentos cinematográficos que ficam gravados na memória de todos os jogadores. É rápido. É brutal. É épico.</p>
+  <div class="callout gold">
+    <div class="callout-title">Missão do Sistema</div>
+    Simular partidas rápidas e dinâmicas, disputas individuais constantes, jogadas cinematográficas, técnicas especiais, evolução de jogadores e tensão competitiva real — usando apenas dados de 6 faces.
+  </div>
+  <h3>O Que Você Vai Precisar</h3>
+  <p>Vários dados de 6 faces (pelo menos 10 por jogador), fichas de personagem, um Narrador e de 2 a 8 jogadores. O jogo funciona tanto para campanhas longas com times em evolução quanto para partidas rápidas de PvP entre dois grupos.</p>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP II -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo II</span>
+    <h2 class="chapter-title">Os Dados e a Lógica do Jogo</h2>
+  </div>
+  <p>Todo teste em Campo de Glória usa dados de 6 faces (D6). A resolução é sempre baseada em um Pool — um conjunto de dados rolados simultaneamente.</p>
+  <table>
+    <thead><tr><th>Resultado</th><th>Leitura</th><th>Efeito Especial</th></tr></thead>
+    <tbody>
+      <tr><td>4, 5 ou 6</td><td>Sucesso</td><td>—</td></tr>
+      <tr><td>1, 2 ou 3</td><td>Falha</td><td>—</td></tr>
+      <tr><td>Maioria de 6s</td><td>Sucesso Crítico</td><td>+1 Ego imediato</td></tr>
+      <tr><td>Maioria de 1s</td><td>Falha Crítica</td><td>Adversário +1 Ego</td></tr>
+      <tr><td>Empate</td><td>Indefinido</td><td>Ambos rolam +1d6</td></tr>
+    </tbody>
+  </table>
+  <h3>Pool de Dados</h3>
+  <table>
+    <thead><tr><th>Atributo</th><th>Pool Base</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>1d6</td><td>Novato</td></tr>
+      <tr><td>2</td><td>2d6</td><td>Aprendiz</td></tr>
+      <tr><td>3</td><td>3d6</td><td>Competente</td></tr>
+      <tr><td>4</td><td>4d6</td><td>Elite</td></tr>
+      <tr><td>5</td><td>5d6</td><td>Lendário</td></tr>
+    </tbody>
+  </table>
+  <h3>Vantagem e Desvantagem</h3>
+  <ul>
+    <li><strong>Vantagem:</strong> +1d6 ao pool por fonte. Ver opções de teto abaixo. Exceção: técnicas especiais podem conceder bônus maiores conforme descritas.</li>
+    <li><strong>Desvantagem:</strong> -1d6 ao pool por fonte. Todas as penalidades se somam — fadiga, momentum, condições climáticas, técnicas adversárias.</li>
+    <li><strong>Dados Fantasma:</strong> Se o pool chegar a 0 ou negativo após somar todas as penalidades, rola 2d6 e usa o pior resultado.</li>
+  </ul>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0;">
+    <div class="callout gold" style="margin:0;">
+      <div class="callout-title">⚖ Opção A — Com Teto (Original)</div>
+      Vantagem acumula no máximo <strong>+2d6</strong> por ação, independente de quantas fontes se somem. Mais previsível e equilibrado — nenhum jogador explode o pool mesmo em situação perfeita.
+      <div style="margin-top:8px; font-size:12px; color:var(--muted);"><em>Exemplo: Chute 4 + âncora + assistência + momentum = 4d6 + 2d6 (teto) = <strong>6d6</strong> máximo.</em></div>
+    </div>
+    <div class="callout green" style="margin:0;">
+      <div class="callout-title">⚡ Opção B — Sem Limite</div>
+      Todas as fontes de Vantagem acumulam livremente. Se o jogador construiu a situação, ele merece cada dado. O sistema já tem freios naturais — Ego custa recursos, Flow tem condições, assistência gasta ação.
+      <div style="margin-top:8px; font-size:12px; color:var(--muted);"><em>Exemplo: Chute 4 + âncora + assistência + momentum = 4d6 + 3d6 = <strong>7d6</strong> — momento cinematográfico merecido.</em></div>
+    </div>
+  </div>
+  <div class="callout gold">
+    <div class="callout-title">Escala do Pool — Do Normal ao Limite</div>
+    <table style="margin:0;">
+      <thead><tr><th>Resultado do Pool</th><th>O que acontece</th></tr></thead>
+      <tbody>
+        <tr><td>1d6 ou mais</td><td>Rola normalmente</td></tr>
+        <tr><td>0d6 ou negativo</td><td><strong>Dados Fantasma</strong> — rola 2d6, usa o pior resultado</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px; font-size:13px; color:var(--muted);">
+      <strong>Exemplo:</strong> Jogador com Drible 3 sofrendo fadiga (−2d6) + gramado ruim (−1d6) + momentum adversário (−1d6) = pool de 3−4 = <strong>−1d6</strong> → Dados Fantasma.
+    </p>
+  </div>
+  <div class="callout red">
+    <div class="callout-title">Duplo Crítico</div>
+    Quando ambos os lados obtêm Sucesso Crítico ou Falha Crítica simultaneamente, uma cena cinematográfica especial ocorre. Role na Tabela de Efeitos Cinematográficos.
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP III -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo III</span>
+    <h2 class="chapter-title">Atributos e Criação de Personagem</h2>
+  </div>
+  <h3>Os 8 Atributos</h3>
+  <table>
+    <thead><tr><th>Atributo</th><th>Representa</th><th>Usado em</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CHUTE</strong></td><td>Potência e precisão de finalização</td><td>Confrontos de finalização</td></tr>
+      <tr><td><strong>DRIBLE</strong></td><td>Criatividade e controle de bola</td><td>Confrontos de drible</td></tr>
+      <tr><td><strong>PASSE</strong></td><td>Visão de distribuição e timing</td><td>Confrontos de passe</td></tr>
+      <tr><td><strong>DEFESA</strong></td><td>Leitura de jogo e bloqueio</td><td>Confrontos defensivos</td></tr>
+      <tr><td><strong>VELOCIDADE</strong></td><td>Aceleração e reação</td><td>Corridas e disputas</td></tr>
+      <tr><td><strong>FÍSICO</strong></td><td>Resistência e força corporal</td><td>Disputas físicas e aéreas</td></tr>
+      <tr><td><strong>VISÃO</strong></td><td>Percepção tática e antecipação</td><td>Interceptações e estratégia</td></tr>
+      <tr><td><strong>EGO</strong></td><td>Força mental e presença</td><td>Confrontos psicológicos</td></tr>
+    </tbody>
+  </table>
+  <div class="callout gold">
+    <div class="callout-title">Distribuição na Criação</div>
+    26 pontos totais. Nenhum atributo pode começar acima de 4 (exceto o Atributo Âncora: máx 5). Nenhum atributo pode ficar abaixo de 1.
+  </div>
+
+  <h3>Pontos de Criação por Cenário</h3>
+  <p>O número padrão de 26 pontos simula um time equilibrado e competente. Mas Campo de Glória é feito para ser adaptado — e o total de pontos de criação é a primeira alavanca que o Narrador deve ajustar conforme o <em>estilo de anime</em> que o grupo quer viver.</p>
+  <p>Menos pontos criam jogadores com identidades mais estreitas e falhas mais dramáticas. Mais pontos criam atletas completos onde qualquer um pode brilhar em qualquer situação. Ambos são válidos — depende do que a mesa quer sentir.</p>
+
+  <div class="scenario-grid">
+
+    <div class="scenario-card scenario-high">
+      <div class="scenario-header">
+        <div class="scenario-points">26</div>
+        <div class="scenario-info">
+          <div class="scenario-name">Super Onze</div>
+          <div class="scenario-sub">Times equilibrados e completos</div>
+        </div>
+        <div class="scenario-badge badge-high">padrão</div>
+      </div>
+      <p class="scenario-desc">Times completos com jogadores relativamente equilibrados. Todo mundo tem pelo menos um atributo relevante por situação. O jogo flui bem em qualquer zona do campo e as partidas tendem a ser competitivas do começo ao fim.</p>
+      <div class="scenario-tip">
+        <span class="tip-icon">💡</span>
+        <span>Ideal para campanhas longas onde a evolução ao longo das temporadas é o coração da história.</span>
+      </div>
+      <div class="scenario-example">
+        <div class="scenario-example-title">Distribuição típica</div>
+        <div class="scenario-attrs">
+          <span class="attr-pip high">CHU 3</span>
+          <span class="attr-pip high">DRI 3</span>
+          <span class="attr-pip mid">PAS 3</span>
+          <span class="attr-pip mid">DEF 2</span>
+          <span class="attr-pip mid">VEL 3</span>
+          <span class="attr-pip mid">FIS 3</span>
+          <span class="attr-pip mid">VIS 3</span>
+          <span class="attr-pip mid">EGO 3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card scenario-mid-high">
+      <div class="scenario-header">
+        <div class="scenario-points">14–16</div>
+        <div class="scenario-info">
+          <div class="scenario-name">Aoi Ishi / Realista</div>
+          <div class="scenario-sub">Competente em poucos, fraco nos demais</div>
+        </div>
+        <div class="scenario-badge badge-mid">moderado</div>
+      </div>
+      <p class="scenario-desc">Jogadores que se destacam em 2 ou 3 atributos e têm lacunas reais nos outros. As partidas revelam limitações com frequência — e superá-las se torna o arco do personagem. O futebol parece mais humano e as vitórias têm mais peso.</p>
+      <div class="scenario-tip">
+        <span class="tip-icon">💡</span>
+        <span>Ideal para histórias de crescimento e superação onde os personagens precisam trabalhar suas fraquezas.</span>
+      </div>
+      <div class="scenario-example">
+        <div class="scenario-example-title">Distribuição típica</div>
+        <div class="scenario-attrs">
+          <span class="attr-pip high">CHU 4</span>
+          <span class="attr-pip mid">DRI 2</span>
+          <span class="attr-pip low">PAS 1</span>
+          <span class="attr-pip low">DEF 1</span>
+          <span class="attr-pip mid">VEL 3</span>
+          <span class="attr-pip low">FIS 1</span>
+          <span class="attr-pip mid">VIS 2</span>
+          <span class="attr-pip mid">EGO 1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card scenario-mid">
+      <div class="scenario-header">
+        <div class="scenario-points">12–14</div>
+        <div class="scenario-info">
+          <div class="scenario-name">Captain Tsubasa</div>
+          <div class="scenario-sub">Especialistas extremos</div>
+        </div>
+        <div class="scenario-badge badge-mid">focado</div>
+      </div>
+      <p class="scenario-desc">Cada jogador tem 1 ou 2 atributos extraordinários e o resto mediano ou fraco. Tsubasa é drible e passe. Hyuga é chute puro. Isso cria identidades fortíssimas e partidas onde o confronto certo pode ser humilhante — ou glorioso. Nunca há resultado garantido.</p>
+      <div class="scenario-tip">
+        <span class="tip-icon">💡</span>
+        <span>Ideal para campanhas onde cada jogador tem um papel insubstituível e o trabalho coletivo é obrigatório.</span>
+      </div>
+      <div class="scenario-example">
+        <div class="scenario-example-title">Distribuição típica</div>
+        <div class="scenario-attrs">
+          <span class="attr-pip low">CHU 1</span>
+          <span class="attr-pip anchor">DRI 5★</span>
+          <span class="attr-pip high">PAS 4</span>
+          <span class="attr-pip low">DEF 1</span>
+          <span class="attr-pip low">VEL 1</span>
+          <span class="attr-pip low">FIS 1</span>
+          <span class="attr-pip low">VIS 1</span>
+          <span class="attr-pip low">EGO 1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card scenario-low">
+      <div class="scenario-header">
+        <div class="scenario-points">10–12</div>
+        <div class="scenario-info">
+          <div class="scenario-name">Blue Lock</div>
+          <div class="scenario-sub">Ego-monsters de arma única</div>
+        </div>
+        <div class="scenario-badge badge-low">extremo</div>
+      </div>
+      <p class="scenario-desc">Personagens construídos em torno de 1 atributo absurdo e Ego alto. O resto é deliberadamente fraco. Confrontos fora da especialidade são perigosos — e é exatamente isso que gera drama. A partida inteira gira em torno de criar a situação perfeita para a sua arma.</p>
+      <div class="scenario-tip">
+        <span class="tip-icon">⚡</span>
+        <span>Ideal para PvP intenso, torneios curtos e sessões focadas no duelo de egos entre especialistas.</span>
+      </div>
+      <div class="scenario-example">
+        <div class="scenario-example-title">Distribuição típica</div>
+        <div class="scenario-attrs">
+          <span class="attr-pip anchor">CHU 5★</span>
+          <span class="attr-pip low">DRI 1</span>
+          <span class="attr-pip low">PAS 1</span>
+          <span class="attr-pip low">DEF 1</span>
+          <span class="attr-pip mid">VEL 2</span>
+          <span class="attr-pip low">FIS 1</span>
+          <span class="attr-pip low">VIS 1</span>
+          <span class="attr-pip high">EGO 4</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-title">🎯 Dica do Narrador — Misturando Cenários</div>
+    Você não precisa usar o mesmo total de pontos para todo o time. Em campanhas estilo Blue Lock, os protagonistas podem começar com 10–12 pontos enquanto os adversários lendários têm 18–20 — representando a diferença absurda de nível que os jogadores precisam superar. A evolução fica ainda mais satisfatória.
+  </div>
+
+  <h3>Atributo Âncora</h3>
+  <p>Durante a criação, você escolhe um Atributo Âncora — o atributo que define sua identidade em campo. Ele começa com +1 automático (podendo chegar a 5) e rola com Vantagem permanente quando usado em sua posição natural.</p>
+  <h3>Posições em Campo</h3>
+  <table>
+    <thead><tr><th>Posição</th><th>Sigla</th><th>Âncora Sugerida</th></tr></thead>
+    <tbody>
+      <tr><td>Goleiro</td><td>GL</td><td>Defesa ou Ego</td></tr>
+      <tr><td>Zagueiro</td><td>ZG</td><td>Físico ou Defesa</td></tr>
+      <tr><td>Lateral</td><td>LT</td><td>Velocidade ou Passe</td></tr>
+      <tr><td>Volante</td><td>VL</td><td>Físico ou Visão</td></tr>
+      <tr><td>Meia</td><td>ME</td><td>Visão ou Drible</td></tr>
+      <tr><td>Ala</td><td>AL</td><td>Velocidade ou Drible</td></tr>
+      <tr><td>Centroavante</td><td>CA</td><td>Chute ou Físico</td></tr>
+    </tbody>
+  </table>
+  <h3>Os 8 Arquétipos</h3>
+  <table>
+    <thead><tr><th>Arquétipo</th><th>Habilidade Passiva</th></tr></thead>
+    <tbody>
+      <tr><td><strong>O PREDADOR</strong></td><td>+1d6 em finalizações dentro da área adversária.</td></tr>
+      <tr><td><strong>O FANTASMA</strong></td><td>Uma vez por confronto, pode agir antes de anunciar sua intenção.</td></tr>
+      <tr><td><strong>O TIRANO</strong></td><td>Inimigos sofrem -1d6 em confrontos psicológicos contra você.</td></tr>
+      <tr><td><strong>O MOTOR</strong></td><td>Pode participar de dois confrontos consecutivos sem penalidade de exaustão.</td></tr>
+      <tr><td><strong>O ESTRATEGISTA</strong></td><td>Uma vez por tempo, pode negar um confronto e forçar o reposicionamento da bola.</td></tr>
+      <tr><td><strong>O INSTINTO</strong></td><td>Pode interromper qualquer ação declarada. Limite: 1x por cena.</td></tr>
+      <tr><td><strong>O COLOSSÃO</strong></td><td>Finalizações com Físico nunca sofrem Desvantagem.</td></tr>
+      <tr><td><strong>O GUARDIÃO</strong></td><td>Goleiros usam Ego como atributo secundário em todas as defesas.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP IV -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo IV</span>
+    <h2 class="chapter-title">O Sistema de Ego</h2>
+  </div>
+  <p>O Ego é simultaneamente um atributo e um recurso. Como atributo, determina sua força mental base. Como recurso — os Pontos de Ego — você o gasta para ativar técnicas, entrar em Flow e superar limites.</p>
+  <div class="callout gold">
+    <div class="callout-title">Pontos de Ego</div>
+    Reserva = 3 + valor do atributo Ego. O Ego nunca vai abaixo de 0. Se chegar a 0 durante uma partida, o jogador entra em <strong>Colapso de Ego</strong>.
+  </div>
+  <h3>Ganhando e Perdendo Ego</h3>
+  <table>
+    <thead><tr><th>Situação</th><th>Ganho / Perda</th></tr></thead>
+    <tbody>
+      <tr><td>Sucesso Crítico</td><td>+1 Ego</td></tr>
+      <tr><td>Gol marcado</td><td>+2 Ego</td></tr>
+      <tr><td>Humilhar adversário num confronto</td><td>+1 Ego</td></tr>
+      <tr><td>Responder uma provocação com sucesso</td><td>+2 Ego</td></tr>
+      <tr><td>Seu time virar o placar</td><td>+3 Ego</td></tr>
+      <tr><td>Falha Crítica</td><td>-1 Ego</td></tr>
+      <tr><td>Ter uma técnica bloqueada humilhantemente</td><td>-1 Ego</td></tr>
+      <tr><td>Ser humilhado num confronto</td><td>-2 Ego</td></tr>
+      <tr><td>Levar cartão amarelo</td><td>-1 Ego</td></tr>
+    </tbody>
+  </table>
+  <h3>Gastando Ego</h3>
+  <table>
+    <thead><tr><th>Ação</th><th>Custo</th></tr></thead>
+    <tbody>
+      <tr><td>Rerolar 1 dado do pool</td><td>1 Ego</td></tr>
+      <tr><td>Adicionar +1d6 a um confronto</td><td>2 Ego</td></tr>
+      <tr><td>Ativar uma Técnica Especial</td><td>1–5 Ego</td></tr>
+      <tr><td>Entrar em Estado de Flow</td><td>4 Ego</td></tr>
+      <tr><td>Resistir a uma provocação psicológica</td><td>2 Ego</td></tr>
+      <tr><td>Ativar o Despertar (1x por partida)</td><td>5 Ego</td></tr>
+    </tbody>
+  </table>
+  <div class="callout red">
+    <div class="callout-title">Colapso de Ego</div>
+    Quando o Ego chega a 0: -1d6 em todos os confrontos, técnicas custam +1 Ego adicional, impossível entrar em Flow. Dura até o fim do tempo atual ou até recuperar 2+ Pontos de Ego.
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP V - CONFRONTOS com fadiga -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo V</span>
+    <h2 class="chapter-title">O Sistema de Confrontos</h2>
+  </div>
+  <h3>Estrutura de um Confronto</h3>
+  <table>
+    <thead><tr><th>Fase</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>Declaração Simultânea</td><td>Ambos declaram a ação em segredo. Revelam ao mesmo tempo.</td></tr>
+      <tr><td>Montagem dos Pools</td><td>Cada jogador monta seu pool: atributo relevante + modificadores.</td></tr>
+      <tr><td>Rolagem Simultânea</td><td>Ambos rolam ao mesmo tempo.</td></tr>
+      <tr><td>Resolução</td><td>Quem tiver mais sucessos vence. Empate: ambos rolam +1d6. Duplo Crítico: Tabela de Efeitos Cinematográficos.</td></tr>
+    </tbody>
+  </table>
+  <h3>Tipos de Confronto</h3>
+  <table>
+    <thead><tr><th>Situação</th><th>Atacante rola</th><th>Defensor rola</th></tr></thead>
+    <tbody>
+      <tr><td>Drible vs Marcação</td><td>Drible</td><td>Defesa</td></tr>
+      <tr><td>Chute vs Goleiro</td><td>Chute</td><td>Defesa (±Ego)</td></tr>
+      <tr><td>Passe vs Interceptação</td><td>Passe</td><td>Visão ou Velocidade</td></tr>
+      <tr><td>Domínio vs Pressão</td><td>Drible ou Físico</td><td>Defesa ou Físico</td></tr>
+      <tr><td>Disputa Aérea</td><td>Físico ou Velocidade</td><td>Físico ou Velocidade</td></tr>
+      <tr><td>Corrida pela Bola Solta</td><td>Velocidade</td><td>Velocidade</td></tr>
+      <tr><td>Confronto Mental</td><td>Ego</td><td>Ego</td></tr>
+    </tbody>
+  </table>
+
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova — Passe Curto e Jogadores com Passe 1</span>
+    <p>O teste de <strong>Passe Curto (Dif. 1)</strong> só é obrigatório para jogadores com o atributo <strong>Passe = 1</strong>. Para qualquer jogador com Passe 2 ou mais, um passe curto — mesma zona ou zona adjacente sem marcação no caminho — é executado <strong>automaticamente, sem rolagem</strong>. A bola simplesmente chega ao companheiro.</p>
+    <p>Isso reflete a realidade: um passe de 5 metros para o lado não é desafio para ninguém com mínima competência técnica. O teste existe para representar a limitação real de jogadores iniciantes ou que nunca treinaram distribuição.</p>
+    <div class="callout blue" style="margin-top:10px;">
+      <div class="callout-title">Quando o Passe Curto ainda rola — mesmo com Passe 2+</div>
+      Sob pressão direta (marcação no corpo), sob chuva forte ou gramado ruim (condições climáticas adversas), ou quando o passador está Fatigado (nível 4+ de fadiga). Nessas situações o teste é obrigatório para qualquer nível de Passe.
+    </div>
+  </div>
+
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova — Reinterpretação de Atributos</span>
+    <p>Todo jogador tem um <strong>Atributo Âncora</strong> — aquele que define sua identidade em campo. Quando um atributo é usado <em>fora</em> da sua função âncora, ele pode ser <strong>reinterpretado</strong> como uma habilidade adjacente com valor reduzido: <strong>metade do valor, arredondado pra cima</strong>.</p>
+    <p>Isso representa que a habilidade existe mas não é nativa — é adaptada, improvisada ou aprendida lateralmente. O jogador consegue fazer a ação, mas sem a fluência natural de quem nasceu para aquilo.</p>
+    <div class="callout gold" style="margin-top:10px;">
+      <div class="callout-title">Fórmula — Reinterpretação</div>
+      <strong>Valor Reinterpretado = ⌈ Atributo Âncora ÷ 2 ⌉</strong> (arredondado pra cima)<br><br>
+      Exemplos: Âncora 5 → Reinterpretação 3 &nbsp;|&nbsp; Âncora 4 → 2 &nbsp;|&nbsp; Âncora 3 → 2 &nbsp;|&nbsp; Âncora 2 → 1
+    </div>
+
+    <h4 style="margin-top:18px;">Exemplos de Reinterpretação na Mesa</h4>
+
+    <table>
+      <thead><tr><th>Personagem</th><th>Âncora (valor)</th><th>Reinterpretação</th><th>Valor Reinterpretado</th><th>Contexto</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Bachira</strong></td>
+          <td>Drible★ 5 <em>(âncora)</em></td>
+          <td>Domínio de Bola</td>
+          <td>3d6 <em>(⌈5/2⌉)</em></td>
+          <td>Bachira não é especialista em domínio técnico frio, mas seu instinto de drible traduz uma habilidade de controle razoável — rola 3d6 em testes de Domínio.</td>
+        </tr>
+        <tr>
+          <td><strong>Nagi</strong></td>
+          <td>Drible/Domínio★ 5 <em>(âncora)</em></td>
+          <td>Drible "ofensivo" vs marcação agressiva</td>
+          <td>3d6 <em>(⌈5/2⌉)</em></td>
+          <td>Nagi é a antítese: seu domínio é perfeito mas ele não é um driblador explosivo. Em confrontos de drible puro vs marcação alta, rola 3d6 — o contrário de Bachira.</td>
+        </tr>
+        <tr>
+          <td><strong>Isagi</strong></td>
+          <td>Visão★ 4 <em>(âncora)</em></td>
+          <td>Passe de precisão em espaço apertado</td>
+          <td>2d6 <em>(⌈4/2⌉)</em></td>
+          <td>Isagi enxerga o espaço melhor que ninguém, mas suas mãos não são as de um meia distribuidor. A Visão se traduz em 2d6 de Passe quando ele tenta um lançamento técnico.</td>
+        </tr>
+        <tr>
+          <td><strong>Chigiri</strong></td>
+          <td>Velocidade★ 5 <em>(âncora)</em></td>
+          <td>Pressão física em disputa aérea</td>
+          <td>3d6 <em>(⌈5/2⌉)</em></td>
+          <td>Chigiri não é construído para disputa física, mas sua explosão muscular se reinterpreta como 3d6 em corridas pela bola solta — ele chega antes de quase todo mundo.</td>
+        </tr>
+        <tr>
+          <td><strong>Kunigami</strong></td>
+          <td>Chute★ 5 <em>(âncora)</em></td>
+          <td>Domínio de bola após recepção</td>
+          <td>3d6 <em>(⌈5/2⌉)</em></td>
+          <td>A força bruta de Kunigami se traduz em controle razoável — ele não tem toque suave, mas a potência muscular mantém a bola. 3d6 em testes de Domínio.</td>
+        </tr>
+        <tr>
+          <td><strong>Reo</strong></td>
+          <td>Passe★ 4 <em>(âncora)</em></td>
+          <td>Drible em espaço aberto</td>
+          <td>2d6 <em>(⌈4/2⌉)</em></td>
+          <td>Reo lê o campo como ninguém, e isso se traduz em condução razoável de bola — mas ele não é um driblador. Em confrontos de Drible vs Defesa, usa 2d6.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout red" style="margin-top:12px;">
+      <div class="callout-title">Limitações da Reinterpretação</div>
+      <ul style="margin:0;">
+        <li>A reinterpretação <strong>não concede Vantagem</strong> — isso é exclusivo da Âncora em posição natural.</li>
+        <li>Técnicas que exigem o atributo original <strong>não podem ser ativadas</strong> via reinterpretação. Só o pool de dados muda.</li>
+        <li>A reinterpretação deve fazer sentido narrativo. O Narrador tem direito de vetar se não houver lógica na ficção do personagem.</li>
+        <li>Um atributo com valor <strong>1</strong> não pode ser reinterpretado — 1/2 arredondado pra cima ainda é 1, mas representa o mínimo absoluto sem nenhuma tradução válida para outra função.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova — Fadiga Geral</span>
+    <p>Um jogador pode disputar confrontos físicos indefinidamente — mas o corpo tem um limite. A partir do <strong>4º confronto físico consecutivo</strong> sem descansar ao menos 1 cena, o jogador acumula penalidades:</p>
+    <table>
+      <thead><tr><th>Confronto Físico Consecutivo</th><th>Penalidade Acumulada</th></tr></thead>
+      <tbody>
+        <tr><td>1º ao 3º</td><td>Sem penalidade</td></tr>
+        <tr><td>4º</td><td>-1d6</td></tr>
+        <tr><td>5º</td><td>-2d6</td></tr>
+        <tr><td>6º ou mais</td><td>-3d6 (mínimo 1d6 sempre)</td></tr>
+      </tbody>
+    </table>
+    <p>Contar como "confronto físico": qualquer confronto que use Físico, Velocidade ou Drible como atributo base. Ações de Passe ou Visão não acumulam fadiga.</p>
+    <p><strong>Descanso:</strong> não participar de nenhum confronto por 1 cena completa zera o contador. O arquétipo <strong>O MOTOR</strong> desencadeia fadiga apenas a partir do 5º confronto consecutivo.</p>
+  </div>
+
+  <h3>Assistência</h3>
+  <p>Um aliado pode declarar apoio antes da rolagem. Rola o atributo mais relevante. Sucesso: companheiro ganha +1d6. Falha: sem efeito. Máximo de 1 assistência por confronto.</p>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP VI - FLOW com pressão do público -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo VI</span>
+    <h2 class="chapter-title">Estado de Flow</h2>
+  </div>
+  <p>O Flow é o estado máximo de um jogador. O momento em que ele transcende a si mesmo e o campo todo parece lento ao redor dele.</p>
+  <h3>Condições de Ativação</h3>
+  <p>Para entrar em Flow, você precisa das 3 condições simultâneas: Ego acima de 4 Pontos · Ter vencido ao menos 2 confrontos consecutivos · Gastar 4 Pontos de Ego.</p>
+  <p>Ou um <strong>Momento Gatilho</strong>:</p>
+  <table>
+    <thead><tr><th>Gatilho</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>Humilhação Máxima</td><td>Ser vencido por uma Técnica Crítica de forma humilhante</td></tr>
+      <tr><td>Beira do Abismo</td><td>Time perdendo por 2+ gols no último Momento</td></tr>
+      <tr><td>Rivalidade Acesa</td><td>Enfrentar diretamente seu Rival declarado</td></tr>
+      <tr><td>Despertar de Ego</td><td>Ego chegar ao valor máximo durante a partida</td></tr>
+      <tr><td>Chamado da Equipe</td><td>Um aliado sacrifica uma ação para te inspirar</td></tr>
+    </tbody>
+  </table>
+
+  <div class="changed-block">
+    <span class="marker">✎ Regra Alterada — Pressão do Público</span>
+    <p>Quando um jogador entra em Flow, a resposta do campo é imediata. <strong>Todos os adversários em campo ganham +1 Ego imediatamente.</strong></p>
+    <p>Isso representa a reação de um time que vê o adversário ascender: ao invés de desmoronar, a pressão acende algo neles também. A narrativa se torna uma batalha entre o jogador em Flow e os adversários que se recusam a ser humilhados.</p>
+    <p><em>Isso não cancela os bônus do Flow — apenas garante que o time adversário não seja simplesmente varrido.</em></p>
+  </div>
+
+  <h3>Efeitos do Flow</h3>
+  <table>
+    <thead><tr><th>Benefício</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td>Pool de dados</td><td>+2d6 em todos os confrontos</td></tr>
+      <tr><td>Técnicas Evoluídas</td><td>Versões superiores disponíveis</td></tr>
+      <tr><td>Proteção de Ego</td><td>Não cai abaixo de 2 (exceto Falha Crítica)</td></tr>
+      <tr><td>Intimidação</td><td>Adversários têm Desvantagem em Ego vs você</td></tr>
+      <tr><td>Ações Impossíveis</td><td>Pode declarar ações além da lógica normal</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Flow Defensivo</h3>
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova</span>
+    <p>O Flow não é exclusividade do ataque. Defensores, goleiros e volantes podem entrar em <strong>Flow Defensivo</strong> usando as mesmas condições de ativação, com efeitos adaptados:</p>
+    <table>
+      <thead><tr><th>Benefício</th><th>Efeito no Flow Defensivo</th></tr></thead>
+      <tbody>
+        <tr><td>Pool de dados</td><td>+2d6 em todos os confrontos defensivos</td></tr>
+        <tr><td>Contra-Ataque Relâmpago</td><td>Ao vencer um confronto defensivo com Crítico, pode imediatamente passar a bola a um aliado livre (sem confronto adicional)</td></tr>
+        <tr><td>Zona de Controle</td><td>O jogador em Flow Defensivo aplica -1d6 a qualquer atacante que entre em sua zona (raio de 1 Zona)</td></tr>
+        <tr><td>Ações Impossíveis</td><td>Interceptações, bloqueios e coberturas que desafiam a lógica</td></tr>
+      </tbody>
+    </table>
+    <p>A Pressão do Público também se aplica ao Flow Defensivo.</p>
+  </div>
+
+  <h3>Ações Impossíveis</h3>
+  <p>Durante o Flow, o jogador pode declarar ações que vão contra toda lógica do futebol comum. Exemplos: defender um chute com o calcanhar sem ver a bola · marcar um gol de costas de 30 metros · driblar 4 jogadores de uma vez · interceptar um passe antes de ele ser dado.</p>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP VII - TÉCNICAS com defesas novas -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo VII</span>
+    <h2 class="chapter-title">Técnicas Especiais</h2>
+  </div>
+  <p>Cada jogador começa com 2 Técnicas e pode aprender mais durante a campanha. As técnicas são habilidades exageradas, cinematográficas e únicas de cada personagem.</p>
+
+  <h3>Customização na Criação — Quantas Técnicas?</h3>
+  <p>Personagens não começam com técnicas automaticamente — cada opção abaixo é uma escolha ativa na criação. Técnicas são conquistadas, não dadas.</p>
+
+  <table>
+    <thead><tr><th>Opção</th><th>Técnicas iniciais</th><th>Compensação</th></tr></thead>
+    <tbody>
+      <tr><td><strong>0 técnicas</strong></td><td>Nenhuma</td><td>+1 ponto de atributo livre na criação</td></tr>
+      <tr><td><strong>1 técnica (custo 1 Ego)</strong></td><td>1 técnica normal</td><td>Troca direta, sem compensação</td></tr>
+      <tr><td><strong>1 técnica (custo 2 Ego)</strong></td><td>1 técnica mais poderosa</td><td>+1 Ponto de Ego permanente</td></tr>
+      <tr><td><strong>1 técnica de identidade + 1 normal</strong></td><td>1 passiva (custo 0) + 1 normal</td><td>—</td></tr>
+      <tr><td><strong>1 técnica de identidade + 0 normais</strong></td><td>Só a passiva (custo 0)</td><td>+1 ponto de atributo livre na criação</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout gold">
+    <div class="callout-title">Limite de Custo na Criação</div>
+    Técnicas de custo 3+ não podem ser escolhidas na criação — elas representam habilidades desenvolvidas com experiência real em campo. Técnicas combinadas (que exigem parceiro) também só podem ser adquiridas após pelo menos 1 partida jogada com esse parceiro.
+  </div>
+
+  <h3>Técnicas de Custo 0 — Identidade e Passivas</h3>
+  <p>Além das técnicas normais, existe uma categoria especial: técnicas que não custam Ego porque não são ativadas — elas simplesmente <em>existem</em>. São a expressão do talento nato do personagem, algo tão incorporado que não exige esforço consciente.</p>
+  <p>Existem dois tipos:</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0;">
+    <div class="callout" style="border-left:4px solid #8FA8C0; margin:0;">
+      <div class="callout-title" style="color:#C2D8EC;">◈ Técnica de Identidade (Passiva Permanente)</div>
+      Sempre ativa. Não precisa ser declarada. Representa o talento natural inato — algo que o personagem faz sem pensar.<br><br>
+      <strong>Regras:</strong>
+      <ul style="margin-top:6px;">
+        <li>Máximo de <strong>1 por personagem</strong></li>
+        <li>Deve estar ligada ao <strong>Atributo Âncora</strong></li>
+        <li>Não pode causar gol ou dano diretamente — cria <em>condição</em></li>
+        <li>Não pode ser usada em Flow como técnica de Flow</li>
+      </ul>
+    </div>
+    <div class="callout" style="border-left:4px solid #3498DB; margin:0;">
+      <div class="callout-title" style="color:#6ABFFF;">⚡ Técnica Declarada (Custo 0, Limitada)</div>
+      Precisa ser declarada antes do confronto, mas não gasta Ego. Representa um movimento natural repetível — mas não indefinidamente.<br><br>
+      <strong>Regras:</strong>
+      <ul style="margin-top:6px;">
+        <li>Limite de <strong>2× por cena</strong></li>
+        <li>Deve estar ligada ao Atributo Âncora ou ao arquétipo</li>
+        <li>Efeito menor que técnicas de custo 1 — sem penalidades diretas ao adversário</li>
+        <li>Pode ser evoluída normalmente com Avanços</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-title">Exemplos de Técnicas de Custo 0</div>
+    <table style="margin:0;">
+      <thead><tr><th>Personagem</th><th>Tipo</th><th>Técnica</th><th>Efeito</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nagi</strong></td><td>Identidade</td><td>Trap Absoluto</td><td>Recepção automática de qualquer bola — sem rolagem, sem confronto</td></tr>
+        <tr><td><strong>Chigiri</strong></td><td>Identidade</td><td>Arrancada</td><td>O primeiro movimento de sprint em cada cena sempre ocorre sem confronto de Velocidade</td></tr>
+        <tr><td><strong>Bachira</strong></td><td>Identidade</td><td>Drible Instintivo</td><td>Pode declarar a direção do drible <em>depois</em> de ver o defensor se posicionar — 1× por cena</td></tr>
+        <tr><td><strong>Isagi</strong></td><td>Declarada (0)</td><td>Leitura de Campo</td><td>Antes de qualquer confronto, pode perguntar ao Narrador qual defensor está em pior posição. 2× por cena</td></tr>
+        <tr><td><strong>Kunigami</strong></td><td>Declarada (0)</td><td>Posição de Chute</td><td>Se declarar que está parado e se preparando durante uma cena sem se mover, ganha +1d6 no próximo Chute. Representa o preparo físico</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>As 10 Categorias</h3>
+  <table>
+    <thead><tr><th>Categoria</th><th>Flavour</th><th>Exemplo</th></tr></thead>
+    <tbody>
+      <tr><td>ELEMENTAL</td><td>Fogo, água, vento, terra</td><td>Chute de Fogo, Raio de Finalização</td></tr>
+      <tr><td>VELOCIDADE</td><td>Sprint, sombra, invisibilidade</td><td>Relâmpago, Passo Invisível</td></tr>
+      <tr><td>CONTROLE</td><td>Domínio perfeito de bola</td><td>Giro Orbital, Toque Magnético</td></tr>
+      <tr><td>INSTINTO</td><td>Puro instinto animal</td><td>Visão de Predador, Faro de Gol</td></tr>
+      <tr><td>FÍSICO</td><td>Força e resistência absurdas</td><td>Chute Colossal, Cabeçada de Titan</td></tr>
+      <tr><td>ESTRATÉGIA</td><td>Tática e manipulação de campo</td><td>Trap Perfeito, Falsa Posição</td></tr>
+      <tr><td>EGO</td><td>Dominação psicológica</td><td>Olhar de Predador, Presença Absoluta</td></tr>
+      <tr><td>FLOW</td><td>Só disponível no Flow</td><td>Corpo de Sombra, O Golpe Final</td></tr>
+      <tr><td>GOLEIRO</td><td>Exclusivas da posição</td><td>Mão de Deus, Voo de Águia</td></tr>
+      <tr><td>FINALIZAÇÃO</td><td>Especialização no gol</td><td>Chute Curvo Absoluto, O Gol Inevitável</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Anatomia de uma Técnica</h3>
+  <p>Ao criar uma técnica, preencha todos os campos abaixo. O nome deve ser épico e original — o jogador inventa na criação do personagem. A técnica deve fazer sentido com o arquétipo e a identidade do personagem.</p>
+  <div style="background:var(--dark2); border:1px solid var(--mid); padding: 0; margin: 16px 0; overflow:hidden;">
+    <div style="background:var(--dark4); padding: 10px 20px; border-bottom: 2px solid var(--gold);">
+      <span style="font-family:'Bebas Neue',cursive; font-size:18px; letter-spacing:3px; color:var(--gold);">FICHA DE TÉCNICA</span>
+    </div>
+    <div style="padding: 20px;">
+      <table style="margin:0;">
+        <thead><tr><th>Campo</th><th>Descrição</th><th>Referência</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NOME</strong></td><td>Épico e original — o jogador inventa na criação</td><td><em>"Raio Rasteiro", "Giro Orbital"</em></td></tr>
+          <tr><td><strong>CATEGORIA</strong></td><td>Uma das 10 categorias da tabela acima</td><td>Define o sabor narrativo</td></tr>
+          <tr><td><strong>CUSTO</strong></td><td>Pontos de Ego para ativar</td><td>1 a 5 Ego (equilíbrio: efeito forte = custo alto)</td></tr>
+          <tr><td><strong>ATRIBUTO BASE</strong></td><td>Qual atributo é rolado ao usar a técnica</td><td>Deve combinar com a categoria</td></tr>
+          <tr><td><strong>EFEITO</strong></td><td>O que a técnica faz mecanicamente</td><td>Modificadores, penalidades, efeitos especiais</td></tr>
+          <tr><td><strong>EFEITO CRÍTICO</strong></td><td>O que acontece em Sucesso Crítico</td><td>Sempre mais dramático que o efeito base</td></tr>
+          <tr><td><strong>EVOLUÇÃO</strong></td><td>A versão aprimorada da técnica</td><td>Desbloqueada com 1 Avanço; versão Flow exige 2 Avanços</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-title">Guia de Equilíbrio de Técnicas</div>
+    <p style="margin-bottom:6px;"><strong>Custo 1–2 Ego:</strong> efeito situacional — bônus de +1d6, reposicionamento, vantagem em 1 atributo.</p>
+    <p style="margin-bottom:6px;"><strong>Custo 3 Ego:</strong> efeito forte — penalidade de -2d6 no adversário, cancelar bônus, forçar escolha antecipada.</p>
+    <p style="margin-bottom:0;"><strong>Custo 4–5 Ego:</strong> efeito decisivo — colapso de Ego, ação impossível garantida, efeito que impacta o time inteiro.</p>
+  </div>
+
+  <h3>Técnicas de Exemplo — Ofensivas</h3>
+
+  <div class="tech-card">
+    <div class="tech-name">RAIO RASTEIRO</div>
+    <div class="tech-meta">Categoria: Finalização &nbsp;·&nbsp; Custo: <span>3 Ego</span> &nbsp;·&nbsp; Base: <span>Chute</span></div>
+    <div class="tech-effect">O chutador baixa o centro de gravidade e libera a bola como projétil a 10cm do chão. O goleiro sofre -2d6 para defender.</div>
+    <div class="tech-crit">O goleiro não pode usar Pontos de Ego nessa defesa.</div>
+  </div>
+
+  <div class="tech-card">
+    <div class="tech-name">DUPLA SOMBRA</div>
+    <div class="tech-meta">Categoria: Velocidade &nbsp;·&nbsp; Custo: <span>2 Ego</span> &nbsp;·&nbsp; Base: <span>Drible</span></div>
+    <div class="tech-effect">O jogador faz um corte tão rápido que parece haver dois dele. O defensor deve escolher a direção antes da rolagem. Se errar, perde automaticamente.</div>
+    <div class="tech-crit">O defensor perde 2 Ego.</div>
+  </div>
+
+  <div class="tech-card">
+    <div class="tech-name">VOZ DO CAMPO</div>
+    <div class="tech-meta">Categoria: Estratégia &nbsp;·&nbsp; Custo: <span>2 Ego</span> &nbsp;·&nbsp; Base: <span>Visão</span></div>
+    <div class="tech-effect">O jogador grita um comando e o time reposiciona instantaneamente. Um aliado pode agir nessa cena mesmo que já tenha agido.</div>
+    <div class="tech-crit">Dois aliados recebem o benefício.</div>
+  </div>
+
+  <div class="tech-card">
+    <div class="tech-name">PRESENÇA ABSOLUTA</div>
+    <div class="tech-meta">Categoria: Ego &nbsp;·&nbsp; Custo: <span>4 Ego</span> &nbsp;·&nbsp; Base: <span>Ego</span></div>
+    <div class="tech-effect">O jogador para no meio do campo. Todos os adversários em campo sofrem -1 Ponto de Ego imediatamente.</div>
+    <div class="tech-crit">Um adversário de sua escolha entra em Colapso de Ego.</div>
+  </div>
+
+  <h3>Técnicas Defensivas Cinematográficas</h3>
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova — Defesa também tem estilo</span>
+    <p>Defensores e goleiros podem criar e usar técnicas das categorias abaixo, com o mesmo poder e drama das ofensivas. Exemplos incluídos:</p>
+  </div>
+
+  <div class="tech-card green-card">
+    <div class="tech-name">SOMBRA PERFEITA</div>
+    <div class="tech-meta">Categoria: Estratégia &nbsp;·&nbsp; Custo: <span>2 Ego</span> &nbsp;·&nbsp; Base: <span>Defesa</span> &nbsp;·&nbsp; Posição: Zagueiro / Lateral</div>
+    <div class="tech-effect">O defensor marca o atacante como uma sombra. Enquanto a técnica estiver ativa (1 Momento), o atacante marcado sofre -1d6 em todos os confrontos de drible e corrida.</div>
+    <div class="tech-crit">O atacante não pode ativar técnicas de Velocidade pelo resto do Momento.</div>
+  </div>
+
+  <div class="tech-card green-card">
+    <div class="tech-name">CONTRA-DRIBLE INSTINTIVO</div>
+    <div class="tech-meta">Categoria: Instinto &nbsp;·&nbsp; Custo: <span>2 Ego</span> &nbsp;·&nbsp; Base: <span>Defesa ou Visão</span> &nbsp;·&nbsp; Posição: Qualquer defensivo</div>
+    <div class="tech-effect">Ao ser alvo de um drible, o defensor pode ativar esta técnica antes da rolagem. Inverte a posição de vantagem: o atacante sofre -1d6 e o defensor ganha +1d6 no confronto.</div>
+    <div class="tech-crit">O atacante perde a posse sem rolar dados — a bola é recuperada automaticamente.</div>
+  </div>
+
+  <div class="tech-card green-card">
+    <div class="tech-name">INTERCEPTAÇÃO FANTASMA</div>
+    <div class="tech-meta">Categoria: Velocidade &nbsp;·&nbsp; Custo: <span>3 Ego</span> &nbsp;·&nbsp; Base: <span>Velocidade</span> &nbsp;·&nbsp; Posição: Volante / Lateral</div>
+    <div class="tech-effect">O jogador lê o passe antes de ele acontecer e se projeta na trajetória. Pode interceptar um passe mesmo sem estar na linha direta entre passador e receptor — desde que declare antes da rolagem do passe.</div>
+    <div class="tech-crit">Além de interceptar, o jogador tem posse com Vantagem no próximo confronto.</div>
+  </div>
+
+  <div class="tech-card green-card">
+    <div class="tech-name">BLOQUEIO COLOSSAL</div>
+    <div class="tech-meta">Categoria: Físico &nbsp;·&nbsp; Custo: <span>2 Ego</span> &nbsp;·&nbsp; Base: <span>Físico</span> &nbsp;·&nbsp; Posição: Zagueiro / Centroavante recuado</div>
+    <div class="tech-effect">O jogador joga o corpo inteiro na frente da bola. O chute sofre -2d6. Se o confronto resultar em empate, conta como defesa do bloqueador.</div>
+    <div class="tech-crit">O chutador perde 2 Ego com a humilhação do bloqueio.</div>
+  </div>
+
+  <h3>Técnicas de Goleiro</h3>
+
+  <div class="tech-card blue-card">
+    <div class="tech-name">MÃO DE CRISTAL</div>
+    <div class="tech-meta">Categoria: Goleiro &nbsp;·&nbsp; Custo: <span>3 Ego</span> &nbsp;·&nbsp; Base: <span>Defesa</span></div>
+    <div class="changed-block" style="margin: 8px 0 10px;">
+      <span class="marker">✎ Alterado v2.0</span>
+      <div class="tech-effect">O goleiro estende a mão e neutraliza a potência da técnica adversária. <strong>Cancela todos os bônus e penalidades especiais</strong> da técnica de finalização ativada (ex: se o Raio Rasteiro impunha -2d6, esse modificador é removido). O confronto normal ainda ocorre normalmente, com os atributos base.</div>
+      <div class="tech-crit">O chutador perde 3 Ego.</div>
+    </div>
+    <p style="font-size:12px; color: var(--muted); font-style:italic;">Versão anterior: cancelava toda a técnica automaticamente. Agora a batalha ainda acontece — mas em pé de igualdade.</p>
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP VIII - DESPERTAR (sem mudança, mantido) -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo VIII</span>
+    <h2 class="chapter-title">O Despertar</h2>
+  </div>
+  <p>Uma vez por partida, um jogador pode ativar o Despertar — o momento em que ele vai além de todos os seus limites. O campo para. A música sobe. E o impossível acontece.</p>
+  <div class="callout red">
+    <div class="callout-title">Requisitos do Despertar</div>
+    Custo: 5 Pontos de Ego · O jogador deve estar em situação extrema (perdendo por muito, momento decisivo, rivalidade máxima) · O Narrador pode vetar se o momento não for dramaticamente justificado.
+  </div>
+  <table>
+    <thead><tr><th>Efeito</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>Desbloqueio Temporário</td><td>Um atributo sobe para 5 por 1 Momento completo</td></tr>
+      <tr><td>Técnica Nova</td><td>Pode usar uma técnica ainda não aprendida (improvisa)</td></tr>
+      <tr><td>Imunidade de Ego</td><td>Não pode entrar em Colapso de Ego durante o Despertar</td></tr>
+      <tr><td>O Olho do Destino</td><td>Declara vitória em UM confronto específico, sem rolar dados. Uma vez no Despertar.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout gold">
+    <div class="callout-title">A Glória tem um Custo</div>
+    Ao terminar: o atributo temporário retorna ao normal, você fica com 0 Pontos de Ego até o fim da partida, e não pode usar mais Técnicas Especiais. Mas o que você fez durante o Despertar... ficou gravado na memória de todos. Para sempre.
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP IX - ESTRUTURA DA PARTIDA -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo IX</span>
+    <h2 class="chapter-title">Estrutura da Partida</h2>
+  </div>
+  <h3>Zonas de Campo</h3>
+  <table>
+    <thead><tr><th>Zona</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CONSTRUÇÃO</strong></td><td>Defesa/meio — posse tranquila, passes, construção</td></tr>
+      <tr><td><strong>TRANSIÇÃO</strong></td><td>A bola foi recuperada ou perdida — todos correm</td></tr>
+      <tr><td><strong>PRESSÃO</strong></td><td>Ataque organizado com bola no terço final</td></tr>
+      <tr><td><strong>PERIGO</strong></td><td>Bola na área ou situação de gol iminente</td></tr>
+      <tr><td><strong>CAOS</strong></td><td>Bola solta, disputa geral, qualquer coisa pode acontecer</td></tr>
+    </tbody>
+  </table>
+  <h3>Tempo e Momentos</h3>
+  <table>
+    <thead><tr><th>Divisão</th><th>Quantidade</th></tr></thead>
+    <tbody>
+      <tr><td>1 Partida</td><td>2 Tempos</td></tr>
+      <tr><td>1 Tempo</td><td>3 a 5 Momentos</td></tr>
+      <tr><td>1 Momento</td><td>3 a 6 Cenas de Campo</td></tr>
+    </tbody>
+  </table>
+  <h3>Momentum</h3>
+
+  <p>O <strong>Momentum</strong> é o medidor invisível que todo torcedor sente, mas nenhum placar mostra. É a energia coletiva da partida — a sensação de que um time está dominando, sufocando, ou que o outro está acordando para o jogo.</p>
+  <p>Mecanicamente, o Momentum é uma escala de <strong>−5 a +5</strong>, compartilhada pela mesa e controlada pelo Narrador. Cada ponto representa o quanto um time está mandando no jogo naquele momento.</p>
+
+  <div class="callout gold">
+    <div class="callout-title">📐 A Lógica do Momentum</div>
+    O Momentum <em>não é</em> um recurso que os jogadores gerenciam ativamente — ele é uma <strong>consequência</strong> do que acontece em campo. Vitórias geram Momentum. Momentum gera mais vitórias. É uma bola de neve que o time adversário precisa parar antes que seja tarde demais.
+  </div>
+
+  <!-- TRACKER INTERATIVO -->
+  <div class="momentum-section">
+    <div class="momentum-track-label">TRACKER DE MOMENTUM — clique para ajustar</div>
+    <div class="momentum-visual" id="momentumVisual">
+      <div class="momentum-track" id="momentumTrack"></div>
+      <div class="momentum-pointer" id="momentumPointer"></div>
+    </div>
+    <div class="momentum-display">
+      <div class="momentum-value" id="momentumValue">0</div>
+      <div class="momentum-status" id="momentumStatus">EQUILÍBRIO</div>
+    </div>
+    <div class="momentum-effect-box" id="momentumEffectBox">
+      <div class="momentum-effect-text" id="momentumEffectText">Sem modificadores mecânicos. O jogo está equilibrado.</div>
+    </div>
+    <div class="momentum-btn-row">
+      <button class="momentum-btn momentum-btn-neg" onclick="adjustMomentum(-1)">▼ −1</button>
+      <button class="momentum-btn momentum-btn-reset" onclick="adjustMomentum(0, true)">↺ RESET</button>
+      <button class="momentum-btn momentum-btn-pos" onclick="adjustMomentum(+1)">▲ +1</button>
+    </div>
+  </div>
+
+  <!-- COMO GANHAR / PERDER -->
+  <h3>Como o Momentum Muda</h3>
+  <p>O Momentum muda após eventos específicos em campo. O Narrador aplica os ajustes ao final de cada Cena de Campo relevante.</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin: 20px 0;">
+    <div>
+      <div class="momentum-gain-title">▲ GANHANDO MOMENTUM</div>
+      <div class="momentum-event-list">
+        <div class="momentum-event gain">
+          <span class="momentum-event-icon">⚽</span>
+          <div>
+            <strong>Gol marcado</strong>
+            <span class="momentum-event-val gain-val">+2</span>
+            <div class="momentum-event-desc">O gol mais importante de todos. O placar muda, a energia do campo explode.</div>
+          </div>
+        </div>
+        <div class="momentum-event gain">
+          <span class="momentum-event-icon">🔥</span>
+          <div>
+            <strong>Sequência de 2+ confrontos vencidos</strong>
+            <span class="momentum-event-val gain-val">+1</span>
+            <div class="momentum-event-desc">Quando um time começa a ganhar cada disputa, o adversário sente o peso.</div>
+          </div>
+        </div>
+        <div class="momentum-event gain">
+          <span class="momentum-event-icon">✨</span>
+          <div>
+            <strong>Técnica espetacular bem-sucedida</strong>
+            <span class="momentum-event-val gain-val">+1</span>
+            <div class="momentum-event-desc">Uma jogada que para o estádio. O tipo de coisa que vai virar gif.</div>
+          </div>
+        </div>
+        <div class="momentum-event gain">
+          <span class="momentum-event-icon">💥</span>
+          <div>
+            <strong>Sucesso Crítico em Zona de Perigo</strong>
+            <span class="momentum-event-val gain-val">+1</span>
+            <div class="momentum-event-desc">Uma jogada crítica perto do gol tem peso diferente. O perigo foi transformado em chance.</div>
+          </div>
+        </div>
+        <div class="momentum-event gain">
+          <span class="momentum-event-icon">🌊</span>
+          <div>
+            <strong>Jogador entra em Flow</strong>
+            <span class="momentum-event-val gain-val">+1</span>
+            <div class="momentum-event-desc">Quando alguém transcende os próprios limites, o time inteiro sente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="momentum-loss-title">▼ PERDENDO MOMENTUM</div>
+      <div class="momentum-event-list">
+        <div class="momentum-event loss">
+          <span class="momentum-event-icon">💀</span>
+          <div>
+            <strong>Gol sofrido</strong>
+            <span class="momentum-event-val loss-val">−2</span>
+            <div class="momentum-event-desc">O placar muda contra. Cabeças baixam. O adversário comemora.</div>
+          </div>
+        </div>
+        <div class="momentum-event loss">
+          <span class="momentum-event-icon">❌</span>
+          <div>
+            <strong>Sequência de 2+ confrontos perdidos</strong>
+            <span class="momentum-event-val loss-val">−1</span>
+            <div class="momentum-event-desc">Perder uma disputa é normal. Perder várias seguidas é sinal de que algo está errado.</div>
+          </div>
+        </div>
+        <div class="momentum-event loss">
+          <span class="momentum-event-icon">😳</span>
+          <div>
+            <strong>Técnica bloqueada de forma humilhante</strong>
+            <span class="momentum-event-val loss-val">−1</span>
+            <div class="momentum-event-desc">Quando a grande jogada do time é anulada com estilo, o silêncio dói.</div>
+          </div>
+        </div>
+        <div class="momentum-event loss">
+          <span class="momentum-event-icon">🟨</span>
+          <div>
+            <strong>Cartão ou expulsão</strong>
+            <span class="momentum-event-val loss-val">−1</span>
+            <div class="momentum-event-desc">Uma saída involuntária do campo muda o equilíbrio emocional da equipe.</div>
+          </div>
+        </div>
+        <div class="momentum-event loss">
+          <span class="momentum-event-icon">💔</span>
+          <div>
+            <strong>Falha Crítica em Zona de Perigo</strong>
+            <span class="momentum-event-val loss-val">−1</span>
+            <div class="momentum-event-desc">Escorregar na hora mais importante. O adversário ri. O time murcha.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EFEITOS POR FAIXA -->
+  <h3>Efeitos por Faixa de Momentum</h3>
+  <p>Os efeitos do Momentum se aplicam ao time que o controla (valores positivos = seu time; valores negativos = o adversário está em domínio).</p>
+
+  <div class="momentum-bands">
+    <div class="momentum-band band-max-pos">
+      <div class="band-value">+5</div>
+      <div class="band-info">
+        <div class="band-name">DOMINÂNCIA TOTAL</div>
+        <div class="band-effect">Todo o time ganha <strong>Vantagem em todos os confrontos</strong>. O adversário está apenas sobrevivendo.</div>
+        <div class="band-narration">💬 <em>"A torcida está em pé. O time não erra. Parece que a bola os obedece."</em></div>
+      </div>
+    </div>
+    <div class="momentum-band band-high-pos">
+      <div class="band-value">+3/+4</div>
+      <div class="band-info">
+        <div class="band-name">PRESSÃO ALTA</div>
+        <div class="band-effect"><strong>1 jogador designado</strong> pelo time ganha Vantagem nos próximos confrontos. Escolha o mais perigoso.</div>
+        <div class="band-narration">💬 <em>"Tem um jogador em chamas. Todo mundo está dando espaço pra ele."</em></div>
+      </div>
+    </div>
+    <div class="momentum-band band-low-pos">
+      <div class="band-value">+1/+2</div>
+      <div class="band-info">
+        <div class="band-name">VANTAGEM NARRATIVA</div>
+        <div class="band-effect">Sem modificador mecânico, mas a <strong>narração favorece o time</strong>. Empates e situações ambíguas tendem a se resolver a seu favor.</div>
+        <div class="band-narration">💬 <em>"O time está no controle. A bola circula bem. O adversário precisa trabalhar mais."</em></div>
+      </div>
+    </div>
+    <div class="momentum-band band-zero">
+      <div class="band-value">0</div>
+      <div class="band-info">
+        <div class="band-name">EQUILÍBRIO</div>
+        <div class="band-effect">Nenhum modificador. Os dois times têm chances iguais. Cada confronto é uma batalha aberta.</div>
+        <div class="band-narration">💬 <em>"Jogo duro, disputado, sem espaço. Quem errar primeiro vai pagar caro."</em></div>
+      </div>
+    </div>
+    <div class="momentum-band band-low-neg">
+      <div class="band-value">−1/−2</div>
+      <div class="band-info">
+        <div class="band-name">SOB PRESSÃO</div>
+        <div class="band-effect"><strong>1 jogador adversário</strong> tem Vantagem. O time está recuado, reagindo, sem espaço para criar.</div>
+        <div class="band-narration">💬 <em>"O adversário encontrou o ritmo. O time corre atrás da bola."</em></div>
+      </div>
+    </div>
+    <div class="momentum-band band-high-neg">
+      <div class="band-value">−3/−4</div>
+      <div class="band-info">
+        <div class="band-name">COLAPSO EMOCIONAL</div>
+        <div class="band-effect">O time inteiro sofre <strong>−1d6 em todos os confrontos de Ego</strong>. A cabeça não está boa. A pressão psicológica é real.</div>
+        <div class="band-narration">💬 <em>"Dá pra ver no olhar. Eles não acreditam mais. Cada erro pesa o dobro."</em></div>
+      </div>
+    </div>
+    <div class="momentum-band band-max-neg">
+      <div class="band-value">−5</div>
+      <div class="band-info">
+        <div class="band-name">DERROTA ANUNCIADA</div>
+        <div class="band-effect">O time inteiro tem <strong>Desvantagem em todos os confrontos</strong>. Só uma virada dramática pode salvar — e viradas sempre custam tudo.</div>
+        <div class="band-narration">💬 <em>"O estádio está quieto. Até os próprios jogadores já aceitaram. Mas alguém… ainda não."</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGRAS AVANÇADAS -->
+  <h3>Regras Avançadas de Momentum</h3>
+
+  <div class="callout blue">
+    <div class="callout-title">⚡ Virada Dramática</div>
+    Quando um time em Momentum −3 ou menor marca um gol, o Momentum <strong>não sobe apenas 2</strong> — sobe <strong>4 pontos</strong> de uma vez. A virada tem peso emocional real. O impossível aconteceu. Role na Tabela de Efeitos Cinematográficos.
+  </div>
+
+  <div class="callout red">
+    <div class="callout-title">🔒 Momentum Congelado</div>
+    Algumas técnicas de categoria <strong>Estratégia</strong> têm o efeito especial de <em>congelar o Momentum por 1 cena</em>. Isso impede que o adversário aproveite uma sequência de confrontos vencidos para subir o Momentum naquele momento — uma ferramenta tática valiosa quando o jogo está escapando.
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-title">👁️ Momentum e o Narrador</div>
+    O Narrador é o guardião do Momentum. Ele nunca precisa esperar uma regra específica para ajustá-lo — se uma cena foi <em>cinematograficamente</em> significativa o suficiente, pode valer um ponto. Momentum é tanto uma ferramenta mecânica quanto uma ferramenta de ritmo narrativo.
+  </div>
+
+  <!-- ESTILOS DE TIME E MOMENTUM -->
+  <h3>Momentum e os Estilos de Time</h3>
+  <p>Os Estilos de Time do Capítulo XVII interagem diretamente com o Momentum. Cada estilo tem um <strong>efeito de Momentum único</strong> — um bônus quando o Momentum está a seu favor, e uma fraqueza quando está contra. Confira os detalhes no Capítulo XVII.</p>
+
+  <table>
+    <thead><tr><th>Momentum</th><th>Efeito no Jogo</th></tr></thead>
+    <tbody>
+      <tr><td><strong>+5</strong></td><td>Todo o time ganha Vantagem em todos os confrontos</td></tr>
+      <tr><td>+3 a +4</td><td>1 jogador designado ganha Vantagem</td></tr>
+      <tr><td>+1 a +2</td><td>Narração favorece o time, sem modificador mecânico</td></tr>
+      <tr><td>0</td><td>Equilíbrio total</td></tr>
+      <tr><td>−1 a −2</td><td>1 jogador adversário tem Vantagem</td></tr>
+      <tr><td>−3 a −4</td><td>Time inteiro sofre −1d6 em confrontos de Ego</td></tr>
+      <tr><td><strong>−5</strong></td><td>Time inteiro tem Desvantagem em todos os confrontos</td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XI - GOLEIROS -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XI</span>
+    <h2 class="chapter-title">Regras Especiais — Goleiros</h2>
+  </div>
+  <h3>Tipos de Defesa</h3>
+  <table>
+    <thead><tr><th>Tipo</th><th>Atributo</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>Defesa de Posição</td><td>Visão vs Chute</td><td>Antecipa onde a bola vai. Vence = defende sem esforço.</td></tr>
+      <tr><td>Defesa de Reflexo</td><td>Defesa vs Chute</td><td>Reage à bola. Empate = deflexão.</td></tr>
+      <tr><td>Defesa de Ego</td><td>Ego (custa 1 Ego)</td><td>Substitui qualquer atributo pelo Ego na defesa.</td></tr>
+      <tr><td>Defesa Impossível</td><td>Pool completo + Ego livre</td><td>Técnica exclusiva. Crítico: chutador perde 3 Ego.</td></tr>
+    </tbody>
+  </table>
+  <h3>Posicionamento</h3>
+  <table>
+    <thead><tr><th>Posição</th><th>Bônus</th><th>Penalidade</th></tr></thead>
+    <tbody>
+      <tr><td>Centro</td><td>+1d6 em Defesa de Posição</td><td>-1d6 em defesas nos ângulos</td></tr>
+      <tr><td>Lado Esq./Dir.</td><td>Vantagem no lado escolhido</td><td>Desvantagem no lado oposto</td></tr>
+      <tr><td>Avançado</td><td>+1d6 em Visão</td><td>-1d6 em Defesa de Reflexo</td></tr>
+    </tbody>
+  </table>
+  <h3>Técnicas Cooperativas</h3>
+  <table>
+    <thead><tr><th>Técnica</th><th>Posições</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td>Parede Perfeita</td><td>Ala + Meia</td><td>O marcador perde posição e não pode participar do próximo confronto.</td></tr>
+      <tr><td>Cobertura Total</td><td>Volante + Zagueiro</td><td>O atacante não pode passar para aliados sem vencer confronto adicional.</td></tr>
+      <tr><td>Lançamento Certeiro</td><td>Meia + Centroavante</td><td>Passe com Vantagem. Se chegar ao CA: +2d6 na finalização.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XII - TIMES E JOGADORES DE REFERÊNCIA -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XII</span>
+    <h2 class="chapter-title">Times e Jogadores de Referência</h2>
+  </div>
+  <p>Os personagens abaixo são exemplos prontos para usar como jogadores ou NPCs. Cada um demonstra como distribuir atributos, escolher técnicas e definir identidade em campo.</p>
+
+  <div style="border-left: 4px solid var(--gold); padding-left: 16px; margin-bottom: 28px;">
+    <div style="font-family:'Bebas Neue',cursive; font-size:28px; letter-spacing:4px; color:var(--gold); margin-bottom:2px;">AURORA FC</div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--muted);">Estilo: Velocidade e instinto puro · Jogadores jovens com potencial explosivo</div>
+  </div>
+
+  <div class="player-card">
+    <div class="player-name">KAITO ZERO</div>
+    <div class="player-role">Centroavante · Arquétipo: O Predador · Âncora: Chute</div>
+    <div class="attrs-grid">
+      <div class="attr-row"><span class="attr-name">Chute</span><span class="attr-val">5 ●●●●●</span></div>
+      <div class="attr-row"><span class="attr-name">Defesa</span><span class="attr-val">1 ●○○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Drible</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Velocidade</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Passe</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Físico</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Visão</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Ego</span><span class="attr-val">4 ●●●●○</span></div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Ego Inicial: 7 &nbsp;·&nbsp; Rival: Melhor goleiro do torneio</div>
+    <div class="tech-card" style="margin:10px 0 6px;">
+      <div class="tech-name" style="font-size:16px;">GIRO DE CANHÃO</div>
+      <div class="tech-meta">Finalização &nbsp;·&nbsp; Custo: <span>3 Ego</span> &nbsp;·&nbsp; Base: <span>Chute</span></div>
+      <div class="tech-effect">Kaito gira 360° antes do chute, acumulando força centrífuga. O goleiro sofre -2d6. Se usado dentro da área com O Predador ativo: -3d6 no total.</div>
+      <div class="tech-crit">O goleiro é derrubado pelo impacto — perde 2 Ego e sofre -1d6 pelo resto do Momento.</div>
+    </div>
+    <div class="tech-card" style="margin:6px 0 0;">
+      <div class="tech-name" style="font-size:16px;">INSTINTO DE ÁREA</div>
+      <div class="tech-meta">Instinto &nbsp;·&nbsp; Custo: <span>2 Ego</span> &nbsp;·&nbsp; Base: <span>Visão</span></div>
+      <div class="tech-effect">Kaito declara a posição do rebote antes da finalização do aliado. Se acertar, já está posicionado — recebe automaticamente a segunda bola sem confronto.</div>
+      <div class="tech-crit">Finaliza imediatamente com +2d6 (reação instintiva pura).</div>
+    </div>
+    <div style="margin-top:10px; font-size:13px; color:#FF9999;"><strong>Fraqueza:</strong> Pressão constante de dois marcadores ao mesmo tempo (-1d6 em todos os confrontos).</div>
+  </div>
+
+  <div class="player-card" style="margin-top:16px;">
+    <div class="player-name">NAGA</div>
+    <div class="player-role">Goleiro · Arquétipo: O Guardião · Âncora: Defesa</div>
+    <div class="attrs-grid">
+      <div class="attr-row"><span class="attr-name">Chute</span><span class="attr-val">1 ●○○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Defesa</span><span class="attr-val">5 ●●●●●</span></div>
+      <div class="attr-row"><span class="attr-name">Drible</span><span class="attr-val">1 ●○○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Velocidade</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Passe</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Físico</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Visão</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Ego</span><span class="attr-val">4 ●●●●○</span></div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Ego Inicial: 7 &nbsp;·&nbsp; O Guardião usa Ego como atributo secundário em todas as defesas</div>
+    <div class="tech-card blue-card" style="margin:10px 0 6px;">
+      <div class="tech-name" style="font-size:16px; color:#6ABFFF;">MÃO DE CRISTAL</div>
+      <div class="tech-meta">Goleiro &nbsp;·&nbsp; Custo: <span>3 Ego</span> &nbsp;·&nbsp; Base: <span>Defesa</span></div>
+      <div class="tech-effect">Cancela todos os bônus e penalidades especiais da técnica de finalização adversária. O confronto ocorre normalmente com atributos base.</div>
+      <div class="tech-crit">O chutador perde 3 Ego.</div>
+    </div>
+    <div class="tech-card blue-card" style="margin:6px 0 0;">
+      <div class="tech-name" style="font-size:16px; color:#6ABFFF;">POSICIONAMENTO ABSOLUTO</div>
+      <div class="tech-meta">Estratégia &nbsp;·&nbsp; Custo: <span>1 Ego</span> &nbsp;·&nbsp; Base: <span>Visão</span></div>
+      <div class="tech-effect">Naga declara posicionamento no início de qualquer cena de ataque. Ganha +2d6 na Defesa de Posição se o chute vier do lado correto.</div>
+      <div class="tech-crit">A defesa é tão perfeita que inspira o time — 1 aliado ganha +1 Ego.</div>
+    </div>
+  </div>
+
+  <div style="border-left: 4px solid var(--red); padding-left: 16px; margin: 36px 0 28px;">
+    <div style="font-family:'Bebas Neue',cursive; font-size:28px; letter-spacing:4px; color:var(--red); margin-bottom:2px;">FERRO NEGRO</div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--muted);">Estilo: Pressão incessante e dominação psicológica · Experientes, calculistas, implacáveis</div>
+  </div>
+
+  <div class="player-card" style="border-color: var(--red-dark);">
+    <div class="player-name" style="color:#FF9999;">DAGAN</div>
+    <div class="player-role">Centroavante · Arquétipo: O Tirano · Âncora: Ego</div>
+    <div class="attrs-grid">
+      <div class="attr-row"><span class="attr-name">Chute</span><span class="attr-val">4 ●●●●○</span></div>
+      <div class="attr-row"><span class="attr-name">Defesa</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Drible</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Velocidade</span><span class="attr-val">3 ●●●○○</span></div>
+      <div class="attr-row"><span class="attr-name">Passe</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Físico</span><span class="attr-val">4 ●●●●○</span></div>
+      <div class="attr-row"><span class="attr-name">Visão</span><span class="attr-val">2 ●●○○○</span></div>
+      <div class="attr-row"><span class="attr-name">Ego</span><span class="attr-val">5 ●●●●●</span></div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">Ego Inicial: 8 &nbsp;·&nbsp; O Tirano: inimigos sofrem -1d6 em confrontos psicológicos</div>
+    <div class="tech-card red-card" style="margin:10px 0 6px;">
+      <div class="tech-name" style="font-size:16px;">PRESENÇA ABSOLUTA</div>
+      <div class="tech-meta">Ego &nbsp;·&nbsp; Custo: <span>4 Ego</span> &nbsp;·&nbsp; Base: <span>Ego</span></div>
+      <div class="tech-effect">Dagan para no meio do campo. Todos os adversários em campo sofrem -1 Ponto de Ego imediatamente. Combinado com O Tirano, adversários ficam instáveis rapidamente.</div>
+      <div class="tech-crit">Um adversário de sua escolha entra em Colapso de Ego.</div>
+    </div>
+    <div class="tech-card red-card" style="margin:6px 0 0;">
+      <div class="tech-name" style="font-size:16px;">CHUTE DE COLOSSO</div>
+      <div class="tech-meta">Físico &nbsp;·&nbsp; Custo: <span>3 Ego</span> &nbsp;·&nbsp; Base: <span>Físico</span></div>
+      <div class="tech-effect">Dagan usa Físico no lugar de Chute na finalização. A bola vai em linha reta com força absurda. O goleiro não pode usar Defesa de Posição — apenas Reflexo ou Ego.</div>
+      <div class="tech-crit">A bola passa pelo goleiro mesmo se ele defender — rebate para dentro (gol automático).</div>
+    </div>
+    <div style="margin-top:10px; font-size:13px; color:#FF9999;"><strong>Fraqueza:</strong> Confrontos de Passe fora da área — Dagan não é construtor de jogo (-1d6 sempre).</div>
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XVII - ESTILOS DE TIME (NOVO) -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XVII</span>
+    <h2 class="chapter-title new-chapter">Estilos de Time</h2>
+  </div>
+  <div class="new-block">
+    <span class="marker">▲ Capítulo Novo</span>
+    <p>Todo time tem uma identidade coletiva — um jeito de jogar que vai além dos atributos individuais. Na criação do time (ou antes da temporada), o grupo escolhe um Estilo de Jogo oficial. O estilo concede um bônus coletivo, uma fraqueza coletiva e um efeito especial sobre o Momentum.</p>
+  </div>
+
+  <div class="style-grid">
+    <div class="style-card">
+      <div class="style-name" style="color: var(--blue);">⚙ TIKI-TAKA</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px; font-style:italic;">Domínio pela posse e toques curtos precisos.</p>
+      <div class="style-bonus">+1d6 em todos os confrontos de Passe</div>
+      <div class="style-bonus">Ganha +1 Momentum quando executa 3 passes seguidos sem perder a bola</div>
+      <div class="style-weakness">-1d6 em disputas físicas e aéreas</div>
+      <div class="style-momentum">Momentum cai 1 para cada confronto físico perdido em sequência</div>
+    </div>
+    <div class="style-card">
+      <div class="style-name" style="color: var(--red);">⚡ PRESSÃO TOTAL</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px; font-style:italic;">Sufoca o adversário em todos os setores.</p>
+      <div class="style-bonus">+1d6 em confrontos de Defesa e Interceptação</div>
+      <div class="style-bonus">Adversários sofrem -1 Ego ao perder a posse na zona de pressão</div>
+      <div class="style-weakness">Fadiga acumula 1 cena antes (a partir do 3º confronto físico)</div>
+      <div class="style-momentum">Ganha +2 Momentum ao recuperar a bola dentro do campo adversário</div>
+    </div>
+    <div class="style-card">
+      <div class="style-name" style="color: var(--green);">➤ CONTRA-ATAQUE</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px; font-style:italic;">Espera o momento certo e explode.</p>
+      <div class="style-bonus">+2d6 em confrontos de Velocidade imediatamente após recuperar a bola</div>
+      <div class="style-bonus">Gols marcados em contra-ataque valem +1 Ego extra para o marcador</div>
+      <div class="style-weakness">-1 Momentum ao ficar mais de 2 Momentos seguidos sem finalizar</div>
+      <div class="style-momentum">Bola recuperada + gol em até 2 confrontos = +3 Momentum imediato</div>
+    </div>
+    <div class="style-card">
+      <div class="style-name" style="color: var(--orange);">💀 FUTEBOL BRUTAL</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px; font-style:italic;">Domínio pelo desgaste físico e psicológico.</p>
+      <div class="style-bonus">+1d6 em disputas físicas, aéreas e de choque corporal</div>
+      <div class="style-bonus">Cada Falha Crítica adversária causa -1 Ego adicional ao adversário</div>
+      <div class="style-weakness">Técnicas de Ego custam +1 Ego a mais (estilo não valoriza o psicológico)</div>
+      <div class="style-momentum">Adversário entra em Colapso de Ego = +2 Momentum imediato</div>
+    </div>
+    <div class="style-card" style="grid-column: 1 / -1;">
+      <div class="style-name" style="color: var(--purple);">👑 POSSE ABSOLUTA</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px; font-style:italic;">Controle total do jogo. A bola é nossa.</p>
+      <div class="style-bonus">O time começa cada Tempo com Momentum +1</div>
+      <div class="style-bonus">+1d6 em confrontos de Domínio vs Pressão</div>
+      <div class="style-weakness">-1d6 em finalizações com menos de 2 ações de construção antes do chute</div>
+      <div class="style-momentum">Manter posse por 4+ confrontos sem perder = +1 Momentum por confronto adicional (máx +3)</div>
+    </div>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-title">Mudando de Estilo</div>
+    Um time pode mudar de estilo entre temporadas (ou entre partidas, em torneios curtos), mediante aprovação do grupo. No meio de uma partida, o Narrador pode propor uma mudança narrativa forçada (ex: lesão de um jogador-chave exige adaptar o estilo) — o grupo vota rapidamente.
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XVIII - CONDIÇÕES CLIMÁTICAS (NOVO) -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XVIII</span>
+    <h2 class="chapter-title new-chapter">Condições Climáticas</h2>
+  </div>
+  <div class="new-block">
+    <span class="marker">▲ Capítulo Novo</span>
+    <p>O campo não está sempre perfeito. Antes de cada partida, o Narrador pode rolar 1d6 ou escolher uma condição climática. Condições climáticas afetam <em>ambos os times igualmente</em> — exceto quando um estilo de jogo interage diretamente com elas.</p>
+  </div>
+
+  <div class="weather-grid">
+    <div class="weather-card">
+      <div class="weather-icon">🌧</div>
+      <div class="weather-name">Chuva Forte</div>
+      <div class="weather-effect">
+        <ul>
+          <li>-1d6 em todos os confrontos de Passe longo (mais de uma zona)</li>
+          <li>Chutes sofrem -1d6 (bola escorregadia)</li>
+          <li>Confrontos de Velocidade em zonas de Transição ganham +1d6 (campo molhado favorece o sprint arriscado)</li>
+          <li><strong>Goleiro:</strong> Defesa de Reflexo sofre -1d6; Defesa de Posição não é afetada</li>
+          <li><strong>Tiki-Taka</strong> perde seu bônus de Passe</li>
+        </ul>
+      </div>
+    </div>
+    <div class="weather-card">
+      <div class="weather-icon">🌫</div>
+      <div class="weather-name">Neblina</div>
+      <div class="weather-effect">
+        <ul>
+          <li>Todos os confrontos de Visão sofrem -1d6</li>
+          <li>Interceptações ficam mais difíceis: -1d6 em Passe vs Interceptação</li>
+          <li>O Fantasma ganha Vantagem em todas as suas ações (neblina amplifica o mistério)</li>
+          <li>O Narrador pode ocultar parte da declaração simultânea — um jogador pode esconder 1 dado do pool até depois da rolagem adversária (surpresa da neblina)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="weather-card">
+      <div class="weather-icon">⬜</div>
+      <div class="weather-name">Gramado Ruim</div>
+      <div class="weather-effect">
+        <ul>
+          <li>Dribles sofrem -1d6 (campo irregular quebra o ritmo)</li>
+          <li>Disputas físicas ganham +1d6 (força bruta supera a técnica)</li>
+          <li>Técnicas de Velocidade custam +1 Ego adicional</li>
+          <li><strong>Futebol Brutal</strong> ignora todas as penalidades do gramado ruim</li>
+          <li>Lesão leve em Falha Crítica de Velocidade (evento dramático automático)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="weather-card">
+      <div class="weather-icon">🏟</div>
+      <div class="weather-name">Estádio Hostil</div>
+      <div class="weather-effect">
+        <ul>
+          <li>O time visitante começa com Momentum -1</li>
+          <li>Falhas Críticas do time visitante custam +1 Ego adicional (a torcida hostil amplifica a pressão)</li>
+          <li>Se o time visitante virar o placar: ignora as penalidades do estádio pelo resto do Tempo atual (+3 Ego coletivo)</li>
+          <li>Ativar o Despertar no estádio hostil custa apenas 4 Ego (a pressão vira combustível)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>Usando Condições nas Campanhas</h3>
+  <table>
+    <thead><tr><th>1d6</th><th>Condição</th></tr></thead>
+    <tbody>
+      <tr><td>1–2</td><td>Clima perfeito (sem modificadores)</td></tr>
+      <tr><td>3</td><td>Chuva Forte</td></tr>
+      <tr><td>4</td><td>Neblina</td></tr>
+      <tr><td>5</td><td>Gramado Ruim</td></tr>
+      <tr><td>6</td><td>Estádio Hostil (apenas para o time visitante)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XIX - RIVALIDADE DINÂMICA (NOVO) -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XIX</span>
+    <h2 class="chapter-title new-chapter">Rivalidade Dinâmica</h2>
+  </div>
+  <div class="new-block">
+    <span class="marker">▲ Capítulo Novo</span>
+    <p>A mecânica de Rival já estava no jogo desde a criação — mas agora a rivalidade <em>evolui</em>. Um rival não é um obstáculo estático. Ele reage, quebra ou ascende. E você é o responsável pelo que acontece com ele.</p>
+  </div>
+
+  <h3>Trilha de Rivalidade</h3>
+  <p>Cada par de Rivais (jogador × NPC declarado, ou dois jogadores que se declarem rivais) mantém uma Trilha de Rivalidade com 5 marcadores. Cada vitória direta contra o rival avança 1 marcador.</p>
+
+  <div class="rivalry-track">
+    <div class="rivalry-stage">
+      <div class="rivalry-count">1×</div>
+      <div class="rivalry-detail">
+        <h4>Primeiro Sangue</h4>
+        <p>Ganha o bônus padrão de rival: +1 Ego ao vencer o rival em confronto direto. O rival ganha Vantagem no próximo confronto contra você (resposta instintiva).</p>
+      </div>
+    </div>
+    <div class="rivalry-stage">
+      <div class="rivalry-count">2×</div>
+      <div class="rivalry-detail">
+        <h4>Domínio Estabelecido</h4>
+        <p>+1 Ponto de Evolução extra ao final da partida. O rival começa a usar técnicas de forma mais agressiva — o Narrador dá ao rival um uso extra de sua técnica mais forte nesta partida.</p>
+      </div>
+    </div>
+    <div class="rivalry-stage">
+      <div class="rivalry-count broken">3×</div>
+      <div class="rivalry-detail">
+        <h4 style="color: var(--red);">Momento da Virada — O Rival Escolhe</h4>
+        <p>Role 1d6 ou o Narrador decide baseado no arco narrativo:</p>
+        <table style="margin-top:8px;">
+          <thead><tr><th>1d6</th><th>Resultado</th><th>Efeito</th></tr></thead>
+          <tbody>
+            <tr><td>1–3</td><td><strong style="color:#FF9999;">Colapso Mental</strong></td><td>O rival está quebrado. Na próxima partida contra você: começa com -2 Ego, Desvantagem em confrontos contra o seu personagem, e não pode ativar o Despertar. O rival passa a <em>te evitar</em> em campo.</td></tr>
+            <tr><td>4–6</td><td><strong style="color:var(--green);">Evolução Forçada</strong></td><td>Ser vencido 3 vezes despertou algo. O rival aprende uma nova técnica, sobe 1 ponto em seu Atributo Âncora e entra no próximo confronto contra você com +2 Ego de partida. Ele se tornou mais difícil de vencer — você criou um monstro.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="rivalry-stage">
+      <div class="rivalry-count">4×</div>
+      <div class="rivalry-detail">
+        <h4>Lenda da Rivalidade</h4>
+        <p>Se o rival sobreviveu às 3 vitórias (seja pelo Colapso ou pela Evolução), vencê-lo pela 4ª vez gera um efeito de lenda: +2 PE permanentes, e a próxima partida contra qualquer adversário começa com Momentum +1 (sua reputação precede você).</p>
+      </div>
+    </div>
+    <div class="rivalry-stage">
+      <div class="rivalry-count evolved">5×</div>
+      <div class="rivalry-detail">
+        <h4 style="color: var(--green);">Transcendência — A Rivalidade Termina</h4>
+        <p>Você venceu 5 confrontos diretos. A rivalidade está encerrada — você é definitivamente superior. O rival NPC ou reconhece sua superioridade (deixando de ser Rival declarado) ou, em raros casos narrativos, torna-se aliado. Você desbloqueio o Título especial <strong>"Predador de Lendas"</strong>: adversários que nunca foram seus rivais sofrem -1 Ego ao te enfrentar pela primeira vez em uma partida.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-title">Rivalidade entre Jogadores (PvP)</div>
+    Dois jogadores podem se declarar rivais mutuamente durante a campanha. A trilha funciona da mesma forma, mas o Momento da Virada (3×) é decidido em conjunto pelos dois jogadores — faz parte do drama narrativo que estão construindo juntos. Ambos podem ter Colapso Mental ou Evolução Forçada ao mesmo tempo dependendo de como cada um interpreta o arco.
+  </div>
+
+  <h3>Novas Mecânicas de Rival</h3>
+  <table>
+    <thead><tr><th>Situação</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td>Humilhar o Rival com Técnica Crítica</td><td>+1 marcador na trilha (conta como vitória parcial)</td></tr>
+      <tr><td>Rival te humilha com Técnica Crítica</td><td>-1 marcador na trilha (a vantagem psicológica pode ser revertida)</td></tr>
+      <tr><td>Rival entra em Flow contra você</td><td>Você ganha +1 Ego imediato (Pressão do Público da rivalidade)</td></tr>
+      <tr><td>Marcar gol diretamente após vencer o Rival</td><td>+3 Ego + o Momentum aumenta 1 ponto</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP X - PROGRESSÃO -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo X</span>
+    <h2 class="chapter-title">Progressão e Evolução</h2>
+  </div>
+
+  <h3>Pontos de Evolução</h3>
+  <p>Ao fim de cada partida, os jogadores recebem Pontos de Evolução (PE) pelas situações abaixo. Os PE se acumulam — mas <strong>não são gastos diretamente</strong>. Eles se convertem em <strong>Avanços</strong>.</p>
+  <table>
+    <thead><tr><th>Situação</th><th>PE Ganho</th></tr></thead>
+    <tbody>
+      <tr><td>Vitória</td><td>+3</td></tr>
+      <tr><td>Empate</td><td>+2</td></tr>
+      <tr><td>Derrota</td><td>+1</td></tr>
+      <tr><td>Gol marcado</td><td>+1 ao marcador</td></tr>
+      <tr><td>Vencer o Rival declarado</td><td>+1 ao jogador</td></tr>
+      <tr><td>Sucesso Crítico que mudou o jogo</td><td>+1 ao jogador</td></tr>
+      <tr><td>Ativar o Despertar</td><td>+2 ao jogador</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Avanços</h3>
+  <div class="callout gold">
+    <div class="callout-title">A Regra dos Avanços</div>
+    A cada <strong>4 Pontos de Evolução acumulados</strong>, o jogador recebe 1 <strong>Avanço</strong>. Cada melhoria tem um custo em Avanços — <strong>1 ou 2 Avanços</strong>. Simples, direto, sem fracionamento.
+  </div>
+  <table>
+    <thead><tr><th>Custo</th><th>Melhoria</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:22px; color:var(--gold-light); width:80px;">1 Avanço</td><td><strong>+1 em qualquer atributo</strong></td><td>Máximo 5 em jogo</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:22px; color:var(--gold-light);">1 Avanço</td><td><strong>Aprender uma nova Técnica</strong></td><td>Categorias comuns (não-Flow)</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:22px; color:var(--gold-light);">1 Avanço</td><td><strong>Evoluir uma Técnica existente</strong></td><td>Desbloqueia a versão aprimorada</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:26px; color:var(--gold); font-weight:bold;">2 Avanços</td><td><strong>Adicionar Arquétipo Secundário</strong></td><td>Ganha a passiva do arquétipo</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:26px; color:var(--gold); font-weight:bold;">2 Avanços</td><td><strong>Desbloquear Técnica de Flow</strong></td><td>Exige ter a versão base evoluída</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout blue">
+    <div class="callout-title">Exemplo de Progressão</div>
+    Kaito termina 3 partidas: Vitória (+3), Derrota com gol (+2) e Empate com Crítico decisivo (+3) = <strong>8 PE</strong> = <strong>2 Avanços</strong>. Ele gasta 1 Avanço para subir Chute de 4 para 5, e 1 Avanço para aprender a técnica <em>Explosão de Área</em>.
+  </div>
+
+  <h3>Títulos e Reputação</h3>
+  <p>Títulos são conquistas permanentes desbloqueadas por marcos narrativos. Não custam Avanços — são ganhos pelo que você <em>faz</em> no campo.</p>
+  <table>
+    <thead><tr><th>Título</th><th>Condição</th><th>Efeito Passivo</th></tr></thead>
+    <tbody>
+      <tr><td>Caçador de Gols</td><td>10+ gols na campanha</td><td>+1d6 em finalizações</td></tr>
+      <tr><td>Muro Humano</td><td>20+ bloqueios vencidos</td><td>+1d6 em bloqueios</td></tr>
+      <tr><td>Rei do Drible</td><td>Driblar o mesmo adversário 3× em 1 partida</td><td>1×/partida: ignorar Desvantagem em Drible</td></tr>
+      <tr><td>Mente Fria</td><td>Sem Colapso por 3 partidas seguidas</td><td>Ego mínimo = 1 (nunca chega a 0)</td></tr>
+      <tr><td>Lenda Viva</td><td>Pontuar no jogo decisivo do torneio</td><td>Adversários perdem 1 Ego ao te enfrentar</td></tr>
+      <tr><td>Predador de Lendas</td><td>Completar a Trilha de Rivalidade (5×)</td><td>Adversários sem história com você perdem 1 Ego ao te enfrentar pela primeira vez</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XI - FLUXO DE PARTIDA -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XI</span>
+    <h2 class="chapter-title new-chapter">Fluxo de uma Partida</h2>
+  </div>
+  <p>Uma partida não tem turnos. Tem <strong>Cenas de Campo</strong>. O jogo respira como o futebol real — o foco muda, a intensidade sobe e desce, e nenhum momento é igual ao anterior.</p>
+
+  <h3>Cenas de Campo</h3>
+  <p>O Narrador descreve o estado do jogo e define qual zona está em foco no momento. Cada zona tem um sabor narrativo e orienta o tipo de confronto mais provável.</p>
+
+  <table>
+    <thead><tr><th>Zona</th><th>Descrição</th><th>Confrontos Típicos</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Construção</strong></td><td>Defesa/meio-campo — posse tranquila, passes, construção do ataque</td><td>Passe, Visão, Pressão sobre portador</td></tr>
+      <tr><td><strong>Transição</strong></td><td>A bola foi recuperada ou perdida — todos correm</td><td>Velocidade, Corrida pela bola solta</td></tr>
+      <tr><td><strong>Pressão</strong></td><td>Ataque organizado com bola no terço final</td><td>Drible, Passe filtrado, Domínio vs Pressão</td></tr>
+      <tr><td><strong>Perigo</strong></td><td>Bola na área ou situação de gol iminente</td><td>Chute vs Goleiro, Disputa Aérea, Bloqueio</td></tr>
+      <tr><td><strong>Caos</strong></td><td>Bola solta, disputa geral — qualquer coisa pode acontecer</td><td>Físico, Velocidade, Instinto — tudo vale</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout gold">
+    <div class="callout-title">O Narrador Media o Ritmo</div>
+    Não existe ordem rígida de ação. O Narrador dá a palavra a quem está mais relevante na cena e interrompe o fluxo quando uma ação declarada gera um confronto. O foco narrativo pode mudar de zona a qualquer momento — especialmente em transição e caos.
+  </div>
+
+  <h3>Ações em Cena</h3>
+  <p>Na Zona ativa, cada jogador pode tomar uma das seguintes ações durante sua participação na cena:</p>
+  <ul>
+    <li><strong>Declarar uma ação</strong> — qualquer coisa que seu personagem faria em campo naquele momento</li>
+    <li><strong>Interromper uma ação declarada</strong> — se tiver justificativa física e narrativa para isso (arquétipo O INSTINTO tem privilégio aqui)</li>
+    <li><strong>Reagir a um confronto</strong> — responder a uma ação iniciada por outro jogador ou NPC</li>
+  </ul>
+
+  <h3>Posse de Bola</h3>
+  <p>A bola tem um portador a qualquer momento — ou está solta. O portador define o próximo movimento e pode escolher entre as seguintes ações:</p>
+
+  <table>
+    <thead><tr><th>Ação do Portador</th><th>Condição</th><th>Resultado</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Passar</strong></td><td>Inicia confronto Passe vs Interceptação se houver marcação no caminho</td><td>Bola muda de portador se bem-sucedido</td></tr>
+      <tr><td><strong>Finalizar</strong></td><td>Inicia confronto Chute vs Goleiro (ou Bloqueador se houver)</td><td>Gol ou defesa</td></tr>
+      <tr><td><strong>Driblar</strong></td><td>Inicia confronto Drible vs Defesa com quem estiver marcando</td><td>Portador avança ou perde a bola</td></tr>
+      <tr><td><strong>Segurar</strong></td><td>Inicia confronto de Pressão se pressionado (Físico ou Drible vs Físico)</td><td>Portador mantém ou perde sob pressão</td></tr>
+      <tr><td><strong>Conduzir</strong></td><td>Muda a zona sem confronto — desde que não haja marcação direta</td><td>Zona de foco muda; nenhum dado é rolado</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout blue">
+    <div class="callout-title">Bola Solta — Zona de Caos</div>
+    Sempre que a posse não é clara (bloqueio, desvio, rebote de goleiro, disputa aérea sem vencedor), o Narrador declara Zona de Caos. Qualquer jogador próximo pode declarar que vai disputar a bola — inicia-se um confronto de Velocidade ou Físico. O vencedor se torna o novo portador.
+  </div>
+
+  <h3>Como a Partida Funciona na Prática</h3>
+  <p>Não há turnos, não há iniciativa, não há ordem de ação. O Narrador descreve o estado do campo — quem tem a bola, onde está, o que acabou de acontecer. Os jogadores declaram o que seus personagens estão fazendo <strong>por conta própria</strong>, sem esperar ser chamados.</p>
+
+  <div class="callout gold">
+    <div class="callout-title">A Regra de Ouro da Partida</div>
+    O foco narrativo segue a bola. O Narrador descreve. Os jogadores declaram. Ninguém é perguntado — todos agem. Se dois jogadores declararem ações conflitantes ao mesmo tempo, o Narrador resolve na ordem que fizer mais sentido no campo.
+  </div>
+
+  <h3>O Que Cada Jogador Pode Declarar a Qualquer Momento</h3>
+  <table>
+    <thead><tr><th>Declaração</th><th>Exemplo</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Posicionamento</strong></td><td>"Estou abrindo pelo lado esquerdo"</td><td>Narrativo — define onde o personagem está quando a bola chegar</td></tr>
+      <tr><td><strong>Marcação</strong></td><td>"Estou seguindo o Rin de perto"</td><td>Garante participação no confronto se o Rin receber a bola</td></tr>
+      <tr><td><strong>Movimento de apoio</strong></td><td>"Estou indo para o segundo pau"</td><td>Cria opção de passe para o portador</td></tr>
+      <tr><td><strong>Interceptação</strong></td><td>"Estou lendo a trajetória do passe"</td><td>Pode gerar confronto de Visão ou Velocidade contra o passe</td></tr>
+      <tr><td><strong>Ação com a bola</strong></td><td>"Driblo, passo, chuto"</td><td>Gera confronto imediato — o único momento em que dados são rolados</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="border-left:4px solid var(--orange);">
+    <div class="callout-title" style="color:#FFB347;">Dados só rolam em conflito real</div>
+    Movimento, posicionamento e marcação não exigem rolagem. O Narrador só pede dados quando há <strong>conflito direto</strong> entre dois personagens — drible vs defesa, passe vs interceptação, chute vs goleiro. Tudo o mais é ficção em movimento.
+  </div>
+
+  <h3>Exemplo de Partida — 3v2 (Resumido)</h3>
+  <div style="background:var(--dark2); border:1px solid var(--mid); border-left:4px solid var(--gold); padding:22px 26px; margin:16px 0; font-size:14px; line-height:1.8;">
+    <p><em>Time A: Bachira (meia), Nagi (atacante), Chigiri (ponta) · Time B: Defensor Yuki, Goleiro Kuon</em></p>
+    <br>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Árbitro apita. Bola com Bachira no meio-campo. Yuki fecha o espaço central.</p>
+    <p><strong style="color:#6ABFFF;">BACHIRA:</strong> Avanço com a bola em direção à área.</p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Yuki vem fechar. Confronto — Drible vs Defesa.</p>
+    <p style="color:var(--muted);"><em>Bachira 5d6: 6,5,4,2,1 — 3 sucessos. Yuki 3d6: 4,2,1 — 1 sucesso. Bachira vence.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Bachira passa por Yuki. Zona de ataque.</p>
+    <p><strong style="color:#C2D8EC;">NAGI:</strong> Caminho lentamente para a área, me posicionando no segundo pau.</p>
+    <p><strong style="color:#2ECC71;">CHIGIRI:</strong> Faço uma corrida diagonal para o espaço atrás da defesa.</p>
+    <p><strong style="color:#6ABFFF;">BACHIRA:</strong> Finjo que vou para o Chigiri mas mando para o Nagi na área.</p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Passe médio — Dif. 2.</p>
+    <p style="color:var(--muted);"><em>Bachira Passe 2d6: 5,3 — 1 sucesso. Faltou 1. Passe Desajeitado.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> A bola vai baixa demais. Nagi, teste de Domínio — Dif. 2.</p>
+    <p><strong style="color:#C2D8EC;">NAGI:</strong> Trap Absoluto. A bola para no meu pé. Chute acrobático.</p>
+    <p style="color:var(--muted);"><em>Nagi gasta 2 Ego. Chute+Físico, usa o maior: 6,5,2 — 2 sucessos. Kuon 2d6 (−1d6 acrobático): 3,1 — 0 sucessos.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Nagi gira no ar. A bola entra no ângulo que Kuon não alcança. <strong style="color:var(--green);">GOL.</strong></p>
+  </div>
+
+  <h3>Exemplo de Partida — 5v5 (Completo)</h3>
+  <div style="background:var(--dark2); border:1px solid var(--mid); border-left:4px solid var(--blue); padding:22px 26px; margin:16px 0; font-size:14px; line-height:1.8;">
+    <p><em>Time A: Isagi (meia), Lorenzo (zagueiro), Aiku (zagueiro), Chigiri (ponta), Fernandes (lateral) · Time B: Rin (centroavante), Barou (atacante), Shidou (ala), Goleiro Kuon, Yuki (defensor)</em></p>
+    <br>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Segundo tempo. 1x0 para o Time A. Kuon chuta longo para o Rin.</p>
+    <p><strong style="color:#FF9999;">RIN:</strong> Disputo a bola aérea com o Lorenzo.</p>
+    <p><strong style="color:#6ABFFF;">LORENZO:</strong> Marco o Rin de perto, tento ganhar o duelo aéreo.</p>
+    <p style="color:var(--muted);"><em>Rin Físico 4d6: 6,5,3,1 — 2 sucessos. Lorenzo Físico 3d6: 4,2,1 — 1 sucesso. Rin vence.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Rin domina no peito e gira. Lorenzo perdeu posição.</p>
+    <p><strong style="color:#FFB347;">BAROU:</strong> Faço uma corrida pelo lado direito, chamo a marcação.</p>
+    <p><strong style="color:#FF7777;">SHIDOU:</strong> Me infiltro pelo corredor esquerdo na diagonal, sem marcador.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Recuo para cobrir o espaço que o Lorenzo saiu.</p>
+    <p><strong style="color:#6ABFFF;">AIKU:</strong> Sigo o Barou — ele é o maior perigo.</p>
+    <p><strong style="color:#FF9999;">RIN:</strong> Passo para o Shidou no corredor esquerdo.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Uso Leitura de Campo — leio a trajetória do passe do Rin.</p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> A bola vai viajada, vai perder força no terço final.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Me adianto um passo e tento interceptar lá.</p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Confronto — Passe de Rin vs Visão de Isagi.</p>
+    <p style="color:var(--muted);"><em>Rin Passe 3d6: 6,4,1 — 2 sucessos. Isagi Visão 3d6: 5,5,2 — 2 sucessos. Empate — bola desviada para a lateral.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Isagi toca mas não segura. Bola disputada entre Shidou e Fernandes.</p>
+    <p><strong style="color:#FF7777;">SHIDOU:</strong> Chego em velocidade. Sprint.</p>
+    <p><strong style="color:#6ABFFF;">FERNANDES:</strong> Estou mais perto — vou chegar primeiro.</p>
+    <p style="color:var(--muted);"><em>Shidou Velocidade 4d6: 6,6,3,2 — 2 sucessos. Fernandes 2d6: 5,1 — 1 sucesso. Shidou vence.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Shidou chega antes, domina no peito. Zona de ataque, Fernandes para trás.</p>
+    <p><strong style="color:#FFB347;">BAROU:</strong> Corto para a área, diagonal — quero receber na entrada da pequena área.</p>
+    <p><strong style="color:#FF9999;">RIN:</strong> Avanço pelo centro, mais recuado, opção de apoio.</p>
+    <p><strong style="color:#6ABFFF;">AIKU:</strong> Abandono o Barou e vou pressionar o Shidou — perigo imediato.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Cubro o Barou agora que o Aiku saiu.</p>
+    <p><strong style="color:#6ABFFF;">LORENZO:</strong> Fecho o centro entre o Rin e o gol.</p>
+    <p><strong style="color:#FF7777;">SHIDOU:</strong> Driblo o Aiku e entro na área sozinho. Não preciso de ninguém.</p>
+    <p><strong style="color:#6ABFFF;">AIKU:</strong> Ativo Pressão Total — 1 Ego. Shidou declara a direção antes de rolar.</p>
+    <p><strong style="color:#FF7777;">SHIDOU:</strong> Vou pela direita.</p>
+    <p style="color:var(--muted);"><em>Shidou Drible 4d6: 5,4,2,1 — 2 sucessos. Aiku Defesa 3d6+1d6: 6,3,2,1 — 1 sucesso. Shidou vence por pouco.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Shidou passa mas perdeu um décimo de segundo. Está na área desequilibrado — chute com −1d6.</p>
+    <p><strong style="color:#FF7777;">SHIDOU:</strong> Não me importo. Chuto.</p>
+    <p style="color:var(--muted);"><em>Shidou Chute 4d6−1d6=3d6: 6,6,1 — 2 sucessos. Kuon Defesa 3d6: 5,4,2 — 2 sucessos. Empate.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Kuon voa e toca na bola — não segura. Rebote na trave. Zona de Caos na área.</p>
+    <p><strong style="color:#FFB347;">BAROU:</strong> Estou dentro da área — cabeceia.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Uso Leitura de Campo pela segunda e última vez — onde a bola vai cair?</p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> No ponto cego do goleiro, lado esquerdo da pequena área. Barou chega mais perto mas em má posição.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Largo o Barou e vou para esse ponto agora.</p>
+    <p style="color:var(--muted);"><em>Barou Velocidade 3d6: 5,3,1 — 1 sucesso. Isagi 2d6: 6,4 — 2 sucessos. Isagi vence.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> Isagi lê a bola antes de todo mundo. Posição perfeita, goleiro fora do lugar.</p>
+    <p><strong style="color:#6ABFFF;">ISAGI:</strong> Chuto. Sem técnica. Sem Ego. A posição já é tudo.</p>
+    <p style="color:var(--muted);"><em>Isagi Chute 3d6+1d6 (Domínio Perfeito)=4d6: 6,5,5,2 — 3 sucessos. Kuon 1d6 (fora de posição): 3 — 0 sucessos.</em></p>
+    <p><strong style="color:var(--gold);">NARRADOR:</strong> A bola entra no ângulo que Kuon não alcança. Sem acrobacia. Sem nome. Isagi estava no lugar certo porque leu o jogo antes de todo mundo. <strong style="color:var(--green);">2x0. Time A venceu.</strong></p>
+  </div>
+
+  <div class="callout" style="border-left:4px solid var(--green);">
+    <div class="callout-title" style="color:var(--green);">O Que Esses Exemplos Mostram</div>
+    <ul>
+      <li>Todos os jogadores existem simultaneamente — declaram posição, seguem adversários e cortam para espaços sem esperar ser chamados</li>
+      <li>O Narrador só abre confronto quando há conflito real — não para cada passo dado</li>
+      <li>A bola pode passar por várias mãos antes do gol</li>
+      <li>Técnicas e Ego são usados em momentos-chave, não em toda ação</li>
+      <li>Um gol pode ser marcado sem nenhuma técnica especial — puro posicionamento e leitura de jogo</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XIII - TABELAS -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XIII</span>
+    <h2 class="chapter-title">Tabelas Dramáticas</h2>
+  </div>
+  <h3>Tabela de Efeitos Cinematográficos (Duplo Crítico)</h3>
+  <table>
+    <thead><tr><th>d6</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>A CÂMERA LENTA</strong> — O Narrador descreve em câmera lenta épica. Ambos ganham 1 Ego.</td></tr>
+      <tr><td>2</td><td><strong>O SILÊNCIO</strong> — A multidão para. O próximo confronto tem todos os dados dobrados.</td></tr>
+      <tr><td>3</td><td><strong>A REVELAÇÃO</strong> — Um jogador percebe algo. Pode fazer 1 pergunta que deve ser respondida honestamente.</td></tr>
+      <tr><td>4</td><td><strong>A VIRADA</strong> — O Momentum muda imediatamente em 2 pontos para o time vencedor do confronto.</td></tr>
+      <tr><td>5</td><td><strong>O LIMITE</strong> — Ambos recuperam todos os Pontos de Ego. O confronto é refeito com tudo disponível.</td></tr>
+      <tr><td>6</td><td><strong>O INESQUECÍVEL</strong> — Essa cena entra para a história. Ambos ganham 1 Ponto de Evolução imediatamente.</td></tr>
+    </tbody>
+  </table>
+  <h3>Tabela de Eventos Dramáticos (Falha Crítica em Momento Decisivo)</h3>
+  <table>
+    <thead><tr><th>d6</th><th>Evento</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>LESÃO LEVE</strong> — -1d6 pelo resto do Momento.</td></tr>
+      <tr><td>2</td><td><strong>DESTRAVAMENTO EMOCIONAL</strong> — Ganha 1 Ego mas deve aceitar uma provocação sem resposta.</td></tr>
+      <tr><td>3</td><td><strong>CARTÃO AMARELO</strong> — -1 Ego e 1 advertência.</td></tr>
+      <tr><td>4</td><td><strong>A MÍDIA REGISTROU</strong> — Na próxima partida, adversários começam com +1 Ego.</td></tr>
+      <tr><td>5</td><td><strong>DISCÓRDIA</strong> — Um aliado perde 1 Ego por frustração.</td></tr>
+      <tr><td>6</td><td><strong>DESPERTAR INVERSO</strong> — O adversário diretamente envolvido entra em Flow imediatamente.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XV - PVP + COOPERATIVAS + TORNEIO -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XV</span>
+    <h2 class="chapter-title">Regras PvP, Cooperativas e Torneios</h2>
+  </div>
+  <p>Em PvP, sem Narrador central: ambos os lados descrevem ações do próprio time, aceitam os resultados dos confrontos, e revezam o controle narrativo a cada Momento.</p>
+  <div class="callout blue">
+    <div class="callout-title">Ego Real (PvP)</div>
+    Em PvP, quando um jogador provoca o adversário real (fora do personagem), o personagem ganha automaticamente 1 Ponto de Ego. Limite: 1x por Momento. Isso incentiva o espírito do anime esportivo na mesa.
+  </div>
+  <h3>Pênaltis</h3>
+  <p>Empate ao fim dos 2 Tempos → 1 Momento de Prorrogação. Se ainda empatar: cada time escolhe 5 cobradores, 1 confronto Chute vs Goleiro por cobrador. Vence quem converter mais. Se ainda empatar: morte súbita.</p>
+
+  <hr class="sep" style="margin: 32px 0;">
+
+  <h3>Técnicas Cooperativas</h3>
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova — Times vencedores jogam juntos</span>
+    <p>Algumas técnicas só existem com dois ou mais jogadores. São as jogadas ensaiadas, os entendimentos telepáticos, a combinação que só funciona quando dois craques confiam um no outro de verdade.</p>
+  </div>
+
+  <h4>Ativando uma Técnica Cooperativa</h4>
+  <table>
+    <thead><tr><th>Fase</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr><td>Declaração</td><td>Ambos os jogadores declaram a ação ao mesmo tempo, antes de qualquer rolagem</td></tr>
+      <tr><td>Rolagem</td><td>Ambos rolam seus atributos relevantes simultaneamente</td></tr>
+      <tr><td>Ambos com sucesso</td><td>A técnica cooperativa é ativada com efeito pleno</td></tr>
+      <tr><td>Um falha</td><td>A ação acontece normalmente — sem o bônus cooperativo</td></tr>
+      <tr><td>Ambos com falha crítica</td><td>A técnica falha de forma espetacular — o Narrador descreve o colapso da jogada</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Exemplos de Técnicas Cooperativas</h4>
+
+  <div class="tech-card">
+    <div class="tech-name">PAREDE PERFEITA</div>
+    <div class="tech-meta">Posições: <span>Ala + Meia</span> &nbsp;·&nbsp; Base: <span>Passe (Meia) + Drible (Ala)</span></div>
+    <div class="tech-effect">Um passa, o outro recebe e devolve em velocidade impossível — uma parede que cria um buraco na defesa antes mesmo de ela reagir.</div>
+    <div class="tech-crit">O defensor que tentou marcar a parede perde a posição completamente e <strong>não pode participar do próximo confronto</strong> — ficou parado olhando.</div>
+  </div>
+
+  <div class="tech-card green-card">
+    <div class="tech-name">COBERTURA TOTAL</div>
+    <div class="tech-meta">Posições: <span>Volante + Zagueiro</span> &nbsp;·&nbsp; Base: <span>Defesa (ambos)</span></div>
+    <div class="tech-effect">Um pressiona, o outro fecha o espaço — duas linhas de marcação que se fecham como uma armadilha. O atacante com bola <strong>não pode passar para nenhum aliado</strong> nessa cena sem antes vencer um confronto adicional de Passe vs Visão.</div>
+    <div class="tech-crit">O atacante perde 2 Ego com a sensação de estar completamente cercado. Se tentar Drible nessa cena, enfrenta Desvantagem.</div>
+  </div>
+
+  <div class="tech-card blue-card">
+    <div class="tech-name">LANÇAMENTO CERTEIRO</div>
+    <div class="tech-meta">Posições: <span>Meia + Centroavante</span> &nbsp;·&nbsp; Base: <span>Passe (Meia) + Visão (Centroavante)</span></div>
+    <div class="tech-effect">O meia envia, o centroavante sabe exatamente onde estar antes da bola chegar. O confronto Passe vs Interceptação acontece com <strong>Vantagem para o passador</strong>. Se a bola chegar ao centroavante, ele ganha <strong>+2d6 na finalização</strong>.</div>
+    <div class="tech-crit">O lançamento é tão perfeito que o centroavante recebe a bola já em posição de finalização — o goleiro não pode sair do gol para interceptar.</div>
+  </div>
+
+  <hr class="sep" style="margin: 32px 0;">
+
+  <h3>Regras de Torneio</h3>
+  <div class="new-block">
+    <span class="marker">▲ Regra Nova — Campanhas com Torneios</span>
+    <p>Para campanhas com torneios organizados, o Narrador usa a estrutura abaixo para calibrar o nível dos adversários e criar a progressão dramática de um campeonato.</p>
+  </div>
+
+  <h4>Escala de Adversários</h4>
+  <table>
+    <thead><tr><th>Nível</th><th>Nome</th><th>Atributos Médios</th><th>Características</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:20px; color:var(--muted);">1</td><td><strong>Pé-de-Chinelo</strong></td><td>2 em todos</td><td>Sem Técnicas Especiais. Sem Flow. Serve para aquecimento e treino.</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:20px; color:var(--blue);">2</td><td><strong>Desafiador</strong></td><td>2–3</td><td>1–2 técnicas por jogador-chave. Podem entrar em Flow simples.</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:20px; color:var(--green);">3</td><td><strong>Rival</strong></td><td>3</td><td>Técnicas completas. Flow disponível. 1–2 jogadores com Arquétipo forte.</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:20px; color:var(--orange);">4</td><td><strong>Lendário</strong></td><td>3–4</td><td>Técnicas evoluídas. Flow poderoso. Todos com Arquétipos. Podem usar Despertar.</td></tr>
+      <tr><td style="text-align:center; font-family:'Bebas Neue',cursive; font-size:20px; color:var(--gold);">5</td><td><strong>Final</strong></td><td>4</td><td>Técnicas de nível máximo. Coletivo de Ego abalador. O cume do futebol desse mundo.</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Moral de Time</h4>
+  <p>Em torneios, o time adversário tem uma <strong>Moral coletiva</strong> que representa o espírito do grupo. Ela começa entre 3 e 15 dependendo do nível do adversário.</p>
+  <table>
+    <thead><tr><th>Nível</th><th>Moral Inicial</th></tr></thead>
+    <tbody>
+      <tr><td>Pé-de-Chinelo (1)</td><td>3</td></tr>
+      <tr><td>Desafiador (2)</td><td>6</td></tr>
+      <tr><td>Rival (3)</td><td>9</td></tr>
+      <tr><td>Lendário (4)</td><td>12</td></tr>
+      <tr><td>Final (5)</td><td>15</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">
+    <div class="callout-title">Colapso de Moral</div>
+    Quando o time adversário perde <strong>3 confrontos seguidos</strong>, a Moral cai 1. Quando a Moral chega a 0, o time entra em <strong>colapso coletivo</strong>: todos os adversários sofrem -1d6 em todos os confrontos por 1 Momento completo. O Narrador descreve a desintegração psicológica do time.
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-title">Moral como Tensão Narrativa</div>
+    O Narrador pode revelar ou esconder a Moral atual do adversário. Deixar os jogadores intuírem que o time rival "está quebrando" — sem confirmar — cria a mesma tensão de um jogo real onde você percebe que o adversário perdeu a fé em si mesmo.
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<!-- CAP XVI - FICHA -->
+<div class="chapter">
+  <div class="chapter-header">
+    <span class="chapter-num">Capítulo XVI</span>
+    <h2 class="chapter-title">Ficha de Personagem</h2>
+  </div>
+  <div style="background: var(--dark3); border: 2px solid var(--gold); padding: 28px 32px; margin: 0;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap: 12px 32px; margin-bottom: 16px;">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Nome do Jogador</div>
+        <div style="border-bottom: 1px solid var(--mid); height: 24px;"></div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Posição</div>
+        <div style="border-bottom: 1px solid var(--mid); height: 24px;"></div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Arquétipo</div>
+        <div style="border-bottom: 1px solid var(--mid); height: 24px;"></div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Atributo Âncora</div>
+        <div style="border-bottom: 1px solid var(--mid); height: 24px;"></div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Rival Declarado</div>
+        <div style="border-bottom: 1px solid var(--mid); height: 24px;"></div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Fraqueza</div>
+        <div style="border-bottom: 1px solid var(--mid); height: 24px;"></div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px 32px; margin-bottom:20px;">
+      <div class="attr-row"><span class="attr-name">CHUTE</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">DEFESA</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">DRIBLE</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">VELOCIDADE</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">PASSE</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">FÍSICO</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">VISÃO</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+      <div class="attr-row"><span class="attr-name">EGO</span><span class="attr-pips">○ ○ ○ ○ ○</span></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; margin-bottom:20px;">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Pontos de Ego (3 + Ego = ___)</div>
+        <div style="letter-spacing:6px; font-size:18px;">○○○○○○○○○○○○</div>
+      </div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Trilha de Rivalidade</div>
+        <div style="letter-spacing:6px; font-size:18px;">○ ○ ○ ○ ○</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:2px;">Virada no 3º ○ · Lenda no 5º ○</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; margin-bottom:20px;">
+      <div style="background:var(--dark2); padding:14px;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:8px;">Técnica 1</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted);">Nome: ___________________</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted);">Cat: _______ · Custo: ___ · Base: ____</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted);">Efeito: _________________</div>
+        <div style="border-bottom:1px solid var(--dark4); margin:4px 0;"></div>
+        <div style="border-bottom:1px solid var(--dark4); margin:4px 0;"></div>
+      </div>
+      <div style="background:var(--dark2); padding:14px;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:8px;">Técnica 2</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted);">Nome: ___________________</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted);">Cat: _______ · Custo: ___ · Base: ____</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--muted);">Efeito: _________________</div>
+        <div style="border-bottom:1px solid var(--dark4); margin:4px 0;"></div>
+        <div style="border-bottom:1px solid var(--dark4); margin:4px 0;"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Momento de Formação (2 frases)</div>
+      <div style="border-bottom:1px solid var(--mid); height:22px; margin-bottom:6px;"></div>
+      <div style="border-bottom:1px solid var(--mid); height:22px;"></div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep gold-sep">
+
+<div style="text-align:center; padding: 40px 0; font-family:'Bebas Neue',cursive; font-size:18px; letter-spacing:6px; color:var(--muted);">
+  Campo de Glória · Sistema Original · D6 Pool System<br>
+  <span style="color:var(--gold); font-size:26px; letter-spacing:4px;">Poder. Ego. Evolução.</span><br>
+  O campo é seu palco.
+</div>
+
+
+<style>
+  /* ── SCENARIO CARDS ───────────────────────────────────────────── */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  @media (max-width: 640px) { .scenario-grid { grid-template-columns: 1fr; } }
+
+  .scenario-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 18px 20px;
+    position: relative;
+    border-top-width: 3px;
+  }
+  .scenario-high     { border-top-color: var(--gold); }
+  .scenario-mid-high { border-top-color: #52BE80; }
+  .scenario-mid      { border-top-color: var(--blue); }
+  .scenario-low      { border-top-color: var(--red); }
+
+  .scenario-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .scenario-points {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 38px;
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 52px;
+  }
+  .scenario-high .scenario-points     { color: var(--gold); }
+  .scenario-mid-high .scenario-points { color: #52BE80; }
+  .scenario-mid .scenario-points      { color: #6ABFFF; }
+  .scenario-low .scenario-points      { color: #FF7777; }
+
+  .scenario-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--light);
+    line-height: 1.2;
+  }
+  .scenario-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .scenario-badge {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .badge-high { background: rgba(212,175,55,0.15); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); }
+  .badge-mid  { background: rgba(41,128,185,0.15); color: #6ABFFF;     border: 1px solid rgba(41,128,185,0.3); }
+  .badge-low  { background: rgba(192,57,43,0.15);  color: #FF9999;     border: 1px solid rgba(192,57,43,0.3); }
+
+  .scenario-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .scenario-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    background: var(--dark2);
+    padding: 8px 10px;
+    font-size: 12px;
+    color: var(--light);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    border-left: 2px solid var(--dark4);
+  }
+  .tip-icon { flex-shrink: 0; font-size: 14px; }
+
+  .scenario-example { margin-top: 8px; }
+  .scenario-example-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .scenario-attrs { display: flex; flex-wrap: wrap; gap: 5px; }
+  .attr-pip {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  .attr-pip.anchor { background: rgba(212,175,55,0.25); color: var(--gold);   border: 1px solid rgba(212,175,55,0.5); }
+  .attr-pip.high   { background: rgba(46,204,113,0.15); color: #90EE90;        border: 1px solid rgba(46,204,113,0.3); }
+  .attr-pip.mid    { background: rgba(255,255,255,0.07); color: var(--light);  border: 1px solid var(--dark4); }
+  .attr-pip.low    { background: rgba(192,57,43,0.1);   color: #FF9999;        border: 1px solid rgba(192,57,43,0.2); }
+</style>
+
+<script>
+(function() {
+  // ── MOMENTUM TRACKER ──────────────────────────────────────────────
+  let current = 0;
+
+  const effects = {
+    '-5': { label: 'DERROTA ANUNCIADA',   col: '#FF4444', text: 'Desvantagem em TODOS os confrontos. Só uma virada dramática pode salvar.' },
+    '-4': { label: 'COLAPSO EMOCIONAL',   col: '#FF6666', text: '−1d6 em todos os confrontos de Ego. A cabeça não está no jogo.' },
+    '-3': { label: 'COLAPSO EMOCIONAL',   col: '#FF7777', text: '−1d6 em todos os confrontos de Ego. A pressão psicológica é real.' },
+    '-2': { label: 'SOB PRESSÃO',         col: '#FF9999', text: '1 jogador adversário tem Vantagem. O time está recuado e reagindo.' },
+    '-1': { label: 'SOB PRESSÃO',         col: '#FFBBBB', text: '1 jogador adversário tem Vantagem. Existe espaço para reagir.' },
+     '0': { label: 'EQUILÍBRIO',          col: '#D4AF37', text: 'Nenhum modificador. Cada confronto é uma batalha aberta e justa.' },
+     '1': { label: 'VANTAGEM NARRATIVA',  col: '#A9DFBF', text: 'Narração favorece o time. Empates tendem a se resolver a seu favor.' },
+     '2': { label: 'VANTAGEM NARRATIVA',  col: '#82E0AA', text: 'Narração favorece o time. O adversário precisa trabalhar mais.' },
+     '3': { label: 'PRESSÃO ALTA',        col: '#52BE80', text: '1 jogador designado ganha Vantagem. Escolha o mais perigoso.' },
+     '4': { label: 'PRESSÃO ALTA',        col: '#27AE60', text: '1 jogador designado ganha Vantagem. O time está ditando o ritmo.' },
+     '5': { label: 'DOMINÂNCIA TOTAL',    col: '#1E8449', text: 'Vantagem em TODOS os confrontos. O adversário está apenas sobrevivendo.' },
+  };
+
+  function buildTrack() {
+    const track = document.getElementById('momentumTrack');
+    if (!track) return;
+    track.innerHTML = '';
+    for (let v = -5; v <= 5; v++) {
+      const pip = document.createElement('div');
+      pip.className = 'momentum-pip ' +
+        (v > 0 ? 'pip-pos' : v < 0 ? 'pip-neg' : 'pip-zero');
+      pip.textContent = v > 0 ? '+' + v : v;
+      pip.title = 'Definir Momentum ' + (v > 0 ? '+' : '') + v;
+      const val = v;
+      pip.onclick = () => { current = val; updateDisplay(); };
+      track.appendChild(pip);
+    }
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    const track = document.getElementById('momentumTrack');
+    const valEl = document.getElementById('momentumValue');
+    const statusEl = document.getElementById('momentumStatus');
+    const effectEl = document.getElementById('momentumEffectText');
+    if (!track) return;
+
+    // update pips
+    Array.from(track.children).forEach((pip, i) => {
+      const v = i - 5;
+      pip.className = 'momentum-pip ' +
+        (v > 0 ? 'pip-pos' : v < 0 ? 'pip-neg' : 'pip-zero');
+      if (v === current) {
+        pip.classList.add(v > 0 ? 'active-pos' : v < 0 ? 'active-neg' : 'active-zero');
+      }
+    });
+
+    const data = effects[String(current)];
+    valEl.textContent  = current > 0 ? '+' + current : current;
+    valEl.className    = 'momentum-value ' + (current > 0 ? 'val-pos' : current < 0 ? 'val-neg' : '');
+    statusEl.textContent  = data.label;
+    statusEl.style.color  = data.col;
+    effectEl.textContent  = data.text;
+    effectEl.style.color  = data.col;
+  }
+
+  function adjustMomentum(delta, reset) {
+    if (reset) { current = 0; }
+    else { current = Math.max(-5, Math.min(5, current + delta)); }
+    updateDisplay();
+  }
+
+  // expose globally for onclick handlers in HTML
+  window.adjustMomentum = adjustMomentum;
+
+  document.addEventListener('DOMContentLoaded', buildTrack);
+  // fallback if DOM already loaded
+  if (document.readyState !== 'loading') buildTrack();
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!--  SUPLEMENTO INTEGRADO — PASSES, DOMÍNIO DE BOLA & MODO TABLETOP  -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+
+<hr class="sep gold-sep">
+
+<div style="text-align:center; padding:40px 0 32px; font-family:'Bebas Neue',cursive;">
+  <div style="font-size:13px; letter-spacing:6px; color:var(--muted); margin-bottom:10px;">SUPLEMENTO INTEGRADO</div>
+  <div style="font-size:60px; letter-spacing:6px; color:var(--gold); line-height:0.9;">PASSES,<br><span style="color:var(--light);">DOMÍNIO</span><br>& TABLETOP</div>
+  <div style="font-size:16px; letter-spacing:4px; color:var(--muted); margin-top:12px; font-style:italic;">Duas Expansões para o Sistema Base</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  BLOCO I — PASSES & DOMÍNIO DE BOLA                       -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<div class="supl-chapter-banner blue-chapter">
+  <div class="supl-chapter-eyebrow">Expansão de Regras · Bloco I</div>
+  <div class="supl-chapter-title">Passes &amp; Domínio de Bola</div>
+  <div class="supl-chapter-desc">Uma bola mal controlada é uma oportunidade perdida — ou uma armadilha para o adversário.</div>
+</div>
+
+<p>No sistema base, o confronto de <em>Passe vs Interceptação</em> resolve se a bola chega ao receptor ou é cortada. Esta expansão adiciona uma camada intermediária: <strong>como</strong> a bola chega — e o que o receptor precisa fazer quando ela não vem perfeita.</p>
+
+<!-- ── TIPOS DE PASSE ── -->
+<div class="supl-sec"><h3 class="blue"><span>01.</span> Tipos de Passe</h3></div>
+
+<p>Antes de rolar, o passador declara o <strong>tipo de passe</strong>. Isso define a dificuldade base e os modificadores da jogada.</p>
+
+<table class="blue-table">
+  <thead><tr><th>Tipo</th><th>Dificuldade Base</th><th>Atributo</th><th>Quando usar</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Passe Curto</strong></td>
+      <td>Dif. 1 <em>(só Passe 1)</em></td>
+      <td>Passe</td>
+      <td>Mesma zona ou adjacente, sem marcação. <strong>Automático para Passe 2+.</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Passe Médio</strong></td>
+      <td>Dif. 2 <em>(padrão)</em></td>
+      <td>Passe</td>
+      <td>1–2 zonas de distância, ou sob leve pressão</td>
+    </tr>
+    <tr>
+      <td><strong>Passe Longo</strong></td>
+      <td>Dif. 3 <em>(difícil)</em></td>
+      <td>Passe</td>
+      <td>3+ zonas de distância, ou cruzamento de área</td>
+    </tr>
+    <tr>
+      <td><strong>Passe de Precisão</strong></td>
+      <td>Dif. 4 <em>(muito difícil)</em></td>
+      <td>Passe + Visão</td>
+      <td>Passe em espaço apertado, sob forte pressão, ou lançamento cirúrgico</td>
+    </tr>
+    <tr>
+      <td><strong>Passe Assistência</strong></td>
+      <td>Confronto normal</td>
+      <td>Passe vs Visão/Vel.</td>
+      <td>Há adversário interceptando — usa o confronto padrão do sistema base</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout blue">
+  <div class="callout-title">Como rolar — Passes sem interceptação</div>
+  Quando não há adversário diretamente no caminho do passe, não há confronto. O passador rola seu atributo de <strong>Passe</strong> contra uma <strong>Dificuldade Fixa</strong> (número de sucessos mínimos). Cada dado que mostra 4, 5 ou 6 conta como 1 sucesso. Atingiu ou superou a dificuldade: passe limpo. Ficou abaixo: consulte a tabela de resultados abaixo.
+</div>
+
+<!-- ── GRAUS DE RESULTADO ── -->
+<div class="supl-sec"><h3 class="blue"><span>02.</span> Graus de Resultado do Passe</h3></div>
+
+<p>O passador rola e conta os sucessos. O resultado é comparado à dificuldade declarada:</p>
+
+<div class="result-grid">
+  <div class="result-card rc-gold">
+    <div class="result-label">✦ Passe Perfeito</div>
+    <div class="result-condition">Sucessos ≥ Dificuldade + 2 (ou Crítico)</div>
+    <div class="result-effect">A bola chega exatamente onde o receptor quer — velocidade ideal, trajetória limpa, altura perfeita. O receptor <strong>não precisa rolar Domínio</strong>. Pode agir imediatamente. Se for uma assistência, o receptor ganha <strong>+1d6</strong> na ação seguinte.</div>
+  </div>
+  <div class="result-card rc-green">
+    <div class="result-label">◆ Passe Limpo</div>
+    <div class="result-condition">Sucessos = Dificuldade ou Dificuldade + 1</div>
+    <div class="result-effect">A bola chega ao receptor sem problemas. Sem confronto de Domínio necessário. O jogo continua normalmente para o próximo confronto. É o resultado padrão de um bom passador.</div>
+  </div>
+  <div class="result-card rc-orange">
+    <div class="result-label">▲ Passe Desajeitado</div>
+    <div class="result-condition">Sucessos = Dificuldade − 1 <em>(faltou 1)</em></div>
+    <div class="result-effect">A bola vai na direção certa mas mal controlada — altura errada, força excessiva, spin inesperado. <strong>O receptor deve fazer um teste de Domínio</strong> antes de poder agir. Adversários próximos podem tentar uma interceptação tardia com −1d6.</div>
+  </div>
+  <div class="result-card rc-red">
+    <div class="result-label">✕ Passe Errado</div>
+    <div class="result-condition">Sucessos ≤ Dificuldade − 2 (ou Falha Crítica)</div>
+    <div class="result-effect">A bola vai para o lugar errado — fora de alcance, para um adversário, ou simplesmente sai pela lateral. O Narrador decide o destino. Em Falha Crítica: bola entregue direto ao adversário mais próximo, passador perde <strong>1 Ponto de Ego</strong>.</div>
+  </div>
+</div>
+
+<div class="callout orange">
+  <div class="callout-title">⚡ Exemplo de Jogo</div>
+  Chigiri tenta um <strong>Passe Longo</strong> (Dif. 3) para Isagi do outro lado do campo. Passe = 2, rola 2d6, tira 5 e 3 — apenas 1 sucesso. Faltaram 2 para a dificuldade: <strong>Passe Errado</strong>. A bola vai forte demais e desvia para fora da zona. O Narrador declara que um zagueiro adversário entra na disputa pela bola solta.<br><br>
+  Se Chigiri tivesse tirado 2 sucessos (faltando 1): <strong>Passe Desajeitado</strong>. A bola chega a Isagi, mas em uma altura estranha. Isagi precisa rolar Domínio antes de finalizar.
+</div>
+
+<!-- ── MODIFICADORES DE PASSE ── -->
+<div class="supl-sec"><h3 class="blue"><span>03.</span> Modificadores de Passe</h3></div>
+
+<table class="blue-table">
+  <thead><tr><th>Situação</th><th>Modificador</th></tr></thead>
+  <tbody>
+    <tr><td>Sob pressão de marcação direta</td><td>−1d6 ao pool de Passe</td></tr>
+    <tr><td>Passador em Flow</td><td>+2d6 ao pool de Passe</td></tr>
+    <tr><td>Receptor sinaliza o espaço (gastando ação)</td><td>−1 na Dificuldade</td></tr>
+    <tr><td>Passe contra o vento / chuva intensa (Tabletop)</td><td>+1 na Dificuldade</td></tr>
+    <tr><td>Passe de costas ou sem olhar</td><td>+1 na Dificuldade, mas o adversário não pode interceptar</td></tr>
+    <tr><td>Passe após Sucesso Crítico em Drible</td><td>Sem necessidade de rolar — passe curto automático</td></tr>
+    <tr><td>Técnica de Passe ativada</td><td>Conforme descrito na técnica</td></tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  BLOCO II — DOMÍNIO DE BOLA                               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<hr class="sep gold-sep">
+
+<div class="supl-sec"><h3 class="blue"><span>04.</span> Bloco II — Domínio de Bola</h3></div>
+
+<p>Quando um jogador recebe um <strong>Passe Desajeitado</strong>, uma bola em disputa após rebote, ou um cruzamento em alta velocidade, ele precisa fazer um <strong>Teste de Domínio</strong> antes de executar qualquer ação com a bola.</p>
+
+<div class="callout teal">
+  <div class="callout-title">Quando o Teste de Domínio é Exigido</div>
+  <ul>
+    <li>Recebeu um <strong>Passe Desajeitado</strong> (resultado faltou 1)</li>
+    <li>Disputa de bola solta após rebote ou corte</li>
+    <li>Cruzamento com adversário presente na mesma zona</li>
+    <li>Qualquer bola aérea que não seja passe perfeito</li>
+    <li>Recepção sob marcação direta sem passe prévio</li>
+  </ul>
+</div>
+
+<div class="supl-sec"><h3 class="blue"><span>05.</span> Como Funciona o Teste de Domínio</h3></div>
+
+<p>O receptor rola <strong>Drible</strong> contra a <strong>Dificuldade de Domínio</strong> da situação. Não é um confronto — é uma rolagem solitária contra a dificuldade.</p>
+
+<table class="blue-table">
+  <thead><tr><th>Situação da Bola</th><th>Dificuldade de Domínio</th><th>Atributo</th></tr></thead>
+  <tbody>
+    <tr><td>Passe Desajeitado</td><td>Dif. 2</td><td>Drible</td></tr>
+    <tr><td>Bola solta no chão (sem adversário próximo)</td><td>Dif. 1</td><td>Drible</td></tr>
+    <tr><td>Bola solta no chão (adversário próximo)</td><td>Dif. 2 + confronto de Velocidade</td><td>Drible + Velocidade</td></tr>
+    <tr><td>Bola aérea / cabeçada</td><td>Dif. 2</td><td>Físico ou Drible</td></tr>
+    <tr><td>Cruzamento sob marcação direta</td><td>Dif. 3</td><td>Físico ou Drible</td></tr>
+    <tr><td>Bola em alta velocidade (passe longo direto)</td><td>Dif. 3</td><td>Drible</td></tr>
+  </tbody>
+</table>
+
+<!-- ── GRAUS DE RESULTADO DO DOMÍNIO ── -->
+<div class="supl-sec"><h3 class="blue"><span>06.</span> Graus de Resultado do Domínio</h3></div>
+
+<div class="result-grid">
+  <div class="result-card rc-gold">
+    <div class="result-label">✦ Domínio Perfeito</div>
+    <div class="result-condition">Sucessos ≥ Dificuldade + 1</div>
+    <div class="result-effect">Controle total. O jogador domina a bola na posição ideal e ganha <strong>+1d6</strong> na ação seguinte — o domínio criou a oportunidade. Adversários que tentavam interceptar perdem sua janela de ação.</div>
+  </div>
+  <div class="result-card rc-green">
+    <div class="result-label">◆ Domínio Simples</div>
+    <div class="result-condition">Sucessos = Dificuldade</div>
+    <div class="result-effect">Bola controlada sem problemas. O jogo continua. O jogador pode agir normalmente no próximo confronto sem bônus ou penalidade.</div>
+  </div>
+  <div class="result-card rc-orange">
+    <div class="result-label">▲ Domínio Precário</div>
+    <div class="result-condition">Sucessos = Dificuldade − 1 <em>(faltou 1)</em></div>
+    <div class="result-effect">O jogador consegue reter a bola, mas em má posição — sem equilíbrio, encostado na linha, ou de costas para o gol. Sofre <strong>−1d6</strong> na próxima ação. Adversários próximos ganham <strong>+1d6</strong> em tentativas de pressão imediata.</div>
+  </div>
+  <div class="result-card rc-red">
+    <div class="result-label">✕ Bola Perdida</div>
+    <div class="result-condition">Sucessos ≤ Dificuldade − 2</div>
+    <div class="result-effect">A bola escapa — rebote, tropeço, ou simplesmente não chegou ao pé. Vira <strong>bola disputada</strong>: todos na zona rolam Velocidade para chegar primeiro. Em Falha Crítica: bola vai direto para o adversário mais próximo.</div>
+  </div>
+</div>
+
+<div class="callout gold">
+  <div class="callout-title">Domínio e Atributo Âncora</div>
+  Jogadores cuja Âncora seja <strong>Drible</strong> (incluindo variantes como "Drible/Trap") rolam testes de Domínio com <strong>Vantagem permanente</strong> — exatamente como em qualquer uso da Âncora em posição natural. Isso representa jogadores como Nagi, cujo domínio é tão natural que bolas difíceis simplesmente param onde ele quer. O Trap Absoluto do Nagi vai além: dispensa o teste de Domínio completamente.
+</div>
+
+<div class="callout purple">
+  <div class="callout-title">Domínio e o Arquétipo O Instinto</div>
+  A passiva de <strong>O Instinto</strong> — interromper qualquer ação declarada — pode ser usada para interromper o Teste de Domínio de um adversário antes de ele rolar. O adversário em Domínio Precário que tentava se recuperar perde a tentativa e a bola vai para disputa.
+</div>
+
+<div class="callout blue">
+  <div class="callout-title">⚡ Exemplo Completo — Passe Longo → Domínio</div>
+  <strong>Situação:</strong> Reo (Passe 3) tenta um lançamento longo para Nagi (Drible/Trap★ 5) que está sozinho na área adversária. Dificuldade: Passe Longo = Dif. 3.<br><br>
+  <strong>Reo rola 3d6:</strong> tira 6, 4, 2 — 2 sucessos. Faltou 1 para a dificuldade. <strong>Passe Desajeitado.</strong> A bola vai na direção certa mas em altura estranha.<br><br>
+  <strong>Nagi rola Teste de Domínio:</strong> Dif. 2, mas com Vantagem (Âncora). Rola 6d6, tira 6, 6, 5, 4, 2, 1 — 4 sucessos. <strong>Domínio Perfeito.</strong> A bola simplesmente para nos pés de Nagi como se fosse um passe cirúrgico. +1d6 na finalização seguinte.<br><br>
+  <em>Se Nagi tivesse o Trap Absoluto ativo: pularia o teste inteiro.</em>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  BLOCO III — MODO TABLETOP                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<div class="supl-chapter-banner green-chapter">
+  <div class="supl-chapter-eyebrow">Expansão de Regras · Bloco III</div>
+  <div class="supl-chapter-title">Modo Tabletop</div>
+  <div class="supl-chapter-desc">Do teatro da mente para o tabuleiro — sem perder o drama.</div>
+</div>
+
+<p>O Campo de Glória foi desenhado para teatro da mente, mas funciona perfeitamente com um mapa físico ou digital. O Modo Tabletop adiciona posicionamento concreto, zonas de campo e movimento de tokens — sem complicar o sistema de confrontos.</p>
+
+<!-- ── O CAMPO ── -->
+<div class="supl-sec"><h3 class="teal"><span>01.</span> O Campo — Zonas e Grid</h3></div>
+
+<p>O campo é dividido em <strong>9 zonas</strong> em uma grade 5×3 (comprimento × largura). Cada zona representa uma área de aproximadamente 20×20 metros. Os tokens se movem de zona em zona, não casa por casa.</p>
+
+<div class="field-map">
+  <div class="field-map-title">◈ CAMPO — VISÃO DO TABULEIRO (Time A ataca para a direita)</div>
+  <div class="field-visual">
+    <div class="fzone fz-area"><div class="fzone-name">Área</div><div class="fzone-num">A</div><div style="font-size:9px;margin-top:4px;">Goleiro Team A</div></div>
+    <div class="fzone fz-def"><div class="fzone-name">Defesa</div><div class="fzone-num">Esq</div></div>
+    <div class="fzone fz-meio"><div class="fzone-name">Meio</div><div class="fzone-num">Centro</div></div>
+    <div class="fzone fz-atk"><div class="fzone-name">Ataque</div><div class="fzone-num">Dir</div></div>
+    <div class="fzone fz-area"><div class="fzone-name">Área</div><div class="fzone-num">B</div><div style="font-size:9px;margin-top:4px;">Goleiro Team B</div></div>
+    <div class="fzone fz-def"><div class="fzone-name">Def.</div><div class="fzone-num">Centro</div></div>
+    <div class="fzone fz-def"><div class="fzone-name">Def.</div><div class="fzone-num">Dir</div></div>
+    <div class="fzone fz-meio"><div class="fzone-name">Meio</div><div class="fzone-num">Esq</div></div>
+    <div class="fzone fz-atk"><div class="fzone-name">Atk.</div><div class="fzone-num">Centro</div></div>
+    <div class="fzone fz-atk"><div class="fzone-name">Atk.</div><div class="fzone-num">Esq</div></div>
+  </div>
+  <div class="field-legend">
+    <div class="fl-item"><div class="fl-dot" style="background:var(--green)"></div>Área (chute ao gol / defesa)</div>
+    <div class="fl-item"><div class="fl-dot" style="background:var(--blue)"></div>Defesa (zagueiros / laterais)</div>
+    <div class="fl-item"><div class="fl-dot" style="background:var(--gold)"></div>Meio-campo (volantes / meias)</div>
+    <div class="fl-item"><div class="fl-dot" style="background:var(--red)"></div>Ataque (alas / atacantes)</div>
+  </div>
+</div>
+
+<div class="callout teal">
+  <div class="callout-title">Simplificação Opcional — Grid 3×1</div>
+  Para mesas com menos jogadores ou sessões rápidas, use apenas <strong>3 zonas horizontais</strong>: Defesa · Meio · Ataque. Cada zona ocupa toda a largura do campo. Mais simples, menos tático, igualmente funcional para confrontos.
+</div>
+
+<!-- ── TOKENS ── -->
+<div class="supl-sec"><h3 class="teal"><span>02.</span> Tokens — Jogadores e Bola</h3></div>
+
+<p>Cada jogador em campo tem um token. A bola tem seu próprio token separado. Use o seguinte sistema de cores ou shapes para diferenciar:</p>
+
+<div class="token-demo">
+  <div class="token-item"><div class="token-circle" style="background:rgba(52,152,219,0.2); border-color:var(--blue); color:var(--blue);">CA</div>Time A</div>
+  <div class="token-item"><div class="token-circle" style="background:rgba(231,76,60,0.2); border-color:var(--red); color:var(--red);">CB</div>Time B</div>
+  <div class="token-item"><div class="token-circle" style="background:rgba(46,204,113,0.2); border-color:var(--green); color:var(--green);">GL</div>Goleiro</div>
+  <div class="token-item"><div class="token-ball">⚽</div>Bola</div>
+  <div class="token-item"><div class="token-circle" style="background:rgba(212,175,55,0.2); border-color:var(--gold); color:var(--gold);">FL</div>Em Flow</div>
+</div>
+
+<table class="teal-table">
+  <thead><tr><th>Token</th><th>Identificação Sugerida</th><th>Digital (VTT)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Jogadores Time A</strong></td><td>Círculo azul com inicial do personagem</td><td>Token colorido com portrait</td></tr>
+    <tr><td><strong>Jogadores Time B</strong></td><td>Círculo vermelho com inicial</td><td>Token colorido com portrait</td></tr>
+    <tr><td><strong>Goleiro</strong></td><td>Círculo verde com "GL"</td><td>Token com borda especial</td></tr>
+    <tr><td><strong>Bola</strong></td><td>Círculo branco/dourado menor (⚽)</td><td>Ícone de bola separado</td></tr>
+    <tr><td><strong>Jogador em Flow</strong></td><td>Halo dourado ao redor do token</td><td>Aura/efeito luminoso no VTT</td></tr>
+    <tr><td><strong>Jogador em Colapso de Ego</strong></td><td>Símbolo ✕ sobreposto</td><td>Status overlay vermelho</td></tr>
+  </tbody>
+</table>
+
+<!-- ── MOVIMENTO ── -->
+<div class="supl-sec"><h3 class="teal"><span>03.</span> Movimento de Tokens</h3></div>
+
+<table class="teal-table">
+  <thead><tr><th>Ação</th><th>Custo de Movimento</th><th>Observação</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Mover sem bola</strong></td><td>1 zona por cena (gratuito)</td><td>Não exige rolagem. Qualquer direção.</td></tr>
+    <tr><td><strong>Sprint — mover 2 zonas</strong></td><td>Rola Velocidade Dif. 2</td><td>Falha: move apenas 1 zona. Conta como confronto físico para Fadiga.</td></tr>
+    <tr><td><strong>Mover com a bola (driblar pela zona)</strong></td><td>Rola Drible vs Defesa</td><td>Confronto normal. Vencer = avança 1 zona. Perder = bola disputada.</td></tr>
+    <tr><td><strong>Mover em Flow</strong></td><td>2 zonas gratuitas por cena</td><td>O Flow elimina custo de Sprint.</td></tr>
+    <tr><td><strong>Entrar na Área adversária</strong></td><td>Confronto obrigatório vs Defesa</td><td>Sempre exige confronto Drible ou Físico. Não há entrada gratuita na Área.</td></tr>
+    <tr><td><strong>Goleiro — sair da Área</strong></td><td>Rola Dif. 2</td><td>Goleiro raramente sai. Se sair e falhar, fica preso fora da Área.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout teal">
+  <div class="callout-title">A Bola se Move Separada dos Jogadores</div>
+  O token da bola segue o resultado dos confrontos. Quando alguém passa, mova a bola para a zona do receptor. Quando alguém chuta ao gol, mova a bola para a Área e resolva o confronto com o Goleiro. Em bola disputada, deixe o token da bola na zona de disputa até o confronto de Velocidade ser resolvido.
+</div>
+
+<!-- ── CONFRONTOS NO TABLETOP ── -->
+<div class="supl-sec"><h3 class="teal"><span>04.</span> Confrontos no Tabuleiro</h3></div>
+
+<p>Os confrontos funcionam <strong>exatamente como no sistema base</strong> — a única mudança é que o tabuleiro determina quem pode participar de cada confronto.</p>
+
+<div class="callout blue">
+  <div class="callout-title">Regra de Zona — Quem Pode Confrontar Quem</div>
+  Um confronto só pode acontecer entre jogadores na <strong>mesma zona</strong> ou em <strong>zonas adjacentes</strong>. Jogadores em zonas não-adjacentes não podem interceptar ou bloquear diretamente — precisam se mover primeiro. Exceção: técnicas com alcance declarado (ex.: Interceptação Fantasma) podem ultrapassar essa limitação conforme descrição.
+</div>
+
+<table class="teal-table">
+  <thead><tr><th>Tipo de Confronto</th><th>Condição de Zona</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Drible vs Marcação</strong></td><td>Mesma zona</td></tr>
+    <tr><td><strong>Chute vs Goleiro</strong></td><td>Chutador na Área ou adjacente; Goleiro na Área</td></tr>
+    <tr><td><strong>Passe vs Interceptação</strong></td><td>Interceptador na zona de origem, zona do passe, ou zona de destino</td></tr>
+    <tr><td><strong>Disputa Aérea / Bola Solta</strong></td><td>Mesma zona ou adjacente</td></tr>
+    <tr><td><strong>Confronto Mental (Ego)</strong></td><td>Mesma zona ou visual (qualquer zona no campo)</td></tr>
+    <tr><td><strong>Assistência de Aliado</strong></td><td>Mesma zona ou adjacente</td></tr>
+  </tbody>
+</table>
+
+<!-- ── COMO JOGAR UMA RODADA ── -->
+<div class="supl-sec"><h3 class="teal"><span>05.</span> Sequência de uma Rodada no Tabletop</h3></div>
+
+<div class="step-list">
+  <div class="step-item">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>Narrador declara o Momento</h4><p>O Narrador descreve a situação tática atual — onde está a bola, quem tem pressão, quantos jogadores estão em cada zona. Os jogadores olham o tabuleiro e entendem o contexto.</p></div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>Cada jogador declara sua intenção de movimento</h4><p>Antes de qualquer rolagem, todos declaram para qual zona querem se mover. Movimentos gratuitos (1 zona) são imediatos. Sprints são declarados e resolvidos em ordem de Velocidade (maior age primeiro).</p></div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>Tokens são movidos</h4><p>Mova fisicamente os tokens. Isso clarifica quem pode confrontar quem. Se dois jogadores rivais estão na mesma zona, há confronto imediato.</p></div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>Confronto principal da rodada</h4><p>O confronto-chave da rodada é resolvido com o sistema normal. Passe → rola tipo de passe. Drible → rola vs defensor. Chute → rola vs goleiro. O resultado move a bola ou não.</p></div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">5</div>
+    <div class="step-body"><h4>Token da bola é atualizado</h4><p>Mova o token da bola para refletir o resultado. Passe bem-sucedido → bola vai ao receptor. Drible falhou → bola fica onde está, defensor avança. Gol → bola vai para o centro.</p></div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">6</div>
+    <div class="step-body"><h4>Narrador descreve o resultado cinematicamente</h4><p>O tabuleiro diz <em>o que</em> aconteceu. O Narrador descreve <em>como</em>. O drama continua sendo narrativo — o mapa apenas ancora a ficção no espaço.</p></div>
+  </div>
+</div>
+
+<!-- ── FERRAMENTAS DIGITAIS ── -->
+<div class="supl-sec"><h3 class="teal"><span>06.</span> Ferramentas Recomendadas</h3></div>
+
+<table class="teal-table">
+  <thead><tr><th>Ferramenta</th><th>Tipo</th><th>Como usar com Campo de Glória</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Owlbear Rodeo</strong></td><td>VTT gratuito, sem conta</td><td>Importe uma imagem de campo de futebol como mapa. Crie tokens com os nomes e cores dos personagens. Use o ruler para medir zonas. Ideal para sessões online.</td></tr>
+    <tr><td><strong>Foundry VTT</strong></td><td>VTT pago (dono hospeda)</td><td>Controle total de tokens, iluminação, efeitos visuais. Ideal para campanhas longas com muitos jogadores.</td></tr>
+    <tr><td><strong>Tabletop Simulator</strong></td><td>Steam — jogo de tabuleiro digital</td><td>Importe um campo de futebol como mesa. Use fichas ou moedas como tokens. Dados físicos para imersão. Bom para grupos que preferem o feel de mesa física.</td></tr>
+    <tr><td><strong>Google Slides / Canva</strong></td><td>Gratuito, na nuvem</td><td>Crie um template de campo com retângulos coloridos como zonas. Use formas circulares como tokens. Funciona bem para sessões simples sem necessidade de VTT completo.</td></tr>
+    <tr><td><strong>Mesa física</strong></td><td>Impressão</td><td>Imprima uma imagem de campo de futebol em A3. Use moedas de cores diferentes como tokens. Uma moeda menor dourada para a bola. Simples e eficaz.</td></tr>
+  </tbody>
+</table>
+
+<!-- ── CHUTES POR ZONA ── -->
+<div class="supl-sec"><h3 class="teal"><span>07.</span> Chutes por Zona — Distância e Modificadores</h3></div>
+
+<p>No Tabletop, a distância do chutador à Área adversária importa para o resultado.</p>
+
+<table class="teal-table">
+  <thead><tr><th>Posição do Chutador</th><th>Modificador no Chute</th><th>Domínio do Goleiro</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Dentro da Área</strong></td><td>Nenhum (chute normal)</td><td>Confronto padrão Chute vs Defesa</td></tr>
+    <tr><td><strong>Zona de Ataque adjacente à Área</strong></td><td>−1d6 no pool de Chute</td><td>Goleiro ganha +1d6 (mais tempo para reagir)</td></tr>
+    <tr><td><strong>Meio-campo</strong></td><td>−2d6 no pool de Chute</td><td>Goleiro ganha +2d6</td></tr>
+    <tr><td><strong>Zona de Defesa (chute de longa distância)</strong></td><td>−3d6 (mínimo 1d6)</td><td>Goleiro ganha +3d6 — mas pode ser surpreendido</td></tr>
+  </tbody>
+</table>
+
+<div class="callout orange">
+  <div class="callout-title">Chute de Meia Distância — Regra de Surpresa</div>
+  Quando um jogador chuta de zonas de Meio ou Defesa (com −2d6 ou −3d6), o goleiro pode ser apanhado de surpresa se não tiver nenhum defensor entre o chutador e a Área. Nesse caso, o goleiro <strong>não ganha os dados bônus de distância</strong> — apenas rola sua Defesa base. A surpresa anula a vantagem de posição.
+</div>
+
+<div class="callout gold">
+  <div class="callout-title">Técnicas Especiais no Tabletop</div>
+  Técnicas que mencionam "raio" ou "zona" no efeito têm impacto direto no tabletop. Exemplos:<br><br>
+  <strong>Zona de Controle (Flow Defensivo):</strong> marque com um overlay circular ao redor do token — qualquer token adversário que entre nessa zona sofre −1d6.<br><br>
+  <strong>Black Hole Trap (Nagi):</strong> qualquer token de bola que chegue na mesma zona que Nagi pode ser declarado como "interceptado" pelo Trap, sem confronto.<br><br>
+  <strong>Interceptação Fantasma:</strong> o token do interceptador pode se projetar para uma zona não-adjacente se a técnica estiver ativa — marque com uma seta ou indicador de "intenção".
+</div>
+
+<div class="lore-block">
+  <strong>Nota do Designer:</strong> O Modo Tabletop não foi feito para substituir o teatro da mente — foi feito para quando a ficção fica grande demais para a cabeça. Quando você tem 6 jogadores em campo, 5 adversários, uma bola disputada e dois jogadores em Flow ao mesmo tempo, o tabuleiro salva a sessão. Mas a magia do Campo de Glória ainda mora na narração. O mapa ancora. A história voa.
+</div>
+
+</body>
+</html>
