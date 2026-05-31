@@ -931,19 +931,24 @@
     <input type="text" id="char-team" placeholder="ex: Raimon · Teikoku · Neo Japan">
   </div>
   <div class="id-cell">
-    <label class="field-label">Tipo de Jogador</label>
-    <select id="char-archetype">
-      <option value="">— Escolha —</option>
-      <option>O Prodígio (talento natural, ego alto)</option>
-      <option>O Guerreiro (esforço, nunca desiste)</option>
-      <option>O Artilheiro (obcecado por gols)</option>
-      <option>O Maestro (controla o jogo pelo passe)</option>
-      <option>O Muralha (defensor absoluto)</option>
-      <option>O Goleiro Lenda (reflexos sobrenaturais)</option>
-      <option>O Fantasma (velocidade e drible)</option>
-      <option>O Capitão (liderança e apoio)</option>
-      <option>Personalizado (veja campo abaixo)</option>
+    <label class="field-label">Arquétipo</label>
+    <select id="char-archetype" onchange="updatePassiva()">
+      <option value="">— Escolha seu Arquétipo —</option>
+      <option value="predador">O Predador — +1d6 em finalizações dentro da área adversária</option>
+      <option value="fantasma">O Fantasma — Uma vez por confronto, age antes de anunciar intenção</option>
+      <option value="tirano">O Tirano — Inimigos sofrem −1d6 em confrontos psicológicos contra você</option>
+      <option value="motor">O Motor — Pode participar de dois confrontos consecutivos sem penalidade de exaustão</option>
+      <option value="estrategista">O Estrategista — Uma vez por tempo, pode negar um confronto e forçar reposicionamento da bola</option>
+      <option value="instinto">O Instinto — Pode interromper qualquer ação declarada. Limite: 1× por cena</option>
+      <option value="colossao">O Colossão — Finalizações com Físico nunca sofrem Desvantagem</option>
+      <option value="guardiao">O Guardião — Goleiros usam Ego como atributo secundário em todas as defesas</option>
     </select>
+  </div>
+  <div class="id-cell full-width" id="passiva-cell" style="border-top:2px solid var(--accent);">
+    <label class="field-label">Passiva de Arquétipo</label>
+    <div id="passiva-display" style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--accent-light); padding:6px 0; min-height:22px; letter-spacing:0.5px;">
+      Selecione um arquétipo acima para ver a passiva.
+    </div>
   </div>
   <div class="id-cell full-width">
     <label class="field-label">Motivação Central — O que te faz correr?</label>
@@ -1480,6 +1485,23 @@ function setAccent(el) {
 }
 
 // ── HERO NAME SYNC ─────────────────────────────────────────────
+function updatePassiva() {
+  const passivas = {
+    predador:      "+1d6 em finalizações dentro da área adversária.",
+    fantasma:      "Uma vez por confronto, pode agir antes de anunciar sua intenção.",
+    tirano:        "Inimigos sofrem −1d6 em confrontos psicológicos contra você.",
+    motor:         "Pode participar de dois confrontos físicos consecutivos sem penalidade de exaustão.",
+    estrategista:  "Uma vez por tempo, pode negar um confronto e forçar o reposicionamento da bola.",
+    instinto:      "Pode interromper qualquer ação declarada. Limite: 1× por cena.",
+    colossao:      "Finalizações com Físico nunca sofrem Desvantagem.",
+    guardiao:      "Goleiros usam Ego como atributo secundário em todas as defesas."
+  };
+  const sel = document.getElementById('char-archetype').value;
+  const display = document.getElementById('passiva-display');
+  display.textContent = passivas[sel] || 'Selecione um arquétipo acima para ver a passiva.';
+  display.style.color = sel ? 'var(--accent-light)' : 'var(--muted)';
+}
+
 function updateHeroName() {
   const v = document.getElementById('char-name').value.trim().toUpperCase();
   document.getElementById('flow-box-title').textContent = v
