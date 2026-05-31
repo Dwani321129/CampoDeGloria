@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Personagem — Campo de Glória</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --gold: #D4AF37;
+    --gold-light: #F0D060;
+    --red: #C0392B;
+    --red-dark: #7B241C;
+    --dark: #0A0A0A;
+    --dark2: #141414;
+    --dark3: #1E1E1E;
+    --dark4: #2A2A2A;
+    --mid: #3A3A3A;
+    --light: #E8E0D0;
+    --muted: #A09880;
+    --green: #2ECC71;
+    --blue: #2980B9;
+    --purple: #8E44AD;
+    --orange: #E67E22;
+    --accent: #D4AF37;
+    --accent-light: #F0D060;
+    --accent-glow: rgba(212,175,55,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--light);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 56px 0 48px;
+    border-bottom: 3px solid var(--gold);
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(212,175,55,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .hero-bg-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 200px;
+    line-height: 0.8;
+    color: rgba(212,175,55,0.04);
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: -10px;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 100px;
+    line-height: 0.85;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-shadow: 0 0 60px var(--accent-glow), 3px 3px 0 rgba(0,0,0,0.9);
+    margin-bottom: 4px;
+    position: relative;
+  }
+  .hero h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+  }
+  .badge-gold { background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.4); color: var(--gold); }
+  .badge-dark { background: var(--dark3); border: 1px solid var(--mid); color: var(--muted); }
+
+  /* ── SECTION HEADER ── */
+  .sec-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 2px solid var(--dark4);
+    padding-bottom: 8px;
+    margin-bottom: 22px;
+    margin-top: 48px;
+  }
+  .sec-label {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .sec-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 30px;
+    letter-spacing: 3px;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  /* ── INPUTS BASE ── */
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    background: var(--dark2);
+    border: 1px solid var(--mid);
+    border-bottom: 2px solid var(--dark4);
+    color: var(--light);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  textarea:focus,
+  select:focus {
+    border-bottom-color: var(--gold);
+    box-shadow: 0 2px 0 var(--gold);
+  }
+  input[type="text"]::placeholder,
+  textarea::placeholder { color: var(--mid); font-weight: 400; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  select { cursor: pointer; }
+  select option { background: var(--dark3); }
+
+  .field-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 5px;
+  }
+  .field-group { margin-bottom: 18px; }
+
+  /* ── IDENTITY GRID ── */
+  .identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    border-top: 3px solid var(--gold);
+    margin-bottom: 28px;
+  }
+  .id-cell {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--dark4);
+    border-right: 1px solid var(--dark4);
+  }
+  .id-cell:nth-child(even) { border-right: none; }
+  .id-cell.full-width {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .id-cell:last-child { border-bottom: none; }
+  .id-cell.full-width:last-child { border-bottom: none; }
+  .id-cell input, .id-cell select, .id-cell textarea {
+    font-size: 18px;
+    letter-spacing: 1px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--dark4);
+    padding: 4px 0;
+    box-shadow: none;
+  }
+  .id-cell input:focus, .id-cell select:focus, .id-cell textarea:focus {
+    border-bottom-color: var(--gold);
+    box-shadow: none;
+  }
+  .id-cell input.hero-input {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 32px;
+    letter-spacing: 4px;
+    color: var(--gold);
+  }
+
+  /* ── COLOR PICKER FOR ACCENT ── */
+  .color-picker-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .color-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.selected { border-color: var(--light); transform: scale(1.15); }
+
+  /* ── ATRIBUTOS ── */
+  .attr-block {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    border-top: 3px solid var(--gold);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .attrs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 40px;
+  }
+  .attr-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--dark4);
+    gap: 8px;
+  }
+  .attr-name {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 90px;
+  }
+  .attr-name.is-anchor { color: var(--accent-light); }
+  .attr-pips {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+  }
+  .pip-btn {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dark4);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+  }
+  .pip-btn.filled {
+    background: var(--mid);
+    border-color: var(--mid);
+  }
+  .pip-btn.filled-anchor {
+    background: var(--accent);
+    border-color: var(--accent-light);
+    box-shadow: 0 0 6px var(--accent-glow);
+  }
+  .attr-val {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--light);
+    min-width: 28px;
+    text-align: right;
+  }
+  .attr-val.is-anchor { color: var(--accent-light); text-shadow: 0 0 10px var(--accent-glow); }
+  .anchor-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: var(--accent);
+    color: #fff;
+    padding: 1px 6px;
+    margin-left: 4px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    user-select: none;
+  }
+  .pip-btn.pip-locked {
+    background: transparent;
+    border-color: var(--dark4);
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+  .anchor-tag:hover { opacity: 0.8; }
+  .anchor-tag.off { background: var(--dark4); color: var(--muted); }
+
+  .attr-help {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+    font-style: italic;
+    border-top: 1px solid var(--dark4);
+    padding-top: 10px;
+  }
+  .attr-points-counter {
+    text-align: right;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+  }
+  .attr-points-counter span {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px;
+    color: var(--gold);
+    margin-left: 4px;
+  }
+
+  /* ── EGO BOX ── */
+  .ego-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--dark2);
+    border: 1px solid var(--dark4);
+    border-left: 3px solid var(--gold);
+    padding: 12px 18px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .ego-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .ego-pips {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+  }
+  .ego-pip {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    background: rgba(212,175,55,0.1);
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+  .ego-pip.filled {
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(212,175,55,0.5);
+  }
+  .ego-total {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 24px;
+    color: var(--gold);
+  }
+  .ego-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* ── POSIÇÃO + FUNÇÃO ── */
+  .position-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .pos-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: center;
+    user-select: none;
+  }
+  .pos-card:hover { border-color: var(--gold); background: rgba(212,175,55,0.03); }
+  .pos-card.selected {
+    border-color: var(--gold);
+    background: rgba(212,175,55,0.08);
+    border-top: 3px solid var(--gold);
+  }
+  .pos-icon {
+    font-size: 26px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .pos-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--light);
+    margin-bottom: 2px;
+  }
+  .pos-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── TÉCNICAS ── */
+  .tech-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 20px 24px;
+    margin: 14px 0;
+    position: relative;
+  }
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+  }
+  .tech-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .tech-name-input {
+    font-family: 'Bebas Neue', cursive !important;
+    font-size: 24px !important;
+    letter-spacing: 4px !important;
+    color: var(--accent-light) !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid var(--dark4) !important;
+    padding: 2px 0 !important;
+    flex: 1;
+    min-width: 0;
+  }
+  .tech-name-input:focus { border-bottom-color: var(--gold) !important; box-shadow: none !important; }
+  .tech-name-input::placeholder { color: rgba(240,208,96,0.2) !important; font-weight: 400 !important; }
+  .tech-remove {
+    background: none;
+    border: 1px solid var(--red-dark);
+    color: var(--red);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .tech-remove:hover { background: rgba(192,57,43,0.15); }
+  .tech-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    margin-bottom: 12px;
+  }
+  .tech-type-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .type-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    cursor: pointer;
+    border: 1px solid var(--dark4);
+    background: var(--dark2);
+    color: var(--muted);
+    text-transform: uppercase;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .type-badge.active-normal { border-color: var(--blue); background: rgba(41,128,185,0.15); color: #6ABFFF; }
+  .type-badge.active-flow { border-color: var(--gold); background: rgba(212,175,55,0.15); color: var(--gold); }
+  .type-badge.active-combo { border-color: var(--purple); background: rgba(142,68,173,0.15); color: #C49BE0; }
+  .type-badge.active-despertar { border-color: var(--red); background: rgba(192,57,43,0.15); color: #FF8070; }
+
+  .btn-add-tech {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1px dashed var(--mid);
+    color: var(--muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    margin-top: 8px;
+  }
+  .btn-add-tech:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── FLOW BOX ── */
+  .flow-box {
+    background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(0,0,0,0) 100%);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-top: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .flow-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .flow-triggers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .flow-trigger-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .flow-trigger-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px;
+    color: var(--gold);
+    opacity: 0.5;
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .flow-trigger-row input { font-size: 14px !important; }
+
+  /* ── DESPERTAR ── */
+  .despertar-box {
+    background: linear-gradient(135deg, rgba(192,57,43,0.06) 0%, rgba(0,0,0,0) 60%);
+    border: 1px solid var(--red-dark);
+    border-top: 3px solid var(--red);
+    padding: 22px 26px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .despertar-box::after {
+    content: '✦';
+    font-family: 'Bebas Neue', cursive;
+    font-size: 120px;
+    color: rgba(192,57,43,0.04);
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    pointer-events: none;
+    user-select: none;
+  }
+  .despertar-title-input {
+    font-family: 'Bebas Neue', cursive !important;
+    font-size: 28px !important;
+    letter-spacing: 5px !important;
+    color: var(--red) !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid var(--red-dark) !important;
+    padding: 2px 0 !important;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .despertar-title-input:focus { box-shadow: none !important; border-bottom-color: var(--red) !important; }
+  .despertar-title-input::placeholder { color: rgba(192,57,43,0.3) !important; }
+
+  /* ── RIVALRY ── */
+  .rivalry-track {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 20px 24px;
+    margin: 14px 0;
+  }
+  .rivalry-stage {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--dark4);
+    align-items: flex-start;
+  }
+  .rivalry-stage:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .rivalry-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--gold);
+    width: 44px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .rivalry-content { flex: 1; min-width: 0; }
+  .rivalry-stage-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  /* ── QUOTE ── */
+  .quote-area {
+    background: var(--dark2);
+    border-left: 4px solid var(--gold);
+    padding: 18px 24px 18px 40px;
+    margin: 20px 0 28px;
+    position: relative;
+  }
+  .quote-area::before {
+    content: '"';
+    font-family: 'Bebas Neue', cursive;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    line-height: 1;
+  }
+  .quote-area textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--dark4);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--light);
+    padding: 0;
+    min-height: 50px;
+  }
+  .quote-area textarea:focus { border-bottom-color: var(--gold); box-shadow: none; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--dark3);
+    border: 1px solid var(--dark4);
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .callout.gold  { border-left: 4px solid var(--gold); }
+  .callout.red   { border-left: 4px solid var(--red); }
+  .callout.green { border-left: 4px solid var(--green); }
+  .callout.blue  { border-left: 4px solid var(--blue); }
+  .callout-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .callout.gold  .callout-title { color: var(--gold); }
+  .callout.red   .callout-title { color: #FF8070; }
+  .callout.green .callout-title { color: var(--green); }
+  .callout.blue  .callout-title { color: #6ABFFF; }
+
+  /* ── FADIGA / STATUS ── */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .status-box {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 16px 18px;
+  }
+  .status-box-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .track-pips {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .track-pip {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--mid);
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .track-pip.filled-fatigue { background: var(--orange); border-color: var(--orange); }
+  .track-pip.filled-colapse { background: var(--red); border-color: var(--red); }
+
+  /* ── SCENARIO CARDS ── */
+  .scenario-card {
+    background: var(--dark3);
+    border: 1px solid var(--mid);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    position: relative;
+  }
+  .scenario-card:hover { border-color: var(--gold); background: rgba(212,175,55,0.03); }
+  .scenario-card.selected {
+    border-color: var(--gold);
+    background: rgba(212,175,55,0.07);
+    border-top: 3px solid var(--gold);
+  }
+  .sc-pts {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .sc-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--light);
+    margin-bottom: 4px;
+  }
+  .sc-tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 2px 8px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.4);
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .sc-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+
+  .actions-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--gold); color: #000; }
+  .btn-secondary { background: var(--dark3); border: 1px solid var(--mid); color: var(--muted); }
+  .btn-danger { background: var(--red-dark); border: 1px solid var(--red); color: #FF9999; }
+
+  /* ── SEPARATOR ── */
+  hr.sep {
+    border: none;
+    border-top: 1px solid var(--dark4);
+    margin: 40px 0;
+  }
+  .section-divider {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 13px;
+    letter-spacing: 8px;
+    color: var(--muted);
+    text-align: center;
+    text-transform: uppercase;
+    margin: 40px 0 30px;
+    position: relative;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: var(--dark4);
+  }
+  .section-divider::before { left: 0; }
+  .section-divider::after { right: 0; }
+
+  /* ── FOOTER ── */
+  .foot {
+    margin-top: 60px;
+    border-top: 1px solid var(--dark4);
+    padding-top: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .identity-grid { grid-template-columns: 1fr; }
+    .id-cell:nth-child(even) { border-right: none; }
+    .attrs-grid { grid-template-columns: 1fr; }
+    .position-grid { grid-template-columns: 1fr; }
+    .status-grid { grid-template-columns: 1fr; }
+    .tech-meta-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 60px; }
+  }
+
+  @media print {
+    body { background: white; color: black; padding: 20px; }
+    input, textarea, select { border-bottom-color: #ccc !important; color: #000 !important; background: transparent !important; }
+    .btn { display: none; }
+    .actions-bar { display: none; }
+    .btn-add-tech { display: none; }
+    .tech-remove { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-bg-text">⚽</div>
+  <div class="hero-eyebrow">Campo de Glória · Ficha de Personagem</div>
+  <h1>CAMPO<br>DE GLÓRIA</h1>
+  <h2>D6 Pool System · Poder · Ego · Evolução</h2>
+  <div class="hero-badges">
+    <span class="badge badge-gold">Criação de Personagem</span>
+    <span class="badge badge-dark">Versão Interativa</span>
+  </div>
+</div>
+
+<!-- ══ 01. IDENTIDADE ════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">01</span>
+  <h2 class="sec-title">Identidade</h2>
+</div>
+
+<div class="identity-grid">
+  <div class="id-cell full-width">
+    <label class="field-label">Nome do Personagem</label>
+    <input type="text" class="hero-input" id="char-name" placeholder="SEU NOME AQUI" oninput="updateHeroName()">
+  </div>
+  <div class="id-cell">
+    <label class="field-label">Alcunha / Apelido</label>
+    <input type="text" id="char-nickname" placeholder="ex: O Deus do Campo">
+  </div>
+  <div class="id-cell">
+    <label class="field-label">Número da Camisa</label>
+    <input type="text" id="char-number" placeholder="ex: 10">
+  </div>
+  <div class="id-cell">
+    <label class="field-label">Origem / País</label>
+    <input type="text" id="char-origin" placeholder="ex: Brasil · Japão · Alemanha">
+  </div>
+  <div class="id-cell">
+    <label class="field-label">Time Atual</label>
+    <input type="text" id="char-team" placeholder="ex: Raimon · Teikoku · Neo Japan">
+  </div>
+  <div class="id-cell">
+    <label class="field-label">Arquétipo</label>
+    <select id="char-archetype" onchange="updatePassiva()">
+      <option value="">— Escolha seu Arquétipo —</option>
+      <option value="predador">O Predador — +1d6 em finalizações dentro da área adversária</option>
+      <option value="fantasma">O Fantasma — Uma vez por confronto, age antes de anunciar intenção</option>
+      <option value="tirano">O Tirano — Inimigos sofrem −1d6 em confrontos psicológicos contra você</option>
+      <option value="motor">O Motor — Pode participar de dois confrontos consecutivos sem penalidade de exaustão</option>
+      <option value="estrategista">O Estrategista — Uma vez por tempo, pode negar um confronto e forçar reposicionamento da bola</option>
+      <option value="instinto">O Instinto — Pode interromper qualquer ação declarada. Limite: 1× por cena</option>
+      <option value="colossao">O Colossão — Finalizações com Físico nunca sofrem Desvantagem</option>
+      <option value="guardiao">O Guardião — Goleiros usam Ego como atributo secundário em todas as defesas</option>
+    </select>
+  </div>
+  <div class="id-cell full-width" id="passiva-cell" style="border-top:2px solid var(--accent);">
+    <label class="field-label">Passiva de Arquétipo</label>
+    <div id="passiva-display" style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--accent-light); padding:6px 0; min-height:22px; letter-spacing:0.5px;">
+      Selecione um arquétipo acima para ver a passiva.
+    </div>
+  </div>
+  <div class="id-cell full-width">
+    <label class="field-label">Motivação Central — O que te faz correr?</label>
+    <input type="text" id="char-motivation" placeholder="ex: Provar que sou o melhor do mundo · Vencer por meu time · Superar meu pai">
+  </div>
+</div>
+
+<!-- Cor de Acento -->
+<div class="callout gold" style="margin-bottom:0;">
+  <div class="callout-title">Cor do Personagem</div>
+  <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Escolha a cor de destaque que representa o espírito do seu personagem. Ela aparece nos detalhes da ficha.</p>
+  <div class="color-picker-row" id="accent-picker">
+    <div class="color-swatch selected" style="background:#D4AF37" data-color="#D4AF37" data-light="#F0D060" data-glow="rgba(212,175,55,0.25)" title="Dourado — Glória" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#2980B9" data-color="#2980B9" data-light="#6ABFFF" data-glow="rgba(41,128,185,0.30)" title="Azul — Raio" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#C0392B" data-color="#C0392B" data-light="#FF8070" data-glow="rgba(192,57,43,0.30)" title="Vermelho — Chama" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#2ECC71" data-color="#2ECC71" data-light="#7FFFB0" data-glow="rgba(46,204,113,0.25)" title="Verde — Velocidade" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#8E44AD" data-color="#8E44AD" data-light="#C49BE0" data-glow="rgba(142,68,173,0.30)" title="Roxo — Misterioso" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#E67E22" data-color="#E67E22" data-light="#FFB060" data-glow="rgba(230,126,34,0.30)" title="Laranja — Instinto" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#00C5CD" data-color="#00C5CD" data-light="#60F0F5" data-glow="rgba(0,197,205,0.25)" title="Ciano — Gelo" onclick="setAccent(this)"></div>
+    <div class="color-swatch" style="background:#EC407A" data-color="#EC407A" data-light="#FF80AB" data-glow="rgba(236,64,122,0.30)" title="Rosa — Brilho" onclick="setAccent(this)"></div>
+  </div>
+</div>
+
+<!-- Frase de Efeito -->
+<div class="quote-area" style="margin-top:24px;">
+  <textarea id="char-quote" placeholder="A frase que define seu personagem...&#10;ex: &quot;Nenhum goleiro me para. Nenhum.&quot;"></textarea>
+</div>
+
+<!-- ══ 02. POSIÇÃO ════════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">02</span>
+  <h2 class="sec-title">Posição em Campo</h2>
+</div>
+
+<div class="position-grid" id="position-grid">
+  <div class="pos-card" data-pos="goleiro" onclick="selectPosition(this)">
+    <div class="pos-icon">🧤</div>
+    <div class="pos-name">Goleiro</div>
+    <div class="pos-desc">Defesa · Reflexo</div>
+  </div>
+  <div class="pos-card" data-pos="defensor" onclick="selectPosition(this)">
+    <div class="pos-icon">🛡️</div>
+    <div class="pos-name">Defensor</div>
+    <div class="pos-desc">Físico · Bloqueio</div>
+  </div>
+  <div class="pos-card" data-pos="lateral" onclick="selectPosition(this)">
+    <div class="pos-icon">⚡</div>
+    <div class="pos-name">Lateral</div>
+    <div class="pos-desc">Velocidade · Apoio</div>
+  </div>
+  <div class="pos-card" data-pos="volante" onclick="selectPosition(this)">
+    <div class="pos-icon">⚙️</div>
+    <div class="pos-name">Volante</div>
+    <div class="pos-desc">Físico · Interceptação</div>
+  </div>
+  <div class="pos-card" data-pos="meia" onclick="selectPosition(this)">
+    <div class="pos-icon">🎯</div>
+    <div class="pos-name">Meia</div>
+    <div class="pos-desc">Passe · Visão</div>
+  </div>
+  <div class="pos-card" data-pos="atacante" onclick="selectPosition(this)">
+    <div class="pos-icon">🔥</div>
+    <div class="pos-name">Atacante</div>
+    <div class="pos-desc">Chute · Drible</div>
+  </div>
+</div>
+
+<div class="field-group">
+  <label class="field-label">Posição Secundária / Observações Táticas</label>
+  <input type="text" id="pos-notes" placeholder="ex: Pode jogar como ala direita ou ponta esquerda em emergência">
+</div>
+
+<!-- ══ 03. ATRIBUTOS ══════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">03</span>
+  <h2 class="sec-title">Atributos</h2>
+</div>
+
+<div style="margin-bottom:16px;">
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Cenário de Criação — Escolha o total de pontos</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="scenario-grid">
+    <div class="scenario-card" data-pts="26" onclick="setScenario(this,26)">
+      <div class="sc-pts" style="color:var(--gold)">26</div>
+      <div class="sc-name">Super Onze</div>
+      <div class="sc-tag">PADRÃO</div>
+      <div class="sc-desc">Times equilibrados e completos</div>
+    </div>
+    <div class="scenario-card" data-pts="15" onclick="setScenario(this,15)">
+      <div class="sc-pts" style="color:var(--blue)">14–16</div>
+      <div class="sc-name">Aoi Ishi / Realista</div>
+      <div class="sc-tag" style="background:rgba(41,128,185,0.15);border-color:rgba(41,128,185,0.4);color:#6ABFFF;">MODERADO</div>
+      <div class="sc-desc">Competente em poucos, fraco nos demais</div>
+    </div>
+    <div class="scenario-card" data-pts="13" onclick="setScenario(this,13)">
+      <div class="sc-pts" style="color:var(--green)">12–14</div>
+      <div class="sc-name">Captain Tsubasa</div>
+      <div class="sc-tag" style="background:rgba(46,204,113,0.15);border-color:rgba(46,204,113,0.4);color:var(--green);">FOCADO</div>
+      <div class="sc-desc">Especialistas extremos</div>
+    </div>
+    <div class="scenario-card" data-pts="11" onclick="setScenario(this,11)">
+      <div class="sc-pts" style="color:var(--red)">10–12</div>
+      <div class="sc-name">Blue Lock</div>
+      <div class="sc-tag" style="background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.4);color:#FF8070;">EXTREMO</div>
+      <div class="sc-desc">Ego-monsters de arma única</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;">
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Ou defina manualmente:</span>
+    <input type="number" id="custom-pts" min="6" max="40" placeholder="ex: 20" style="width:80px;font-size:15px;" oninput="setCustomPoints(this.value)">
+  </div>
+</div>
+
+<div class="attr-block">
+  <div class="attr-points-counter">
+    Pontos disponíveis: <span id="points-left">26</span> &nbsp;|&nbsp; Total: <span id="points-total">26</span> pts · Âncora máx 5 · demais máx 4
+  </div>
+  <div class="attrs-grid" id="attrs-grid">
+    <!-- Rendered by JS -->
+  </div>
+  <div class="ego-box">
+    <span class="ego-label">Ego</span>
+    <div class="ego-pips" id="ego-pips">
+      <!-- 7 pips rendered by JS -->
+    </div>
+    <span class="ego-total" id="ego-total">7</span>
+  </div>
+  <div class="ego-sub">Pontos de Ego = 3 + atributo Ego. O total atualiza automaticamente. Técnicas e ações dramáticas gastam e ganham Ego.</div>
+  <div class="attr-help">
+    Clique nas bolinhas para distribuir pontos. Clique em <strong>ÂNCORA</strong> para marcar o atributo principal do personagem — ele ganha destaque especial.
+  </div>
+</div>
+
+<!-- ══ 04. STATUS ══════════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">04</span>
+  <h2 class="sec-title">Status em Jogo</h2>
+</div>
+
+<div class="status-grid">
+  <div class="status-box">
+    <div class="status-box-title">⚡ Fadiga — Confrontos Físicos</div>
+    <div class="track-pips" id="fatigue-track">
+      <!-- 6 pips by JS -->
+    </div>
+    <div style="margin-top:8px; font-size:12px; color:var(--muted);">3+ Fadiga → −1d6 em ações físicas. 6 Fadiga → Colapso Físico.</div>
+  </div>
+  <div class="status-box">
+    <div class="status-box-title">💥 Colapso de Ego</div>
+    <div class="track-pips" id="colapse-track">
+      <!-- 3 pips by JS -->
+    </div>
+    <div style="margin-top:8px; font-size:12px; color:var(--muted);">Ego = 0 → risco de Colapso. 3 marcações → fora da partida. Recupera-se com apoio dos aliados.</div>
+  </div>
+</div>
+
+<div class="callout gold">
+  <div class="callout-title">Estado de Flow</div>
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <div style="font-size:13px;">Status atual:</div>
+    <div style="display:flex; gap:8px;">
+      <span class="type-badge" id="flow-off" style="cursor:pointer;" onclick="setFlowStatus('normal')">Normal</span>
+      <span class="type-badge active-flow" id="flow-on" style="cursor:pointer; display:none;" onclick="setFlowStatus('normal')">✦ Em Flow</span>
+      <span class="type-badge active-despertar" id="flow-despertar" style="cursor:pointer; display:none;" onclick="setFlowStatus('normal')">✦ Despertar</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 05. TÉCNICAS ═══════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">05</span>
+  <h2 class="sec-title">Técnicas Especiais (Hissatsu)</h2>
+</div>
+
+<div class="callout blue" style="margin-bottom:16px;">
+  <div class="callout-title">Como funcionam as Técnicas</div>
+  Todo personagem começa com 1 técnica assinatura. Novas técnicas são desbloqueadas durante a campanha por Momentos dramáticos, treinamento, ou evolução de Rivalidade. Cada técnica tem Custo em Ego, Base de Dados e um efeito especial.
+</div>
+
+<div id="tecnicas-container"></div>
+
+<button class="btn-add-tech" onclick="addTechnique()">
+  ＋ &nbsp; Adicionar Técnica
+</button>
+
+<!-- ══ 06. FLOW ════════════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">06</span>
+  <h2 class="sec-title">Estado de Flow</h2>
+</div>
+
+<div class="flow-box">
+  <div class="flow-title" id="flow-box-title">✦ Flow de — Defina Seu Momento</div>
+  <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Descreva o que acontece quando seu personagem atinge o Flow — como o campo parece menor, mais lento, mais claro.</p>
+  <div class="field-group">
+    <label class="field-label">Descrição do Flow</label>
+    <textarea id="flow-desc" placeholder="ex: O campo fica em silêncio. Cada defensor é apenas um obstáculo calculado. Nenhuma bola escapa."></textarea>
+  </div>
+  <div style="margin-bottom:12px; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--muted);">Gatilhos de Flow (o que desencadeia seu estado máximo)</div>
+  <div class="flow-triggers" id="flow-triggers">
+    <!-- rendered by JS -->
+  </div>
+  <div style="margin-top:14px; font-size:13px; color:var(--muted); font-style:italic;">
+    Em Flow: +2d6 em todos os confrontos de Chute e Drible. Técnicas de Flow ficam disponíveis. Primeira técnica assinatura tem custo 0 Ego.
+  </div>
+</div>
+
+<!-- ══ 07. DESPERTAR ══════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">07</span>
+  <h2 class="sec-title">Despertar</h2>
+</div>
+
+<div class="despertar-box">
+  <input type="text" class="despertar-title-input" id="despertar-name" placeholder="NOME DO DESPERTAR">
+  <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:2px; color:var(--muted); margin-bottom:14px; text-transform:uppercase;">Custo: 5 Ego · 1× por partida · Exige momento extremo</div>
+  <div class="field-group">
+    <label class="field-label">Condição de Ativação — O que precisa acontecer?</label>
+    <textarea id="despertar-trigger" placeholder="ex: Quando tudo está perdido e o gol é a única saída · Quando alguém que amo está na arquibancada · Quando meu maior rival me subestima"></textarea>
+  </div>
+  <div class="field-group">
+    <label class="field-label">Efeito do Despertar</label>
+    <textarea id="despertar-effect" placeholder="Descreva o que muda: bônus em dados, técnicas especiais, imunidades, efeitos dramáticos..."></textarea>
+  </div>
+  <div class="callout red" style="margin-top:8px; margin-bottom:0;">
+    <div class="callout-title">Custo da Glória</div>
+    <textarea id="despertar-cost" placeholder="O que o personagem paga pelo Despertar? ex: Ego cai a 0. Fica em silêncio. Corpo treme por 1 cena. Deve dormir imediatamente após o jogo."></textarea>
+  </div>
+</div>
+
+<!-- ══ 08. RIVALIDADE ═════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">08</span>
+  <h2 class="sec-title">Rivalidade Dinâmica</h2>
+</div>
+
+<div class="field-group">
+  <label class="field-label">Nome do Rival Principal</label>
+  <input type="text" id="rival-name" placeholder="ex: Haizaki · Gouenji · Fubuki">
+</div>
+
+<div class="rivalry-track">
+  <div class="rivalry-stage">
+    <div class="rivalry-num">1–2</div>
+    <div class="rivalry-content">
+      <div class="rivalry-stage-label">Estágio Inicial — Irritação / Tensão</div>
+      <textarea id="rivalry-1" placeholder="Como começa a rivalidade? O que os dois discutem? Qual é o primeiro atrito?"></textarea>
+    </div>
+  </div>
+  <div class="rivalry-stage">
+    <div class="rivalry-num" style="color:var(--blue);">3</div>
+    <div class="rivalry-content">
+      <div class="rivalry-stage-label">⚡ Virada — O Ponto de Ruptura</div>
+      <textarea id="rivalry-2" placeholder="O que muda? Quando a rivalidade vira parceria sem admitir? Qual técnica ou momento dramático é desbloqueado?"></textarea>
+    </div>
+  </div>
+  <div class="rivalry-stage">
+    <div class="rivalry-num" style="color:var(--green);">5</div>
+    <div class="rivalry-content">
+      <div class="rivalry-stage-label">✦ Lenda — Sincronia Perfeita</div>
+      <textarea id="rivalry-3" placeholder="O ápice da rivalidade. O que se torna possível que era impossível antes? Qual é o gol que ninguém vai esquecer?"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 09. HISTÓRIA ════════════════════════════════════════════════ -->
+<div class="sec-header">
+  <span class="sec-label">09</span>
+  <h2 class="sec-title">História &amp; Vínculos</h2>
+</div>
+
+<div class="field-group">
+  <label class="field-label">Origem — De onde vem seu personagem?</label>
+  <textarea id="backstory" placeholder="Descreva brevemente: onde cresceu, como começou a jogar, qual foi o primeiro gol que mudou tudo..."></textarea>
+</div>
+
+<div class="field-group">
+  <label class="field-label">Ferida — O que carrega dentro do campo?</label>
+  <textarea id="wound" placeholder="ex: O pai que nunca assistiu a um jogo · O gol que perdeu na final aos 12 anos · O parceiro que se machucou por culpa sua"></textarea>
+</div>
+
+<div class="field-group">
+  <label class="field-label">Aliados Próximos (nomes + vínculo)</label>
+  <textarea id="allies" placeholder="ex: Endou Mamoru — capitão e melhor amigo, acredita em mim quando eu mesmo não acredito&#10;Kiyama Tatsuya — promessa de infância, rival e irmão em campo"></textarea>
+</div>
+
+<div class="callout green">
+  <div class="callout-title">Momento de Formação</div>
+  <textarea id="formation-moment" style="background:transparent;border:none;border-bottom:1px dashed rgba(46,204,113,0.3);color:var(--light);font-size:14px;font-style:italic;padding:0;width:100%;min-height:60px;" placeholder="A cena que define quem você é quando ninguém está olhando. O pensamento que passa pela sua cabeça no segundo antes de bater o pênalti decisivo..."></textarea>
+</div>
+
+<!-- ══ REFERÊNCIA RÁPIDA ═══════════════════════════════════════════ -->
+<hr class="sep">
+<div class="section-divider">Referência Rápida</div>
+
+<table id="quick-ref-table">
+  <thead>
+    <tr>
+      <th>Situação</th>
+      <th>Atributo</th>
+      <th>Pool</th>
+    </tr>
+  </thead>
+  <tbody id="quick-ref-body">
+    <tr><td><strong>Chute ao Gol</strong></td><td>Chute</td><td id="qr-chute">—</td></tr>
+    <tr><td><strong>Driblar Defensor</strong></td><td>Drible</td><td id="qr-drible">—</td></tr>
+    <tr><td><strong>Sprint / Corrida</strong></td><td>Velocidade</td><td id="qr-velocidade">—</td></tr>
+    <tr><td><strong>Passe / Assistência</strong></td><td>Passe</td><td id="qr-passe">—</td></tr>
+    <tr><td><strong>Confronto Físico / Disputa Aérea</strong></td><td>Físico</td><td id="qr-fisico">—</td></tr>
+    <tr><td><strong>Defesa / Interceptação</strong></td><td>Defesa</td><td id="qr-defesa">—</td></tr>
+    <tr><td><strong>Interceptações / Estratégia</strong></td><td>Visão</td><td id="qr-visao">—</td></tr>
+    <tr><td><strong>Confronto Mental / Provocação</strong></td><td>Ego</td><td id="qr-ego">—</td></tr>
+    <tr><td><strong>Em Flow (bônus)</strong></td><td>+2d6 em tudo</td><td>variável</td></tr>
+    <tr><td><strong>Crítico (Técnica Assinatura)</strong></td><td>Efeito especial</td><td>ver técnica</td></tr>
+  </tbody>
+</table>
+
+<!-- ══ AÇÕES ══════════════════════════════════════════════════════ -->
+<div class="actions-bar">
+  <button class="btn btn-primary" onclick="window.print()">🖨️ &nbsp; Imprimir / Salvar PDF</button>
+  <button class="btn btn-secondary" onclick="resetSheet()">↺ &nbsp; Limpar Ficha</button>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+<div class="foot">
+  <span>Campo de Glória · Sistema Original · D6 Pool System</span>
+  <span>Poder. Ego. Evolução.</span>
+</div>
+
+<script>
+// ── ATTRIBUTES CONFIG ──────────────────────────────────────────
+const ATTRS = [
+  { id: 'chute',      label: 'Chute',      max: 5, desc: 'Finalizações e chutes ao gol' },
+  { id: 'drible',     label: 'Drible',     max: 5, desc: 'Dribles e fuga de marcação' },
+  { id: 'velocidade', label: 'Velocidade', max: 5, desc: 'Sprints e disputa de bola solta' },
+  { id: 'passe',      label: 'Passe',      max: 5, desc: 'Passes e assistências' },
+  { id: 'fisico',     label: 'Físico',     max: 5, desc: 'Confrontos de força e disputa aérea' },
+  { id: 'defesa',     label: 'Defesa',     max: 5, desc: 'Bloqueios, marcação e interceptações' },
+  { id: 'visao',      label: 'Visão',      max: 5, desc: 'Percepção tática e antecipação' },
+  { id: 'ego',        label: 'Ego',        max: 5, desc: 'Força mental e presença — define pontos de Ego' },
+];
+
+let attrValues = {};
+let anchorAttr = null;
+ATTRS.forEach(a => attrValues[a.id] = 0);
+
+let TOTAL_POINTS = 26;
+
+function setScenario(el, pts) {
+  document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  TOTAL_POINTS = pts;
+  document.getElementById('custom-pts').value = '';
+  document.getElementById('points-total').textContent = pts;
+  // reset if over new total
+  let used = ATTRS.reduce((sum, a) => sum + attrValues[a.id], 0);
+  if (used > TOTAL_POINTS) {
+    ATTRS.forEach(a => attrValues[a.id] = 0);
+  }
+  renderAttrs();
+}
+
+function setCustomPoints(val) {
+  const pts = parseInt(val);
+  if (isNaN(pts) || pts < 6) return;
+  document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+  TOTAL_POINTS = pts;
+  document.getElementById('points-total').textContent = pts;
+  let used = ATTRS.reduce((sum, a) => sum + attrValues[a.id], 0);
+  if (used > TOTAL_POINTS) {
+    ATTRS.forEach(a => attrValues[a.id] = 0);
+  }
+  renderAttrs();
+}
+
+// ── RENDER ATTRS ────────────────────────────────────────────────
+function renderAttrs() {
+  const grid = document.getElementById('attrs-grid');
+  grid.innerHTML = '';
+  let used = ATTRS.reduce((sum, a) => sum + attrValues[a.id], 0);
+  let left = TOTAL_POINTS - used;
+  document.getElementById('points-left').textContent = left;
+
+  ATTRS.forEach(attr => {
+    const isAnchor = anchorAttr === attr.id;
+    const maxVal = isAnchor ? 5 : 4;
+    const row = document.createElement('div');
+    row.className = 'attr-row';
+
+    let pipsHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      const filled = i <= attrValues[attr.id];
+      const locked = i > maxVal;
+      const cls = locked
+        ? 'pip-btn pip-locked'
+        : filled
+          ? (isAnchor ? 'pip-btn filled-anchor' : 'pip-btn filled')
+          : 'pip-btn';
+      const onclick = locked ? '' : `onclick="setPip('${attr.id}', ${i})"`;
+      pipsHTML += `<button class="${cls}" ${onclick} title="${locked ? 'Defina como Âncora para desbloquear' : `${attr.label} = ${i}`}"></button>`;
+    }
+
+    row.innerHTML = `
+      <span class="attr-name${isAnchor ? ' is-anchor' : ''}">${attr.label}</span>
+      <div class="attr-pips">${pipsHTML}</div>
+      <span class="attr-val${isAnchor ? ' is-anchor' : ''}">${attrValues[attr.id]}d6</span>
+      <span class="anchor-tag${isAnchor ? '' : ' off'}" onclick="toggleAnchor('${attr.id}')">${isAnchor ? '★ ÂNCORA' : 'ÂNCORA'}</span>
+    `;
+    grid.appendChild(row);
+  });
+
+  updateQuickRef();
+  updateEgoTotal();
+}
+
+function setPip(id, value) {
+  const isAnchor = anchorAttr === id;
+  const maxVal = isAnchor ? 5 : 4;
+  if (value > maxVal) return;
+  let used = ATTRS.reduce((sum, a) => sum + attrValues[a.id], 0);
+  let current = attrValues[id];
+  let diff = value - current;
+  if (diff > 0 && used + diff > TOTAL_POINTS) {
+    value = current + (TOTAL_POINTS - used);
+  }
+  if (value > maxVal) value = maxVal;
+  attrValues[id] = value === attrValues[id] ? value - 1 : value;
+  if (attrValues[id] < 0) attrValues[id] = 0;
+  renderAttrs();
+}
+
+function toggleAnchor(id) {
+  anchorAttr = (anchorAttr === id) ? null : id;
+  renderAttrs();
+}
+
+function updateQuickRef() {
+  ATTRS.forEach(a => {
+    const el = document.getElementById(`qr-${a.id}`);
+    if (el) el.textContent = attrValues[a.id] > 0 ? `${attrValues[a.id]}d6` : '—';
+  });
+}
+
+// ── EGO TOTAL ──────────────────────────────────────────────────
+// Ego máximo = 3 + atributo Ego
+function getEgoMax() { return 3 + (attrValues['ego'] || 0); }
+
+let egoFilled = 0;
+function renderEgoPips() {
+  const max = getEgoMax();
+  const container = document.getElementById('ego-pips');
+  if (!container) return;
+  container.innerHTML = '';
+  if (egoFilled > max) egoFilled = max;
+  for (let i = 1; i <= max; i++) {
+    const pip = document.createElement('div');
+    pip.className = 'ego-pip' + (i <= egoFilled ? ' filled' : '');
+    pip.onclick = () => { egoFilled = (egoFilled === i) ? i - 1 : i; renderEgoPips(); };
+    container.appendChild(pip);
+  }
+}
+
+function updateEgoTotal() {
+  const max = getEgoMax();
+  const el = document.getElementById('ego-total');
+  if (el) el.textContent = max;
+  renderEgoPips();
+}
+
+// ── FATIGUE / COLAPSE TRACKS ───────────────────────────────────
+let fatigueVal = 0, colapseVal = 0;
+
+function renderFatigue() {
+  const c = document.getElementById('fatigue-track');
+  c.innerHTML = '';
+  for (let i = 1; i <= 6; i++) {
+    const p = document.createElement('div');
+    p.className = 'track-pip' + (i <= fatigueVal ? ' filled-fatigue' : '');
+    p.onclick = () => { fatigueVal = (fatigueVal === i) ? i - 1 : i; renderFatigue(); };
+    c.appendChild(p);
+  }
+}
+
+function renderColapse() {
+  const c = document.getElementById('colapse-track');
+  c.innerHTML = '';
+  for (let i = 1; i <= 3; i++) {
+    const p = document.createElement('div');
+    p.className = 'track-pip' + (i <= colapseVal ? ' filled-colapse' : '');
+    p.onclick = () => { colapseVal = (colapseVal === i) ? i - 1 : i; renderColapse(); };
+    c.appendChild(p);
+  }
+}
+
+// ── FLOW STATUS ────────────────────────────────────────────────
+let flowStatus = 'normal';
+function setFlowStatus(s) {
+  flowStatus = (flowStatus === s) ? 'normal' : s;
+  renderFlowStatus();
+}
+function renderFlowStatus() {
+  ['flow-off', 'flow-on', 'flow-despertar'].forEach(id => document.getElementById(id).style.display = 'none');
+  if (flowStatus === 'flow') document.getElementById('flow-on').style.display = 'inline-block';
+  else if (flowStatus === 'despertar') document.getElementById('flow-despertar').style.display = 'inline-block';
+  else document.getElementById('flow-off').style.display = 'inline-block';
+}
+// Allow cycling via the off badge
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('flow-off').addEventListener('click', () => {
+    const states = ['normal', 'flow', 'despertar'];
+    flowStatus = states[(states.indexOf(flowStatus) + 1) % states.length];
+    renderFlowStatus();
+  });
+});
+
+// ── POSITION SELECT ────────────────────────────────────────────
+function selectPosition(el) {
+  document.querySelectorAll('.pos-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── ACCENT COLOR ──────────────────────────────────────────────
+function setAccent(el) {
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  const c = el.dataset.color;
+  const l = el.dataset.light;
+  const g = el.dataset.glow;
+  document.documentElement.style.setProperty('--accent', c);
+  document.documentElement.style.setProperty('--accent-light', l);
+  document.documentElement.style.setProperty('--accent-glow', g);
+  document.documentElement.style.setProperty('--gold', c);
+  document.documentElement.style.setProperty('--gold-light', l);
+  document.documentElement.style.setProperty('--gold-light', l);
+}
+
+// ── HERO NAME SYNC ─────────────────────────────────────────────
+function updatePassiva() {
+  const passivas = {
+    predador:      "+1d6 em finalizações dentro da área adversária.",
+    fantasma:      "Uma vez por confronto, pode agir antes de anunciar sua intenção.",
+    tirano:        "Inimigos sofrem −1d6 em confrontos psicológicos contra você.",
+    motor:         "Pode participar de dois confrontos físicos consecutivos sem penalidade de exaustão.",
+    estrategista:  "Uma vez por tempo, pode negar um confronto e forçar o reposicionamento da bola.",
+    instinto:      "Pode interromper qualquer ação declarada. Limite: 1× por cena.",
+    colossao:      "Finalizações com Físico nunca sofrem Desvantagem.",
+    guardiao:      "Goleiros usam Ego como atributo secundário em todas as defesas."
+  };
+  const sel = document.getElementById('char-archetype').value;
+  const display = document.getElementById('passiva-display');
+  display.textContent = passivas[sel] || 'Selecione um arquétipo acima para ver a passiva.';
+  display.style.color = sel ? 'var(--accent-light)' : 'var(--muted)';
+}
+
+function updateHeroName() {
+  const v = document.getElementById('char-name').value.trim().toUpperCase();
+  document.getElementById('flow-box-title').textContent = v
+    ? `✦ Flow de ${v} — Deus em Campo`
+    : '✦ Flow de — Defina Seu Momento';
+}
+
+// ── TECHNIQUES ────────────────────────────────────────────────
+let techCount = 0;
+const TECH_TYPES = [
+  { key: 'normal',    label: 'Normal',    cls: 'active-normal' },
+  { key: 'flow',      label: 'Flow',      cls: 'active-flow' },
+  { key: 'combo',     label: 'Combo',     cls: 'active-combo' },
+  { key: 'despertar', label: 'Despertar', cls: 'active-despertar' },
+];
+
+function addTechnique(preset = {}) {
+  techCount++;
+  const id = 'tech-' + techCount;
+  const container = document.getElementById('tecnicas-container');
+  const card = document.createElement('div');
+  card.className = 'tech-card';
+  card.id = id;
+  card.setAttribute('data-type', preset.type || 'normal');
+
+  card.innerHTML = `
+    <div class="tech-header">
+      <input type="text" class="tech-name-input" placeholder="NOME DA TÉCNICA" value="${preset.name || ''}">
+      <button class="tech-remove" onclick="removeTech('${id}')">✕ Remover</button>
+    </div>
+    <div class="tech-type-badges">
+      ${TECH_TYPES.map(t => `<span class="type-badge${(preset.type||'normal') === t.key ? ' '+t.cls : ''}" data-type="${t.key}" onclick="setTechType('${id}','${t.key}')">${t.label}</span>`).join('')}
+    </div>
+    <div class="tech-meta-grid">
+      <div class="field-group" style="margin:0">
+        <label class="field-label">Custo em Ego</label>
+        <input type="text" value="${preset.cost||''}" placeholder="ex: 2 Ego · Ou 0 em Flow">
+      </div>
+      <div class="field-group" style="margin:0">
+        <label class="field-label">Base de Dados</label>
+        <input type="text" value="${preset.base||''}" placeholder="ex: Chute · Drible + Velocidade">
+      </div>
+      <div class="field-group" style="margin:0">
+        <label class="field-label">Posição / Condição</label>
+        <input type="text" value="${preset.pos||''}" placeholder="ex: Deve estar na Área · Requer aliado em Flow">
+      </div>
+      <div class="field-group" style="margin:0">
+        <label class="field-label">Parceiro (se Combo)</label>
+        <input type="text" value="${preset.partner||''}" placeholder="ex: Endou Mamoru · Qualquer aliado">
+      </div>
+    </div>
+    <div class="field-group" style="margin:0 0 10px">
+      <label class="field-label">Efeito</label>
+      <textarea placeholder="Descreva o que a técnica faz mecanicamente e cinematicamente...">${preset.effect||''}</textarea>
+    </div>
+    <div class="field-group" style="margin:0">
+      <label class="field-label">◆ Crítico — O que acontece num sucesso absoluto?</label>
+      <textarea style="color:var(--gold-light); font-style:italic;" placeholder="ex: Gol garantido, goleiro não rola. Todos ganham +2 Ego. O narrador declara a cena inesquecível.">${preset.crit||''}</textarea>
+    </div>
+  `;
+  container.appendChild(card);
+}
+
+function removeTech(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function setTechType(cardId, type) {
+  const card = document.getElementById(cardId);
+  card.setAttribute('data-type', type);
+  card.querySelectorAll('.type-badge').forEach(b => {
+    b.className = 'type-badge';
+    const t = TECH_TYPES.find(t => t.key === b.dataset.type);
+    if (b.dataset.type === type && t) b.classList.add(t.cls);
+  });
+}
+
+// ── FLOW TRIGGERS ──────────────────────────────────────────────
+function renderFlowTriggers() {
+  const c = document.getElementById('flow-triggers');
+  c.innerHTML = '';
+  for (let i = 1; i <= 4; i++) {
+    const row = document.createElement('div');
+    row.className = 'flow-trigger-row';
+    row.innerHTML = `
+      <span class="flow-trigger-num">${i}</span>
+      <input type="text" id="flow-trigger-${i}" placeholder="Descreva o gatilho #${i}...">
+    `;
+    c.appendChild(row);
+  }
+}
+
+// ── RESET ──────────────────────────────────────────────────────
+function resetSheet() {
+  if (!confirm('Limpar toda a ficha? Esta ação não pode ser desfeita.')) return;
+  ATTRS.forEach(a => attrValues[a.id] = 0);
+  anchorAttr = null;
+  egoFilled = 0;
+  fatigueVal = 0;
+  colapseVal = 0;
+  flowStatus = 'normal';
+  techCount = 0;
+  document.getElementById('tecnicas-container').innerHTML = '';
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.querySelectorAll('.pos-card').forEach(c => c.classList.remove('selected'));
+  renderAll();
+  addTechnique({ name: '', type: 'normal' });
+}
+
+// ── INIT ───────────────────────────────────────────────────────
+function renderAll() {
+  renderAttrs();
+  renderEgoPips();
+  renderFatigue();
+  renderColapse();
+  renderFlowStatus();
+  renderFlowTriggers();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+  const defaultCard = document.querySelector('.scenario-card[data-pts="26"]');
+  if (defaultCard) defaultCard.classList.add('selected');
+  addTechnique({ name: '', type: 'normal' });
+});
+</script>
+</body>
+</html>
